@@ -24,23 +24,26 @@ const BRAND_COLOR = "#0891B2";
 
 const aiContextData = {
   cart: {
-    brandVoice: ["Warm, empathetic parent-to-parent", "Educational - address concerns first", "Reassuring about safety/ingredients", "Not pushy - let them decide"],
-    contentSources: ["Bio-Heal product details (ingredients, dosing)", "Customer reviews and success stories", "Founder story (Marty's son)", "FAQ: safety, shipping, returns"],
-    strategy: ["Acknowledge cart abandonment gently", "Surface likely concern (child's health)", "Educate on product fit", "Social proof (reviews)", "Offer support, not pressure"],
-    fallbacks: ["Hesitation → ask what's holding them back", "Price concern → highlight value + guarantee", "Not right product → offer alternatives", "Not ready → save cart, follow up later"],
+    objective: "Convert abandoned cart to purchase by building trust and addressing hesitations. Purchase is secondary to establishing relationship.",
+    brandVoice: ["Warm & empathetic, like a knowledgeable friend", "Parent-to-parent tone (founder's story)", "Never pushy — helpful first", "Use emojis sparingly for warmth"],
+    contentSources: ["Product catalog (Bio-Heal variants, pricing)", "FAQ database (dosing, ingredients, allergens)", "Customer reviews (anonymized)", "Shipping & returns policies"],
+    strategy: ["Open with personalized acknowledgment", "Let shopper lead with their concerns", "Address top 3 hesitations: efficacy, safety, format", "Offer discount only if shopper hesitates to leave"],
+    fallbacks: ["Unknown question → offer to connect with support", "Out of scope → acknowledge and redirect to FAQ", "Shopper disengages → save cart, offer discount code"],
     successMetrics: ["Cart recovery rate", "Questions answered before purchase", "Time to conversion", "Customer confidence score"]
   },
   post: {
-    brandVoice: ["Celebratory and supportive", "Helpful - anticipate questions", "Educational - maximize product success", "Build relationship for long-term"],
-    contentSources: ["Order and shipping details", "Dosing instructions and tips", "Picky eater strategies (video)", "Community success stories"],
-    strategy: ["Confirm order and set expectations", "Proactively share helpful tips", "Check in at key milestones", "Address issues before they escalate", "Nurture toward subscription"],
-    fallbacks: ["Delivery issue → expedite support", "Product questions → instant answers", "Not working → troubleshoot + reassure", "Unhappy → easy returns process"],
-    successMetrics: ["Product adoption rate", "Support ticket reduction", "Customer satisfaction (Day 7)", "Reorder / subscription rate"]
+    objective: "Ensure successful product adoption, proactively address common issues, and build loyalty for repeat purchase.",
+    brandVoice: ["Supportive & encouraging", "Proactive check-ins, not intrusive", "Celebrate small wins", "Quick to offer help when struggling"],
+    contentSources: ["Order & shipping data (status, tracking)", "Product usage guides (dosing, tips)", "FAQ database (side effects, expectations)", "Support contact information"],
+    strategy: ["Day 0: Confirm order + proactive usage tips", "Day 7: Check-in on experience, offer help", "Day 45: Reorder nudge, subscription upsell", "Personalize based on product purchased"],
+    fallbacks: ["Negative experience → empathize, offer support", "No response → follow up once, then pause", "Product issues → expedite support handoff"],
+    successMetrics: ["Product adoption rate (started using)", "Support ticket deflection", "Day 7 satisfaction score", "Reorder / subscription conversion"]
   },
   new: {
-    brandVoice: ["Excited but not salesy", "Educational - lead with value", "Insider/early access framing", "Connect to their existing journey"],
-    contentSources: ["Focus+ product details (ingredients, dosing)", "Gut-brain connection research", "Founder story (why we made this)", "Bundle pricing and promotions"],
-    strategy: ["Reference past conversation (focus struggles)", "Time to back-to-school season", "Educate on gut-brain connection first", "Position as complement to Bio-Heal", "Offer bundle discount + early access code"],
+    objective: "Generate awareness of Focus+ launch and drive trial among existing customers with relevant context.",
+    brandVoice: ["Excited but not salesy", "Educational — lead with value", "Insider/early access framing", "Connect to their existing journey"],
+    contentSources: ["Focus+ product details (ingredients, dosing)", "Gut-brain connection research", "Founder story (why we made this)", "Bundle pricing & promotions"],
+    strategy: ["Reference past conversation (focus struggles)", "Tie to back-to-school season", "Educate on gut-brain connection first", "Position as complement to Bio-Heal", "Offer bundle discount + early access code"],
     fallbacks: ["Not interested → offer discount code for later", "Questions we can't answer → acknowledge, offer support", "Wrong timing → save preference, follow up later"],
     successMetrics: ["New product awareness (opened message)", "Education engagement (asked questions)", "Trial conversion (added to cart)", "Bundle attach rate"]
   }
@@ -210,9 +213,10 @@ const AIContextPanel = ({ tab, isOpen, onToggle }) => {
         </div>
         {isOpen && (
           <div style={{ flex: 1, overflowY: "auto", padding: 12 }}>
-            <div style={{ marginBottom: 16 }}><div style={{ color: "#f472b6", fontSize: 12, fontWeight: 600, marginBottom: 8 }}>🎨 Brand Voice</div>{context.brandVoice.map((item, i) => <div key={i} style={{ color: "#ccc", fontSize: 11, marginBottom: 4, paddingLeft: 8 }}>• {item}</div>)}</div>
+            <div style={{ marginBottom: 16 }}><div style={{ color: "#f87171", fontSize: 12, fontWeight: 600, marginBottom: 8 }}>🎯 Objective</div><div style={{ color: "#e5e5e5", fontSize: 11, lineHeight: 1.5, paddingLeft: 8 }}>{context.objective}</div></div>
+            <div style={{ marginBottom: 16 }}><div style={{ color: "#f472b6", fontSize: 12, fontWeight: 600, marginBottom: 8 }}>🗣️ Brand Voice</div>{context.brandVoice.map((item, i) => <div key={i} style={{ color: "#ccc", fontSize: 11, marginBottom: 4, paddingLeft: 8 }}>• {item}</div>)}</div>
             <div style={{ marginBottom: 16 }}><div style={{ color: "#fb923c", fontSize: 12, fontWeight: 600, marginBottom: 8 }}>📚 Content Sources</div>{context.contentSources.map((item, i) => <div key={i} style={{ color: "#ccc", fontSize: 11, marginBottom: 4, paddingLeft: 8 }}>• {item}</div>)}</div>
-            <div style={{ marginBottom: 16 }}><div style={{ color: "#4ade80", fontSize: 12, fontWeight: 600, marginBottom: 8 }}>✅ Strategy</div>{context.strategy.map((item, i) => <div key={i} style={{ color: "#ccc", fontSize: 11, marginBottom: 4, paddingLeft: 8 }}>{i + 1}. {item}</div>)}</div>
+            <div style={{ marginBottom: 16 }}><div style={{ color: "#4ade80", fontSize: 12, fontWeight: 600, marginBottom: 8 }}>💡 Strategy</div>{context.strategy.map((item, i) => <div key={i} style={{ color: "#ccc", fontSize: 11, marginBottom: 4, paddingLeft: 8 }}>{i + 1}. {item}</div>)}</div>
             <div style={{ marginBottom: 16 }}><div style={{ color: "#60a5fa", fontSize: 12, fontWeight: 600, marginBottom: 8 }}>🔄 Fallbacks</div>{context.fallbacks.map((item, i) => <div key={i} style={{ color: "#ccc", fontSize: 11, marginBottom: 4, paddingLeft: 8 }}>• {item}</div>)}</div>
             <div style={{ marginBottom: 16 }}><div style={{ color: "#c084fc", fontSize: 12, fontWeight: 600, marginBottom: 8 }}>📊 Success Metrics</div>{context.successMetrics.map((item, i) => <div key={i} style={{ color: "#ccc", fontSize: 11, marginBottom: 4, paddingLeft: 8 }}>• {item}</div>)}</div>
           </div>
