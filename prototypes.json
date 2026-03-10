@@ -1,0 +1,12 @@
+[
+  {
+    "name": "Aspire Nutrition RCS Demo",
+    "author": "Zhi",
+    "date": "Mar 10",
+    "description": "Interactive RCS messaging prototype with Rich Cards, Carousels, Video Cards, and Maps. Three scenarios: Cart Abandonment, Post-Purchase, New Product Launch.",
+    "file": "rcs-demo.html",
+    "image": "",
+    "badge": "Interactive",
+    "tags": ["RCS", "Conversational", "Rich Media"]
+  }
+]

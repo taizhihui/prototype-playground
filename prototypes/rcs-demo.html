@@ -1,0 +1,1744 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aspire Nutrition × RCS Demo</title>
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+
+
+const BRAND_COLOR = "#0891B2";
+
+// ============ CART ABANDONMENT SCENARIO ============
+
+const initialMessages = [
+  { from: "brand", text: "Hey Jane! 👋" },
+  { from: "brand", text: "I noticed you were checking out Bio-Heal earlier. Totally get it — choosing the right supplement for your family is a big decision." },
+  { from: "brand", richCard: { 
+    image: "bioheal-hero",
+    badge: "Still in your cart",
+    title: "Bio-Heal 5-in-1 Probiotic", 
+    subtitle: "Powder · $49.95",
+    description: "Gut health support for the whole family",
+    cta: "View in Cart →" 
+  }},
+  { from: "brand", text: "Happy to answer any questions if something is on your mind!" },
+];
+
+const initialReplies = [
+  "Will this help my child?",
+  "Is it safe for kids?",
+  "Capsules or powder?",
+  "I'm ready to buy!",
+];
+
+const responses = {
+  "Will this help my child?": {
+    messages: [
+      { from: "brand", text: "Great question — and honestly the most important one. 💛" },
+      { from: "brand", text: "Bio-Heal was created by our founder for his own son who had digestive struggles. It's designed specifically for sensitive tummies.\n\nWhat's going on with your little one?" },
+    ],
+    replies: ["Constipation issues", "Bloating & discomfort", "General gut health", "Not sure yet"],
+  },
+  "Constipation issues": {
+    messages: [
+      { from: "brand", text: "Constipation is one of the top reasons parents come to us. Bio-Heal includes prebiotic fiber and digestive enzymes that help get things moving naturally." },
+      { from: "brand", review: { quote: "After 2 weeks, my daughter is finally regular. No more stomach aches before school!", author: "Michelle T.", avatar: "mom1" } },
+      { from: "brand", text: "Most parents see changes within 2-3 weeks. And we have a 90-day guarantee if it's not the right fit." },
+    ],
+    replies: ["How do I give it to them?", "How fast is shipping?", "Add to cart"],
+  },
+  "Bloating & discomfort": {
+    messages: [
+      { from: "brand", text: "Bloating often comes from gut bacteria imbalance. Bio-Heal tackles this with:" },
+      { from: "brand", text: "🦠 5 probiotic strains restore gut balance\n⚡ Digestive enzymes break down food\n🌱 Prebiotic fiber feeds good bacteria" },
+    ],
+    replies: ["Is it dairy-free?", "What if it doesn't work?", "Add to cart"],
+  },
+  "General gut health": {
+    messages: [
+      { from: "brand", text: "Love that you're thinking proactively! Daily gut support makes a big difference over time." },
+      { from: "brand", text: "Bio-Heal is gentle enough for everyday use. Many families make it part of their morning routine — just like brushing teeth! 🦷" },
+    ],
+    replies: ["How long does a bottle last?", "Do you have subscriptions?", "Add to cart"],
+  },
+  "Not sure yet": {
+    messages: [
+      { from: "brand", text: "No problem! Every child is different. A few common signs that Bio-Heal might help:" },
+      { from: "brand", text: "• Irregular bathroom habits\n• Tummy aches or bloating\n• Picky eating affecting nutrition\n• Frequent illness\n• Recent antibiotics" },
+      { from: "brand", text: "Any of these sound familiar?" },
+    ],
+    replies: ["Yes, a few of those", "We had antibiotics recently", "Just exploring for now"],
+  },
+  "Is it safe for kids?": {
+    messages: [
+      { from: "brand", text: "100% — safety is our top priority. Here's what makes Bio-Heal safe:" },
+      { from: "brand", text: "✓ Safe for ages 3 and up\n✓ No artificial colors or preservatives\n✓ Free from dairy, gluten, soy, nuts\n✓ Made in USA, cGMP certified\n✓ Third-party tested" },
+    ],
+    replies: ["What age is it for?", "Can I see the ingredients?", "What's your return policy?"],
+  },
+  "Capsules or powder?": {
+    messages: [
+      { from: "brand", text: "Both have the same formula! Here's a side-by-side look:" },
+      { from: "brand", carousel: {
+        type: "product-compare",
+        items: [
+          { 
+            image: "powder",
+            title: "Bio-Heal Powder",
+            subtitle: "$49.95 · 30 servings",
+            features: ["Mixes into anything", "Tasteless", "Best for ages 3-8"],
+            cta: "Select Powder"
+          },
+          { 
+            image: "capsules",
+            title: "Bio-Heal Capsules",
+            subtitle: "$49.95 · 60 capsules",
+            features: ["Easy to swallow", "On-the-go", "Best for ages 8+"],
+            cta: "Select Capsules"
+          },
+          { 
+            image: "proplus",
+            title: "Bio-Heal Pro+ 6-in-1",
+            subtitle: "$59.95 · Extra strength",
+            features: ["Higher CFU count", "Added L-Glutamine", "For stubborn issues"],
+            cta: "Select Pro+"
+          }
+        ]
+      }},
+    ],
+    replies: ["Select Powder", "Select Capsules", "What's the difference with Pro+?"],
+  },
+  "Select Powder": {
+    messages: [
+      { from: "brand", text: "Great choice for younger kids! ✓ Bio-Heal Powder selected." },
+      { from: "brand", richCard: { 
+        image: "powder-lifestyle",
+        title: "Bio-Heal Powder", 
+        subtitle: "$49.95 · In your cart",
+        description: "Perfect for picky eaters — mixes invisibly into juice, smoothies, or food",
+        cta: "Complete Purchase →" 
+      }},
+    ],
+    replies: ["Complete purchase", "How fast is shipping?", "What's the return policy?"],
+  },
+  "Select Capsules": {
+    messages: [
+      { from: "brand", text: "Good pick for older kids! ✓ Bio-Heal Capsules selected." },
+      { from: "brand", richCard: { 
+        image: "capsules-lifestyle",
+        title: "Bio-Heal Capsules", 
+        subtitle: "$49.95 · In your cart",
+        description: "Easy to take with water, or open and sprinkle into food",
+        cta: "Complete Purchase →" 
+      }},
+    ],
+    replies: ["Complete purchase", "How fast is shipping?", "What's the return policy?"],
+  },
+  "I'm ready to buy!": {
+    messages: [
+      { from: "brand", text: "Amazing! 🎉 Your Bio-Heal is ready to go." },
+      { from: "brand", richCard: { 
+        image: "bioheal-hero",
+        title: "Your Cart", 
+        subtitle: "Bio-Heal 5-in-1 · $49.95",
+        cta: "Complete Purchase →" 
+      }},
+      { from: "brand", text: "Orders over $70 get free shipping. And you're covered by our 90-day guarantee! 💚" },
+    ],
+    replies: ["Complete purchase", "How fast is shipping?", "Do you have subscriptions?"],
+  },
+  "Add to cart": {
+    messages: [
+      { from: "brand", text: "Great choice, Jane! ✓ Bio-Heal is in your cart." },
+      { from: "brand", richCard: { 
+        image: "bioheal-hero",
+        title: "Your Cart", 
+        subtitle: "Bio-Heal 5-in-1 · $49.95",
+        cta: "Complete Purchase →" 
+      }},
+    ],
+    replies: ["Complete purchase", "How fast is shipping?", "What's the return policy?"],
+  },
+  "How do I give it to them?": {
+    messages: [
+      { from: "brand", text: "Super easy! Check out this quick video from other parents:" },
+      { from: "brand", video: {
+        thumbnail: "mixing-video",
+        duration: "0:32",
+        title: "How to Give Bio-Heal to Picky Eaters",
+        description: "3 simple tricks that work every time"
+      }},
+      { from: "brand", text: "The key: mix it when they're not looking! 😄 Completely tasteless in juice, smoothies, or applesauce." },
+    ],
+    replies: ["Perfect, add to cart!", "Maybe powder is easier?", "How long until I see results?"],
+  },
+  "What age is it for?": {
+    messages: [
+      { from: "brand", text: "Bio-Heal is for ages 3+:" },
+      { from: "brand", mediaImage: {
+        type: "dosing-chart",
+        alt: "Dosing chart by age"
+      }},
+    ],
+    replies: ["Maybe powder is better?", "How long does a bottle last?", "Add to cart"],
+  },
+  "Switch to powder": {
+    messages: [
+      { from: "brand", text: "Done! ✓ Swapped to Bio-Heal Powder. Same price, easier for little ones!" },
+      { from: "brand", richCard: { 
+        image: "powder-lifestyle",
+        title: "Bio-Heal Powder", 
+        subtitle: "30 servings · $49.95",
+        cta: "Complete Purchase →" 
+      }},
+    ],
+    replies: ["Complete purchase", "How fast is shipping?", "What's the return policy?"],
+  },
+  "How fast is shipping?": {
+    messages: [
+      { from: "brand", text: "We ship from Florida! 📦\n\n• Standard: 3-5 business days (free over $70)\n• Express: 1-2 business days ($9.95)\n\nYou'll get tracking as soon as it ships — usually within 24 hours." },
+    ],
+    replies: ["Great, add to cart!", "What about returns?", "Do you ship internationally?"],
+  },
+  "What's the return policy?": {
+    messages: [
+      { from: "brand", text: "We have a 90-day money-back guarantee — one of the best in the industry!" },
+      { from: "brand", text: "If Bio-Heal doesn't work for your family, just let us know. Full refund, no questions asked. You don't even need to ship it back. 💚" },
+    ],
+    replies: ["That's reassuring!", "Add to cart", "How do I contact support?"],
+  },
+  "I'll think about it": {
+    messages: [
+      { from: "brand", text: "No rush at all! We've saved your cart for 48 hours. 📌" },
+      { from: "brand", text: "Since you're new to Aspire, here's a little something if you change your mind:" },
+      { from: "brand", discount: { amount: "15% OFF", description: "First order · Valid 48 hours", code: "WELCOME15" } },
+      { from: "brand", text: "Text us anytime — happy to help you find the right fit for your family!" },
+    ],
+    replies: ["Actually, let me use that code!", "What makes Bio-Heal different?", "Maybe later"],
+  },
+  "Actually, let me use that code!": {
+    messages: [
+      { from: "brand", text: "Love it! 🎉 I've applied WELCOME15 to your cart." },
+      { from: "brand", richCard: { 
+        image: "bioheal-hero",
+        badge: "15% OFF Applied!",
+        title: "Your Cart", 
+        subtitle: "Bio-Heal 5-in-1 · $42.46 (was $49.95)",
+        cta: "Complete Purchase →" 
+      }},
+      { from: "brand", text: "That's 15% off + you're just $28 away from free shipping! Want to add anything else?" },
+    ],
+    replies: ["Complete purchase", "What else pairs well?", "Just this for now"],
+  },
+  "What else pairs well?": {
+    messages: [
+      { from: "brand", text: "Great question! Here are our most popular add-ons:" },
+      { from: "brand", carousel: {
+        type: "upsell",
+        items: [
+          { 
+            image: "multi-plus",
+            title: "Multi+ Vitamins",
+            subtitle: "$39.95",
+            description: "Complete daily nutrition",
+            cta: "Add to Cart"
+          },
+          { 
+            image: "clear-plus",
+            title: "Clear+ Detox",
+            subtitle: "$44.95",
+            description: "Gentle detox support",
+            cta: "Add to Cart"
+          },
+          { 
+            image: "omega",
+            title: "Beyond Omega",
+            subtitle: "$34.95",
+            description: "Brain & eye health",
+            cta: "Add to Cart"
+          }
+        ]
+      }},
+      { from: "brand", text: "Adding Multi+ would get you to $82 — that's free shipping + your 15% discount still applies!" },
+    ],
+    replies: ["Add Multi+ too", "Just Bio-Heal for now", "Tell me more about Multi+"],
+  },
+  "Complete purchase": {
+    messages: [
+      { from: "brand", text: "Wonderful! 🎉 Redirecting you to checkout..." },
+      { from: "brand", text: "Thank you for choosing Aspire Nutrition, Jane! Your order will ship within 24 hours. We can't wait to hear how it works for your family. 💚" },
+    ],
+    replies: [],
+  },
+  "That's reassuring!": {
+    messages: [
+      { from: "brand", text: "We really stand behind our products! Ready to give it a try?" },
+    ],
+    replies: ["Yes, add to cart!", "One more question", "I'll think about it"],
+  },
+  "Great, add to cart!": {
+    messages: [
+      { from: "brand", text: "Great choice, Jane! ✓ Bio-Heal is in your cart." },
+      { from: "brand", richCard: { 
+        image: "bioheal-hero",
+        title: "Your Cart", 
+        subtitle: "Bio-Heal 5-in-1 · $49.95",
+        cta: "Complete Purchase →" 
+      }},
+    ],
+    replies: ["Complete purchase", "Do you have subscriptions?", "What's the return policy?"],
+  },
+  "Yes, add to cart!": {
+    messages: [
+      { from: "brand", text: "Great choice, Jane! ✓ Bio-Heal is in your cart." },
+      { from: "brand", richCard: { 
+        image: "bioheal-hero",
+        title: "Your Cart", 
+        subtitle: "Bio-Heal 5-in-1 · $49.95",
+        cta: "Complete Purchase →" 
+      }},
+    ],
+    replies: ["Complete purchase", "How fast is shipping?", "What's the return policy?"],
+  },
+  "Perfect, add to cart!": {
+    messages: [
+      { from: "brand", text: "Great choice, Jane! ✓ Bio-Heal is in your cart." },
+      { from: "brand", richCard: { 
+        image: "bioheal-hero",
+        title: "Your Cart", 
+        subtitle: "Bio-Heal 5-in-1 · $49.95",
+        cta: "Complete Purchase →" 
+      }},
+    ],
+    replies: ["Complete purchase", "How fast is shipping?", "What's the return policy?"],
+  },
+  "Yes, a few of those": {
+    messages: [
+      { from: "brand", text: "Then Bio-Heal could be a great fit! It addresses all of those by supporting overall gut health — the foundation for so much else." },
+      { from: "brand", text: "And with our 90-day guarantee, there's no risk in trying it out." },
+    ],
+    replies: ["Add to cart", "What results should I expect?", "How fast is shipping?"],
+  },
+  "We had antibiotics recently": {
+    messages: [
+      { from: "brand", text: "Ah, that's actually one of the best times to start a probiotic! Antibiotics can wipe out good gut bacteria along with the bad." },
+      { from: "brand", text: "Bio-Heal helps replenish those good bacteria and restore balance. Many parents use it during and after antibiotic courses." },
+    ],
+    replies: ["That makes sense!", "Add to cart", "How long should we take it?"],
+  },
+  "Just exploring for now": {
+    messages: [
+      { from: "brand", text: "Totally fine! Feel free to ask me anything. I'm here whenever you're ready. 😊" },
+      { from: "brand", text: "In the meantime, your cart will be saved if you want to come back later." },
+    ],
+    replies: ["Actually, one question", "Tell me about shipping", "I'll think about it"],
+  },
+  "Do you have subscriptions?": {
+    messages: [
+      { from: "brand", text: "Yes! Subscribe & Save is our most popular option:" },
+      { from: "brand", text: "✓ 15% off every order\n✓ Free shipping always\n✓ Pause or cancel anytime\n✓ Choose delivery frequency (30/60/90 days)" },
+    ],
+    replies: ["Start a subscription", "Just one-time for now", "How do I cancel later?"],
+  },
+  "Maybe later": {
+    messages: [
+      { from: "brand", text: "Sounds good, Jane! Your cart and discount code will be waiting. 💚" },
+      { from: "brand", text: "We'll check in tomorrow in case you have any questions. Take care!" },
+    ],
+    replies: [],
+  },
+  "Just Bio-Heal for now": {
+    messages: [
+      { from: "brand", text: "Perfect! Here's your order:" },
+      { from: "brand", richCard: { 
+        image: "bioheal-hero",
+        badge: "15% OFF",
+        title: "Your Cart", 
+        subtitle: "Bio-Heal · $42.46 + shipping",
+        cta: "Complete Purchase →" 
+      }},
+    ],
+    replies: ["Complete purchase", "How fast is shipping?"],
+  },
+  "Add Multi+ too": {
+    messages: [
+      { from: "brand", text: "Awesome combo! ✓ Added Bio-Heal + Multi+ to your cart." },
+      { from: "brand", richCard: { 
+        image: "bundle",
+        badge: "FREE SHIPPING",
+        title: "Your Cart", 
+        subtitle: "Bio-Heal + Multi+ · $74.43 (15% off)",
+        cta: "Complete Purchase →" 
+      }},
+      { from: "brand", text: "You've unlocked free shipping! 🎉" },
+    ],
+    replies: ["Complete purchase", "Tell me about Multi+", "Remove Multi+"],
+  },
+  "That makes sense!": {
+    messages: [
+      { from: "brand", text: "Happy to help! Ready to get started with Bio-Heal?" },
+    ],
+    replies: ["Add to cart", "How fast is shipping?", "What's the return policy?"],
+  },
+};
+
+// ============ POST-PURCHASE SCENARIOS ============
+
+const postPurchaseScenarios = {
+  confirmed: {
+    label: "Order Confirmed",
+    timestamp: "Today 2:15 PM",
+    initialMessages: [
+      { from: "brand", text: "Thanks for your order, Jane! 🎉" },
+      { from: "brand", order: { status: "confirmed", item: "Bio-Heal Powder", price: "$49.95", eta: "Arrives Mar 14-16" } },
+      { from: "brand", text: "While you wait, want to see how other parents give Bio-Heal to picky eaters?" },
+    ],
+    initialReplies: ["Yes, show me!", "How do I dose it?", "Track my order"],
+  },
+  day7: {
+    label: "Day 7 Check-in",
+    timestamp: "Mar 17, 10:30 AM",
+    initialMessages: [
+      { from: "brand", text: "Hey Jane! 👋 It's been about a week since your Bio-Heal arrived." },
+      { from: "brand", text: "Just checking in — how's it going so far?" },
+    ],
+    initialReplies: ["Going great!", "Having some trouble", "Haven't started yet"],
+  },
+  day45: {
+    label: "Day 45 Reorder",
+    timestamp: "Apr 21, 9:00 AM",
+    initialMessages: [
+      { from: "brand", text: "Hey Jane! Hope things are going well with your little one. 💚" },
+      { from: "brand", text: "Just a heads up — based on your order, you might be running low on Bio-Heal soon!" },
+      { from: "brand", carousel: {
+        type: "reorder",
+        items: [
+          { 
+            image: "powder-lifestyle",
+            title: "Bio-Heal Powder",
+            subtitle: "$49.95",
+            badge: "Same as before",
+            cta: "Quick Reorder"
+          },
+          { 
+            image: "subscription",
+            title: "Subscribe & Save",
+            subtitle: "$42.46/mo",
+            badge: "15% OFF + Free Ship",
+            cta: "Start Subscription"
+          },
+          { 
+            image: "proplus",
+            title: "Upgrade to Pro+",
+            subtitle: "$59.95",
+            badge: "Extra strength",
+            cta: "Try Pro+"
+          }
+        ]
+      }},
+    ],
+    initialReplies: ["Quick Reorder", "Start Subscription", "Not yet, still have some"],
+  },
+};
+
+const postPurchaseResponses = {
+  "Yes, show me!": {
+    messages: [
+      { from: "brand", text: "Here's a quick video from our community:" },
+      { from: "brand", video: {
+        thumbnail: "tips-video",
+        duration: "0:45",
+        title: "Picky Eater? 3 Tricks That Work",
+        description: "Real parents share their secrets"
+      }},
+      { from: "brand", tips: {
+        title: "Quick Summary",
+        items: [
+          { emoji: "🥤", text: "Apple juice hides it perfectly" },
+          { emoji: "🙈", text: "Mix when they're not looking" },
+          { emoji: "🥞", text: "Sprinkle on cooled pancakes" },
+        ]
+      }},
+    ],
+    replies: ["That's helpful!", "How do I dose it?", "Track my order"],
+  },
+  "That's helpful!": {
+    messages: [
+      { from: "brand", text: "Happy to help! Let us know how it goes. We're always here if you have questions!" },
+    ],
+    replies: ["How do I dose it?", "Track my order", "Thanks!"],
+  },
+  "How do I dose it?": {
+    messages: [
+      { from: "brand", text: "Here's the visual dosing guide:" },
+      { from: "brand", mediaImage: {
+        type: "dosing-chart",
+        alt: "Dosing chart by weight"
+      }},
+      { from: "brand", text: "💡 Pro tip: Start with half the dose for the first 2 weeks to ease them in!" },
+    ],
+    replies: ["Why start slow?", "Got it, thanks!", "Track my order"],
+  },
+  "Track my order": {
+    messages: [
+      { from: "brand", text: "Here's your order status:" },
+      { from: "brand", tracking: { status: "Shipped", carrier: "USPS", tracking: "9400111899223847650321", eta: "Arriving Mar 14-16" } },
+      { from: "brand", mapCard: {
+        address: "1234 Oak Street, Austin, TX 78701",
+        status: "Out for delivery",
+        eta: "Today by 6 PM"
+      }},
+    ],
+    replies: ["Thanks!", "How do I dose it?"],
+  },
+  "Thanks!": {
+    messages: [
+      { from: "brand", text: "Anytime, Jane! We're here if you need us. Good luck — we can't wait to hear how it goes! 💚" },
+    ],
+    replies: [],
+  },
+  "Going great!": {
+    messages: [
+      { from: "brand", text: "That's wonderful to hear! 🎉" },
+      { from: "brand", text: "What changes have you noticed so far?" },
+    ],
+    replies: ["More regular bathroom trips", "Less bloating", "More energy", "Just started, too early to tell"],
+  },
+  "More regular bathroom trips": {
+    messages: [
+      { from: "brand", text: "Amazing! That's usually the first sign things are improving. 💚" },
+      { from: "brand", text: "Over the next few weeks, you might also notice less bloating, better appetite, and more energy. Keep it up!" },
+      { from: "brand", text: "Would you be open to sharing your experience? It helps other parents so much!" },
+    ],
+    replies: ["Sure, I'll leave a review", "Maybe later", "Any other tips?"],
+  },
+  "Having some trouble": {
+    messages: [
+      { from: "brand", text: "Oh no! I'm sorry to hear that. Let's figure this out together." },
+      { from: "brand", carousel: {
+        type: "troubleshoot",
+        items: [
+          { 
+            image: "picky-eater",
+            title: "Picky Eater Won't Take It",
+            description: "Hiding tricks & alternatives",
+            cta: "Get Tips"
+          },
+          { 
+            image: "side-effects",
+            title: "Seeing Side Effects",
+            description: "What's normal & what's not",
+            cta: "Learn More"
+          },
+          { 
+            image: "no-changes",
+            title: "Not Noticing Changes",
+            description: "Timeline & expectations",
+            cta: "See Timeline"
+          }
+        ]
+      }},
+    ],
+    replies: ["Get Tips", "Learn More", "See Timeline", "Talk to support"],
+  },
+  "Get Tips": {
+    messages: [
+      { from: "brand", text: "Here's what works for most picky eaters:" },
+      { from: "brand", video: {
+        thumbnail: "picky-tips",
+        duration: "0:38",
+        title: "Can't Get Them To Take It?",
+        description: "Watch: 5 creative hiding spots"
+      }},
+      { from: "brand", text: "Top hiding spots:\n🥤 Juice boxes (add, shake, done!)\n🍕 Pizza sauce or ketchup\n🍫 Chocolate milk or pudding\n\nThe key: Don't let them see you mix it!" },
+    ],
+    replies: ["I'll try these!", "Still not working", "Talk to support"],
+  },
+  "Haven't started yet": {
+    messages: [
+      { from: "brand", text: "No worries! Life gets busy. 😊" },
+      { from: "brand", text: "Here's a 30-second quick start:" },
+      { from: "brand", video: {
+        thumbnail: "quickstart",
+        duration: "0:30",
+        title: "Quick Start Guide",
+        description: "Get started in under a minute"
+      }},
+    ],
+    replies: ["Thanks, I'll start today!", "How do I dose it?", "What if my child won't take it?"],
+  },
+  "Quick Reorder": {
+    messages: [
+      { from: "brand", text: "Easy! 🎉 Here's your quick reorder:" },
+      { from: "brand", richCard: { 
+        image: "powder-lifestyle",
+        badge: "Same as before",
+        title: "Bio-Heal Powder", 
+        subtitle: "$49.95",
+        cta: "Confirm Reorder →" 
+      }},
+      { from: "brand", text: "Ships today if ordered by 2pm! Same address as last time?" },
+    ],
+    replies: ["Yes, same address", "Update my address", "Actually, set up subscription"],
+  },
+  "Yes, same address": {
+    messages: [
+      { from: "brand", text: "Perfect! ✓ Order confirmed." },
+      { from: "brand", order: { status: "confirmed", item: "Bio-Heal Powder", price: "$49.95", eta: "Arrives Apr 24-26" } },
+      { from: "brand", mapCard: {
+        address: "1234 Oak Street, Austin, TX 78701",
+        status: "Processing",
+        eta: "Ships within 24 hours"
+      }},
+    ],
+    replies: [],
+  },
+  "Start Subscription": {
+    messages: [
+      { from: "brand", text: "Smart move! Here's what you get:" },
+      { from: "brand", richCard: { 
+        image: "subscription",
+        badge: "BEST VALUE",
+        title: "Subscribe & Save", 
+        subtitle: "$42.46/month (15% off)",
+        description: "✓ Free shipping always\n✓ Pause or cancel anytime\n✓ Never run out",
+        cta: "Start Subscription →" 
+      }},
+    ],
+    replies: ["Sign me up!", "How do I cancel if needed?", "Just one-time for now"],
+  },
+  "Sign me up!": {
+    messages: [
+      { from: "brand", text: "Awesome! ✓ Subscription activated!" },
+      { from: "brand", order: { status: "confirmed", item: "Bio-Heal Powder (Subscribe & Save)", price: "$42.46", eta: "Ships monthly · Next: Apr 24" } },
+      { from: "brand", text: "You're all set! You can manage your subscription anytime from your account. Thanks for being part of the Aspire family! 💚" },
+    ],
+    replies: [],
+  },
+  "Not yet, still have some": {
+    messages: [
+      { from: "brand", text: "No worries! Just wanted to give you a heads up. 😊" },
+      { from: "brand", text: "By the way — how has Bio-Heal been working for your family?" },
+    ],
+    replies: ["It's been great!", "Pretty good", "Not sure yet"],
+  },
+  "It's been great!": {
+    messages: [
+      { from: "brand", text: "That's amazing to hear! 🎉 So glad it's helping." },
+      { from: "brand", text: "Would you be open to sharing your experience? Reviews help other parents so much!" },
+    ],
+    replies: ["Sure, I'll leave a review", "Maybe later", "Thanks!"],
+  },
+  "Sure, I'll leave a review": {
+    messages: [
+      { from: "brand", text: "Thank you so much! Here's the link:" },
+      { from: "brand", link: { text: "Leave a Review", url: "aspirenutrition.com/review" } },
+      { from: "brand", text: "As a thank you, here's 15% off your next order: THANKYOU15 💚" },
+    ],
+    replies: ["Thanks!"],
+  },
+  "Maybe later": {
+    messages: [
+      { from: "brand", text: "No problem at all! We'll check in again in a few weeks. Keep up the great work! 💚" },
+    ],
+    replies: ["Thanks!"],
+  },
+  "Got it, thanks!": {
+    messages: [
+      { from: "brand", text: "Anytime! We're rooting for you. 💚" },
+    ],
+    replies: ["Track my order"],
+  },
+  "Why start slow?": {
+    messages: [
+      { from: "brand", text: "Great question! When Bio-Heal starts working, it crowds out bad bacteria." },
+      { from: "brand", text: "As the 'bad guys' die off, they can temporarily cause:\n• Mild fatigue\n• A little bloating\n• Slight crankiness" },
+      { from: "brand", text: "This is actually a GOOD sign — it means it's working! Starting slow minimizes these. Usually lasts just a few days." },
+    ],
+    replies: ["Good to know!", "Track my order", "Thanks!"],
+  },
+  "Good to know!": {
+    messages: [
+      { from: "brand", text: "We're here if you need us! Feel free to reach out anytime. 💚" },
+    ],
+    replies: ["Track my order", "Thanks!"],
+  },
+  "Thanks, I'll start today!": {
+    messages: [
+      { from: "brand", text: "Awesome! You've got this. We'll check in again in a week or so. Good luck! 🙌" },
+    ],
+    replies: [],
+  },
+  "Talk to support": {
+    messages: [
+      { from: "brand", text: "Absolutely! Here's how to reach our team:" },
+      { from: "brand", text: "📱 Reply to this chat anytime\n📧 support@aspirenutrition.com\n📞 407-988-2275" },
+      { from: "brand", text: "We'll help you figure it out — and remember, you're covered by our 90-day guarantee. 💚" },
+    ],
+    replies: ["Thanks!"],
+  },
+  "I'll try these!": {
+    messages: [
+      { from: "brand", text: "Good luck! Let us know how it goes. 💚" },
+    ],
+    replies: ["Thanks!"],
+  },
+};
+
+// ============ NEW PRODUCT LAUNCH SCENARIO ============
+
+const newProductMessages = [
+  { from: "brand", text: "Hey Jane! 👋 With school starting soon, I wanted to share something with you." },
+  { from: "brand", text: "You mentioned a while back that focus has been a challenge for your little one. We've been hearing the same thing from so many Bio-Heal parents..." },
+  { from: "brand", text: "So Marty and our team have been working on something new. You're one of the first to hear about it! 🎉" },
+  { from: "brand", richCard: { 
+    image: "focus-plus-hero",
+    badge: "NEW",
+    title: "Focus+ Kids Brain Support", 
+    subtitle: "$44.95 · 30 softgels",
+    description: "Concentration & cognitive support for school-age kids",
+    cta: "Learn More →" 
+  }},
+  { from: "brand", text: "It's designed to work alongside Bio-Heal — supporting the gut-brain connection from both sides." },
+];
+
+const newProductReplies = [
+  "Tell me more!",
+  "How does gut health affect focus?",
+  "What's in it?",
+  "Not right now",
+];
+
+const newProductResponses = {
+  "Tell me more!": {
+    messages: [
+      { from: "brand", text: "Focus+ is a daily brain support supplement made specifically for school-age kids (ages 5+)." },
+      { from: "brand", mediaImage: {
+        type: "focus-ingredients",
+        alt: "Focus+ key ingredients"
+      }},
+      { from: "brand", text: "All in a kid-friendly softgel that's easy to swallow — or pierce and squeeze into food!" },
+    ],
+    replies: ["How does it work with Bio-Heal?", "Is it safe for my 7-year-old?", "What results can I expect?"],
+  },
+  "How does gut health affect focus?": {
+    messages: [
+      { from: "brand", text: "Great question! This is actually why we created Focus+." },
+      { from: "brand", mediaImage: {
+        type: "gut-brain",
+        alt: "Gut-brain connection infographic"
+      }},
+      { from: "brand", text: "Think of it like this: Bio-Heal builds the highway, Focus+ is the fuel for the car. 🚗" },
+    ],
+    replies: ["That makes sense!", "What's in Focus+?", "How do I use both together?"],
+  },
+  "What's in it?": {
+    messages: [
+      { from: "brand", text: "Here's the full breakdown:" },
+      { from: "brand", ingredients: {
+        title: "Focus+ Ingredients",
+        items: [
+          { name: "DHA Omega-3", amount: "250mg", benefit: "Memory & learning" },
+          { name: "Phosphatidylserine", amount: "100mg", benefit: "Attention & focus" },
+          { name: "Vitamin B6 & B12", amount: "Methylated forms", benefit: "Mental energy" },
+          { name: "Lion's Mane Extract", amount: "200mg", benefit: "Cognitive clarity" },
+          { name: "Zinc", amount: "5mg", benefit: "Brain development" },
+        ]
+      }},
+      { from: "brand", text: "No artificial colors, flavors, or common allergens. Just like all our products — clean ingredients only! ✓" },
+    ],
+    replies: ["Why these specific ingredients?", "Is it safe for kids?", "I'm interested!"],
+  },
+  "That makes sense!": {
+    messages: [
+      { from: "brand", text: "It's pretty fascinating science! The gut-brain connection is one of the most exciting areas of research right now." },
+      { from: "brand", text: "Would you like to know more about Focus+ or how to use it with Bio-Heal?" },
+    ],
+    replies: ["Tell me about Focus+", "How do I use both together?", "Maybe later"],
+  },
+  "How does it work with Bio-Heal?": {
+    messages: [
+      { from: "brand", text: "They're designed to complement each other perfectly!" },
+      { from: "brand", mediaImage: {
+        type: "combo-routine",
+        alt: "Bio-Heal + Focus+ daily routine"
+      }},
+      { from: "brand", text: "Most parents give Bio-Heal in the morning with breakfast, and Focus+ with dinner. But you can adjust based on what works!" },
+    ],
+    replies: ["What results can I expect?", "Is there a bundle discount?", "I'm interested!"],
+  },
+  "Is it safe for my 7-year-old?": {
+    messages: [
+      { from: "brand", text: "Absolutely! Focus+ was specifically designed for school-age kids (5-12 years)." },
+      { from: "brand", text: "✓ Pediatrician-reviewed formula\n✓ No stimulants (unlike some focus supplements)\n✓ No artificial anything\n✓ Free from common allergens\n✓ Made in USA, third-party tested" },
+      { from: "brand", text: "And of course, it's covered by our 90-day money-back guarantee. 💚" },
+    ],
+    replies: ["What results can I expect?", "I'm interested!", "What's the dosage?"],
+  },
+  "What results can I expect?": {
+    messages: [
+      { from: "brand", text: "Since Focus+ is brand new, we don't have reviews yet — but here's what the research shows:" },
+      { from: "brand", mediaImage: {
+        type: "results-timeline",
+        alt: "Expected results timeline"
+      }},
+      { from: "brand", text: "Every child is different, and we always recommend giving it 6-8 weeks for full effect. That's why our guarantee is 90 days!" },
+    ],
+    replies: ["That sounds promising!", "Is there a bundle discount?", "I'm interested!"],
+  },
+  "Is there a bundle discount?": {
+    messages: [
+      { from: "brand", text: "Yes! For our Bio-Heal families, we have a special launch offer:" },
+      { from: "brand", bundle: {
+        title: "Brain + Gut Bundle",
+        items: ["Bio-Heal Powder", "Focus+ Kids Brain Support"],
+        originalPrice: "$94.90",
+        bundlePrice: "$79.95",
+        savings: "Save $15 + FREE shipping"
+      }},
+      { from: "brand", text: "This is our best value for supporting the full gut-brain connection! 🧠💚" },
+    ],
+    replies: ["I want the bundle!", "Just Focus+ for now", "Maybe later"],
+  },
+  "I'm interested!": {
+    messages: [
+      { from: "brand", text: "Awesome! Since you're already using Bio-Heal, I'd recommend our launch bundle:" },
+      { from: "brand", carousel: {
+        type: "bundle-options",
+        items: [
+          { 
+            image: "bundle-braingut",
+            title: "Brain + Gut Bundle",
+            subtitle: "$79.95 (Save $15)",
+            badge: "BEST VALUE",
+            description: "Bio-Heal + Focus+",
+            cta: "Get Bundle"
+          },
+          { 
+            image: "focus-plus-hero",
+            title: "Focus+ Only",
+            subtitle: "$44.95",
+            description: "30 softgels",
+            cta: "Add to Cart"
+          }
+        ]
+      }},
+    ],
+    replies: ["Get Bundle", "Add to Cart", "Let me think about it"],
+  },
+  "I want the bundle!": {
+    messages: [
+      { from: "brand", text: "Great choice! 🎉 Here's your order:" },
+      { from: "brand", richCard: { 
+        image: "bundle-braingut",
+        badge: "SAVE $15",
+        title: "Brain + Gut Bundle", 
+        subtitle: "Bio-Heal + Focus+ · $79.95",
+        description: "Free shipping included!",
+        cta: "Complete Purchase →" 
+      }},
+      { from: "brand", text: "Thanks for being one of the first to try Focus+, Jane. We can't wait to hear how it helps! 💚" },
+    ],
+    replies: ["Complete purchase", "How fast is shipping?"],
+  },
+  "Get Bundle": {
+    messages: [
+      { from: "brand", text: "Great choice! 🎉 Here's your order:" },
+      { from: "brand", richCard: { 
+        image: "bundle-braingut",
+        badge: "SAVE $15",
+        title: "Brain + Gut Bundle", 
+        subtitle: "Bio-Heal + Focus+ · $79.95",
+        description: "Free shipping included!",
+        cta: "Complete Purchase →" 
+      }},
+    ],
+    replies: ["Complete purchase", "How fast is shipping?"],
+  },
+  "Just Focus+ for now": {
+    messages: [
+      { from: "brand", text: "No problem! Here's Focus+ on its own:" },
+      { from: "brand", richCard: { 
+        image: "focus-plus-hero",
+        title: "Focus+ Kids Brain Support", 
+        subtitle: "30 softgels · $44.95",
+        cta: "Add to Cart →" 
+      }},
+    ],
+    replies: ["Add to Cart", "Actually, get the bundle", "How fast is shipping?"],
+  },
+  "Add to Cart": {
+    messages: [
+      { from: "brand", text: "Done! ✓ Focus+ is in your cart." },
+      { from: "brand", richCard: { 
+        image: "focus-plus-hero",
+        title: "Your Cart", 
+        subtitle: "Focus+ · $44.95",
+        cta: "Complete Purchase →" 
+      }},
+    ],
+    replies: ["Complete purchase", "How fast is shipping?"],
+  },
+  "Let me think about it": {
+    messages: [
+      { from: "brand", text: "Of course! Take your time. 😊" },
+      { from: "brand", text: "Since you're one of the first to hear about Focus+, I'll save a 10% early-access discount for you:" },
+      { from: "brand", discount: { amount: "10% OFF", description: "Focus+ Early Access · Valid 7 days", code: "FOCUS10" } },
+    ],
+    replies: ["Thanks!", "Actually, I'll order now"],
+  },
+  "Maybe later": {
+    messages: [
+      { from: "brand", text: "Totally understand! School prep is busy enough. 😊" },
+      { from: "brand", text: "Here's a 10% discount if you change your mind:" },
+      { from: "brand", discount: { amount: "10% OFF", description: "Focus+ Early Access · Valid 7 days", code: "FOCUS10" } },
+      { from: "brand", text: "Good luck with back-to-school! We're here if you need anything. 💚" },
+    ],
+    replies: [],
+  },
+  "Not right now": {
+    messages: [
+      { from: "brand", text: "No worries at all, Jane! Just wanted you to be one of the first to know." },
+      { from: "brand", text: "If focus becomes more of a priority later, just reach out. We're always here to help! 💚" },
+    ],
+    replies: [],
+  },
+  "Complete purchase": {
+    messages: [
+      { from: "brand", text: "Wonderful! 🎉 Redirecting you to checkout..." },
+      { from: "brand", text: "Thanks for being one of the first Focus+ families, Jane! Your order ships within 24 hours. 💚" },
+    ],
+    replies: [],
+  },
+  "How fast is shipping?": {
+    messages: [
+      { from: "brand", text: "We ship from Florida! 📦\n\n• Standard: 3-5 business days (free over $70)\n• Express: 1-2 business days ($9.95)\n\nPerfect timing for back-to-school!" },
+    ],
+    replies: ["Complete purchase", "Thanks!"],
+  },
+  "Thanks!": {
+    messages: [
+      { from: "brand", text: "Anytime, Jane! Good luck with the school year — we're rooting for you! 💚" },
+    ],
+    replies: [],
+  },
+  "Actually, I'll order now": {
+    messages: [
+      { from: "brand", text: "Awesome! I've applied your FOCUS10 discount:" },
+      { from: "brand", richCard: { 
+        image: "bundle-braingut",
+        badge: "10% OFF",
+        title: "Brain + Gut Bundle", 
+        subtitle: "$71.96 (was $79.95)",
+        cta: "Complete Purchase →" 
+      }},
+    ],
+    replies: ["Complete purchase", "Just Focus+ instead"],
+  },
+  "How do I use both together?": {
+    messages: [
+      { from: "brand", text: "Super easy! Here's what most parents do:" },
+      { from: "brand", mediaImage: {
+        type: "combo-routine",
+        alt: "Daily routine with both products"
+      }},
+      { from: "brand", text: "☀️ Morning: Bio-Heal with breakfast\n🌙 Evening: Focus+ with dinner\n\nThat's it! Consistency is what makes the difference." },
+    ],
+    replies: ["What results can I expect?", "Is there a bundle discount?", "I'm interested!"],
+  },
+  "Tell me about Focus+": {
+    messages: [
+      { from: "brand", text: "Focus+ is our new daily brain support supplement for kids ages 5+." },
+      { from: "brand", text: "It contains DHA, phosphatidylserine, B-vitamins, and Lion's Mane — all clinically studied for cognitive support in children." },
+      { from: "brand", text: "Comes in easy-to-swallow softgels, or pierce and squeeze into food!" },
+    ],
+    replies: ["What results can I expect?", "Is it safe for my 7-year-old?", "I'm interested!"],
+  },
+  "That sounds promising!": {
+    messages: [
+      { from: "brand", text: "We're really excited about it! Would you like to try Focus+ for back-to-school?" },
+    ],
+    replies: ["I'm interested!", "Is there a bundle discount?", "Maybe later"],
+  },
+};
+
+// ============ CONTEXT PANEL DATA ============
+
+const aiContext = {
+  cart: {
+    objective: "Convert abandoned cart to purchase by building trust and addressing hesitations.",
+    brandVoice: ["Warm & empathetic", "Parent-to-parent tone", "Never pushy — helpful first", "Use emojis sparingly"],
+    contentSources: ["Product catalog", "FAQ database", "Customer reviews", "Shipping & returns policies"],
+    strategy: ["Open with personalized acknowledgment", "Let shopper lead", "Address hesitations: efficacy, safety, format", "Offer discount only if leaving"],
+    fallbacks: ["Unknown → connect with support", "Out of scope → redirect to FAQ", "Disengages → save cart, offer code"],
+    metrics: ["Cart recovery rate", "Conversation engagement", "Discount usage", "Time to conversion"],
+  },
+  post: {
+    objective: "Ensure successful product adoption and build loyalty for repeat purchase.",
+    brandVoice: ["Supportive & encouraging", "Proactive check-ins", "Celebrate small wins", "Quick to help"],
+    contentSources: ["Order & shipping data", "Product usage guides", "FAQ database", "Support contacts"],
+    strategy: ["Day 0: Confirm + proactive tips", "Day 7: Check-in on experience", "Day 45: Reorder nudge", "Personalize by product"],
+    fallbacks: ["Negative experience → empathize", "No response → follow up once", "Product issues → expedite support"],
+    metrics: ["Product adoption rate", "Support ticket deflection", "Day 45 reorder rate", "Subscription conversion"],
+  },
+  new: {
+    objective: "Generate awareness of Focus+ launch and drive trial among existing customers.",
+    brandVoice: ["Excited but not salesy", "Educational first", "Insider/early access framing", "Connect to their journey"],
+    contentSources: ["Focus+ product details", "Gut-brain research", "Founder story", "Bundle pricing"],
+    strategy: ["Reference past conversation", "Time to back-to-school", "Educate on gut-brain", "Position as complement", "Offer bundle + early code"],
+    fallbacks: ["Not interested → offer code", "Questions → offer support", "Wrong timing → save preference"],
+    metrics: ["Awareness (opened)", "Education engagement", "Trial conversion", "Bundle attach rate"],
+  },
+};
+
+const shopperContext = {
+  cart: {
+    name: "Jane Smith",
+    lifecycle: "New Visitor",
+    lifecycleColor: "#f59e0b",
+    demographics: { location: "Austin, TX", family: "Mom of 2 kids" },
+    childInfo: { label: "Shared during conversation", details: ["Child age: 6 years old", "Health concern: Digestive issues, constipation", "Looking for: Gentle, kid-friendly solution"] },
+    purchaseHistory: null,
+    browsing: { currentSession: ["Viewed Bio-Heal Powder (3 min)", "Compared powder vs capsules", "Added to cart", "Abandoned at checkout"], cartContents: ["Bio-Heal Powder — $49.95"] },
+    pastConversations: null,
+    preferences: null,
+  },
+  post: {
+    name: "Jane Smith",
+    lifecycle: "First-Time Buyer",
+    lifecycleColor: "#22c55e",
+    demographics: { location: "Austin, TX", family: "Mom of 2 kids" },
+    childInfo: { label: "Known from purchase", details: ["Child age: 6 years old", "Health concern: Constipation, picky eater", "Product chosen: Powder"] },
+    purchaseHistory: [{ date: "Mar 10", item: "Bio-Heal Powder", amount: "$49.95" }],
+    browsing: { currentSession: ["Checked order status (2x)", "Viewed shipping FAQ"], cartContents: [] },
+    pastConversations: ["Discussed constipation issues", "Asked about powder vs capsules", "Concerned about picky eater"],
+    preferences: ["Prefers text over email", "Responds quickly in mornings"],
+  },
+  new: {
+    name: "Jane Smith",
+    lifecycle: "Repeat Customer",
+    lifecycleColor: "#8b5cf6",
+    demographics: { location: "Austin, TX", family: "Mom of 2 kids (ages 6 and 9)" },
+    childInfo: { label: "Built over time", details: ["Child 1: 6yo, gut health improving", "Child 2: 9yo, focus challenges", "Interested in natural solutions"] },
+    purchaseHistory: [{ date: "Mar 10", item: "Bio-Heal Powder", amount: "$49.95" }, { date: "Apr 25", item: "Bio-Heal Powder", amount: "$49.95" }],
+    browsing: { currentSession: ["Clicked Focus+ email", "Viewed Focus+ page (4 min)", "Read 'Gut-Brain' article"], cartContents: [] },
+    pastConversations: ["Discussed gut health for younger child", "Mentioned older child's focus issues", "Asked about gut-brain connection"],
+    preferences: ["Prefers text over email", "Opens educational content", "Responsive to bundles"],
+  },
+};
+
+const App = function App() {
+  const [messages, setMessages] = useState([]);
+  const [replies, setReplies] = useState([]);
+  const [typing, setTyping] = useState(true);
+  const [tab, setTab] = useState("cart");
+  const [postSubTab, setPostSubTab] = useState("confirmed");
+  const [carouselIndex, setCarouselIndex] = useState({});
+  const scrollRef = useRef(null);
+  const [leftPanelOpen, setLeftPanelOpen] = useState(false);
+  const [rightPanelOpen, setRightPanelOpen] = useState(false);
+
+  useEffect(function init() {
+    setMessages([]);
+    setReplies([]);
+    setTyping(true);
+    setCarouselIndex({});
+    const timer = setTimeout(function() {
+      setTyping(false);
+      if (tab === "cart") {
+        setMessages(initialMessages);
+        setReplies(initialReplies);
+      } else if (tab === "post") {
+        var scenario = postPurchaseScenarios[postSubTab];
+        setMessages(scenario.initialMessages);
+        setReplies(scenario.initialReplies);
+      } else if (tab === "new") {
+        setMessages(newProductMessages);
+        setReplies(newProductReplies);
+      }
+    }, 800);
+    return function() { clearTimeout(timer); };
+  }, [tab, postSubTab]);
+
+  useEffect(function scroll() {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+    }
+  }, [messages, typing]);
+
+  function handleReply(reply) {
+    var responseMap = tab === "post" ? postPurchaseResponses : tab === "new" ? newProductResponses : responses;
+    var resp = responseMap[reply];
+    if (!resp) return;
+    setMessages(function(prev) { return prev.concat([{ from: "user", text: reply }]); });
+    setReplies([]);
+    setTyping(true);
+    setTimeout(function() {
+      setTyping(false);
+      setMessages(function(prev) { return prev.concat(resp.messages); });
+      setReplies(resp.replies || []);
+    }, 800);
+  }
+
+  function restart() {
+    setMessages([]);
+    setReplies([]);
+    setTyping(true);
+    setCarouselIndex({});
+    setTimeout(function() {
+      setTyping(false);
+      if (tab === "cart") {
+        setMessages(initialMessages);
+        setReplies(initialReplies);
+      } else if (tab === "post") {
+        var scenario = postPurchaseScenarios[postSubTab];
+        setMessages(scenario.initialMessages);
+        setReplies(scenario.initialReplies);
+      } else if (tab === "new") {
+        setMessages(newProductMessages);
+        setReplies(newProductReplies);
+      }
+    }, 600);
+  }
+
+  function getTimestamp() {
+    if (tab === "post") return postPurchaseScenarios[postSubTab].timestamp;
+    if (tab === "new") return "Aug 15, 10:00 AM";
+    return "Today 9:41 AM";
+  }
+
+  var currentAiContext = aiContext[tab === "post" ? "post" : tab];
+  var currentShopperContext = shopperContext[tab === "post" ? "post" : tab];
+
+  // ============ RENDER COMPONENTS ============
+
+  function renderProductImage(type, size) {
+    var w = size || 60;
+    var h = size || 60;
+    var images = {
+      "bioheal-hero": { bg: "#f0fdfa", icon: "🧬", label: "Bio-Heal" },
+      "powder": { bg: "#e0f2fe", icon: "🥤", label: "Powder" },
+      "powder-lifestyle": { bg: "#dcfce7", icon: "🥤", label: "Powder" },
+      "capsules": { bg: "#fef3c7", icon: "💊", label: "Capsules" },
+      "capsules-lifestyle": { bg: "#fef3c7", icon: "💊", label: "Capsules" },
+      "proplus": { bg: "#ede9fe", icon: "⚡", label: "Pro+" },
+      "multi-plus": { bg: "#fce7f3", icon: "🌈", label: "Multi+" },
+      "clear-plus": { bg: "#ecfdf5", icon: "✨", label: "Clear+" },
+      "omega": { bg: "#dbeafe", icon: "🐟", label: "Omega" },
+      "focus-plus-hero": { bg: "#e0e7ff", icon: "🧠", label: "Focus+" },
+      "bundle": { bg: "#f0fdf4", icon: "🎁", label: "Bundle" },
+      "bundle-braingut": { bg: "#ede9fe", icon: "🧠+🦠", label: "Bundle" },
+      "subscription": { bg: "#fef3c7", icon: "📦", label: "Subscribe" },
+      "picky-eater": { bg: "#fef3c7", icon: "😬", label: "" },
+      "side-effects": { bg: "#fee2e2", icon: "⚠️", label: "" },
+      "no-changes": { bg: "#e0e7ff", icon: "🤔", label: "" },
+      "tips-video": { bg: "#dcfce7", icon: "▶️", label: "" },
+      "mixing-video": { bg: "#dbeafe", icon: "▶️", label: "" },
+      "picky-tips": { bg: "#fef3c7", icon: "▶️", label: "" },
+      "quickstart": { bg: "#e0f2fe", icon: "▶️", label: "" },
+    };
+    var img = images[type] || { bg: "#f3f4f6", icon: "📦", label: "" };
+    return (
+      <div style={{ width: w, height: h, backgroundColor: img.bg, borderRadius: 8, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
+        <span style={{ fontSize: w * 0.4 }}>{img.icon}</span>
+        {img.label && <span style={{ fontSize: 8, color: "#666", marginTop: 2 }}>{img.label}</span>}
+      </div>
+    );
+  }
+
+  function renderRichCard(card) {
+    return (
+      <div style={{ backgroundColor: "#fff", border: "1px solid #e5e7eb", borderRadius: 16, overflow: "hidden", maxWidth: 240 }}>
+        <div style={{ height: 100, backgroundColor: "#f0fdfa", display: "flex", alignItems: "center", justifyContent: "center", position: "relative" }}>
+          {renderProductImage(card.image, 70)}
+          {card.badge && (
+            <div style={{ position: "absolute", top: 8, right: 8, backgroundColor: card.badge.includes("OFF") ? "#22c55e" : card.badge === "NEW" ? "#f59e0b" : "#3b82f6", color: "white", fontSize: 9, fontWeight: 700, padding: "3px 6px", borderRadius: 4 }}>
+              {card.badge}
+            </div>
+          )}
+        </div>
+        <div style={{ padding: 12 }}>
+          <div style={{ fontWeight: 600, fontSize: 14 }}>{card.title}</div>
+          <div style={{ fontSize: 12, color: "#666", marginTop: 2 }}>{card.subtitle}</div>
+          {card.description && <div style={{ fontSize: 11, color: "#888", marginTop: 4, lineHeight: 1.4, whiteSpace: "pre-line" }}>{card.description}</div>}
+          <button style={{ marginTop: 10, width: "100%", padding: 10, backgroundColor: BRAND_COLOR, color: "white", border: "none", borderRadius: 20, fontWeight: 600, fontSize: 13, cursor: "pointer" }}>
+            {card.cta}
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  function renderCarousel(carousel, msgIndex) {
+    var currentIdx = carouselIndex[msgIndex] || 0;
+    var items = carousel.items;
+    return (
+      <div style={{ maxWidth: 280 }}>
+        <div style={{ display: "flex", gap: 8, overflowX: "auto", paddingBottom: 8, scrollSnapType: "x mandatory" }}>
+          {items.map(function(item, idx) {
+            return (
+              <div key={idx} style={{ minWidth: 160, backgroundColor: "#fff", border: "1px solid #e5e7eb", borderRadius: 12, overflow: "hidden", scrollSnapAlign: "start", flexShrink: 0 }}>
+                <div style={{ height: 70, backgroundColor: "#f8fafc", display: "flex", alignItems: "center", justifyContent: "center", position: "relative" }}>
+                  {renderProductImage(item.image, 50)}
+                  {item.badge && (
+                    <div style={{ position: "absolute", top: 6, right: 6, backgroundColor: item.badge.includes("OFF") || item.badge === "BEST VALUE" ? "#22c55e" : "#3b82f6", color: "white", fontSize: 8, fontWeight: 700, padding: "2px 5px", borderRadius: 3 }}>
+                      {item.badge}
+                    </div>
+                  )}
+                </div>
+                <div style={{ padding: 10 }}>
+                  <div style={{ fontWeight: 600, fontSize: 12 }}>{item.title}</div>
+                  <div style={{ fontSize: 11, color: "#666", marginTop: 2 }}>{item.subtitle}</div>
+                  {item.description && <div style={{ fontSize: 10, color: "#888", marginTop: 3 }}>{item.description}</div>}
+                  {item.features && (
+                    <div style={{ marginTop: 6 }}>
+                      {item.features.map(function(f, fi) {
+                        return <div key={fi} style={{ fontSize: 9, color: "#666", marginBottom: 2 }}>✓ {f}</div>;
+                      })}
+                    </div>
+                  )}
+                  <button 
+                    onClick={function() { handleReply(item.cta); }}
+                    style={{ marginTop: 8, width: "100%", padding: 8, backgroundColor: "white", color: BRAND_COLOR, border: "2px solid " + BRAND_COLOR, borderRadius: 16, fontWeight: 600, fontSize: 11, cursor: "pointer" }}
+                  >
+                    {item.cta}
+                  </button>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+        <div style={{ display: "flex", justifyContent: "center", gap: 4, marginTop: 4 }}>
+          {items.map(function(_, idx) {
+            return <div key={idx} style={{ width: 6, height: 6, borderRadius: 3, backgroundColor: idx === 0 ? BRAND_COLOR : "#ddd" }} />;
+          })}
+        </div>
+        <div style={{ fontSize: 9, color: "#999", textAlign: "center", marginTop: 4 }}>← Swipe to browse →</div>
+      </div>
+    );
+  }
+
+  function renderVideo(video) {
+    return (
+      <div style={{ backgroundColor: "#fff", border: "1px solid #e5e7eb", borderRadius: 16, overflow: "hidden", maxWidth: 240 }}>
+        <div style={{ height: 120, backgroundColor: "#1f2937", display: "flex", alignItems: "center", justifyContent: "center", position: "relative" }}>
+          <div style={{ width: 50, height: 50, borderRadius: 25, backgroundColor: "rgba(255,255,255,0.9)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <span style={{ fontSize: 24, marginLeft: 4 }}>▶</span>
+          </div>
+          <div style={{ position: "absolute", bottom: 8, right: 8, backgroundColor: "rgba(0,0,0,0.7)", color: "white", fontSize: 10, padding: "2px 6px", borderRadius: 4 }}>
+            {video.duration}
+          </div>
+        </div>
+        <div style={{ padding: 12 }}>
+          <div style={{ fontWeight: 600, fontSize: 13 }}>{video.title}</div>
+          <div style={{ fontSize: 11, color: "#666", marginTop: 2 }}>{video.description}</div>
+        </div>
+      </div>
+    );
+  }
+
+  function renderMediaImage(media) {
+    var content = {
+      "dosing-chart": { title: "Dosing Guide", rows: [["Under 50 lbs", "½ scoop"], ["50-100 lbs", "1 scoop"], ["Over 100 lbs", "1-2 scoops"]] },
+      "focus-ingredients": { title: "Key Ingredients", items: ["🧠 DHA Omega-3 · Memory", "🎯 Phosphatidylserine · Focus", "⚡ B-Vitamins · Energy", "🍄 Lion's Mane · Clarity"] },
+      "gut-brain": { title: "The Gut-Brain Connection", text: "90% of serotonin is made in the gut! Bio-Heal builds the foundation, Focus+ fuels the brain." },
+      "combo-routine": { title: "Daily Routine", rows: [["☀️ Morning", "Bio-Heal + breakfast"], ["🌙 Evening", "Focus+ with dinner"]] },
+      "results-timeline": { title: "Expected Results", rows: [["Week 2-3", "Better attention"], ["Week 4-6", "Improved focus"], ["Month 2+", "Calmer mornings"]] },
+    };
+    var c = content[media.type] || { title: "Image", text: media.alt };
+    return (
+      <div style={{ backgroundColor: "#fff", border: "1px solid #e5e7eb", borderRadius: 16, padding: 14, maxWidth: 240 }}>
+        <div style={{ fontSize: 13, fontWeight: 600, color: "#333", marginBottom: 10 }}>📊 {c.title}</div>
+        {c.rows && c.rows.map(function(row, i) {
+          return (
+            <div key={i} style={{ display: "flex", justifyContent: "space-between", marginBottom: 6, fontSize: 12, padding: "6px 8px", backgroundColor: "#f8fafc", borderRadius: 6 }}>
+              <span style={{ color: "#666" }}>{row[0]}</span>
+              <span style={{ color: BRAND_COLOR, fontWeight: 500 }}>{row[1]}</span>
+            </div>
+          );
+        })}
+        {c.items && c.items.map(function(item, i) {
+          return <div key={i} style={{ fontSize: 12, marginBottom: 4, color: "#555" }}>{item}</div>;
+        })}
+        {c.text && <div style={{ fontSize: 12, color: "#555", lineHeight: 1.5 }}>{c.text}</div>}
+      </div>
+    );
+  }
+
+  function renderMapCard(map) {
+    return (
+      <div style={{ backgroundColor: "#fff", border: "1px solid #e5e7eb", borderRadius: 16, overflow: "hidden", maxWidth: 240 }}>
+        <div style={{ height: 80, backgroundColor: "#e5e7eb", position: "relative", display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <div style={{ position: "absolute", inset: 0, opacity: 0.3 }}>
+            {/* Map grid pattern */}
+            <svg width="100%" height="100%" style={{ position: "absolute" }}>
+              <defs>
+                <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+                  <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#999" strokeWidth="0.5"/>
+                </pattern>
+              </defs>
+              <rect width="100%" height="100%" fill="url(#grid)" />
+            </svg>
+          </div>
+          <div style={{ width: 24, height: 24, backgroundColor: "#ef4444", borderRadius: "50% 50% 50% 0", transform: "rotate(-45deg)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 1 }}>
+            <div style={{ width: 8, height: 8, backgroundColor: "white", borderRadius: 4, transform: "rotate(45deg)" }} />
+          </div>
+        </div>
+        <div style={{ padding: 12 }}>
+          <div style={{ fontWeight: 600, fontSize: 13 }}>{map.address}</div>
+          <div style={{ display: "flex", alignItems: "center", gap: 6, marginTop: 6 }}>
+            <div style={{ width: 8, height: 8, borderRadius: 4, backgroundColor: map.status === "Out for delivery" ? "#22c55e" : "#3b82f6" }} />
+            <span style={{ fontSize: 12, color: "#666" }}>{map.status}</span>
+          </div>
+          <div style={{ marginTop: 6, padding: "6px 8px", backgroundColor: "#f0fdfa", borderRadius: 6, fontSize: 11, color: BRAND_COLOR, fontWeight: 500 }}>
+            📦 {map.eta}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  function renderMessage(msg, i) {
+    if (msg.from === "user") {
+      return (
+        <div key={i} style={{ display: "flex", justifyContent: "flex-end", marginBottom: 12 }}>
+          <div style={{ backgroundColor: "#3b82f6", color: "white", padding: "10px 14px", borderRadius: 18, borderTopRightRadius: 4, maxWidth: "80%", fontSize: 15 }}>
+            {msg.text}
+          </div>
+        </div>
+      );
+    }
+    
+    return (
+      <div key={i} style={{ display: "flex", gap: 8, marginBottom: 12, alignItems: "flex-start" }}>
+        <div style={{ width: 28, height: 28, borderRadius: 14, backgroundColor: BRAND_COLOR, color: "white", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 600, fontSize: 12, flexShrink: 0 }}>A</div>
+        <div style={{ flex: 1 }}>
+          {msg.text && (
+            <div style={{ backgroundColor: "#f3f4f6", padding: "10px 14px", borderRadius: 18, borderTopLeftRadius: 4, maxWidth: "90%", fontSize: 15, whiteSpace: "pre-line", lineHeight: 1.5 }}>
+              {msg.text}
+            </div>
+          )}
+          {msg.richCard && renderRichCard(msg.richCard)}
+          {msg.carousel && renderCarousel(msg.carousel, i)}
+          {msg.video && renderVideo(msg.video)}
+          {msg.mediaImage && renderMediaImage(msg.mediaImage)}
+          {msg.mapCard && renderMapCard(msg.mapCard)}
+          {msg.card && (
+            <div style={{ backgroundColor: "#fff", border: "1px solid #e5e7eb", borderRadius: 16, overflow: "hidden", maxWidth: 220 }}>
+              <div style={{ height: 80, backgroundColor: "#f0fdfa", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                {renderProductImage("bioheal-hero", 60)}
+              </div>
+              <div style={{ padding: 12 }}>
+                <div style={{ fontWeight: 600, fontSize: 14 }}>{msg.card.title}</div>
+                <div style={{ fontSize: 12, color: "#666", marginTop: 2 }}>{msg.card.subtitle}</div>
+                <button style={{ marginTop: 10, width: "100%", padding: 10, backgroundColor: BRAND_COLOR, color: "white", border: "none", borderRadius: 20, fontWeight: 600, fontSize: 13, cursor: "pointer" }}>
+                  {msg.card.cta}
+                </button>
+              </div>
+            </div>
+          )}
+          {msg.review && (
+            <div style={{ backgroundColor: "#fff", border: "1px solid #e5e7eb", borderRadius: 16, padding: 14, maxWidth: 240 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
+                <div style={{ width: 32, height: 32, borderRadius: 16, backgroundColor: "#e0f2fe", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 14 }}>👩</div>
+                <div>
+                  <div style={{ fontSize: 12, fontWeight: 600 }}>{msg.review.author}</div>
+                  <div style={{ color: "#facc15", fontSize: 10 }}>★★★★★ Verified</div>
+                </div>
+              </div>
+              <div style={{ fontSize: 14, fontStyle: "italic", color: "#555", lineHeight: 1.4 }}>"{msg.review.quote}"</div>
+            </div>
+          )}
+          {msg.discount && (
+            <div style={{ backgroundColor: "#fff", border: "2px dashed #0891B2", borderRadius: 16, padding: 16, maxWidth: 200, textAlign: "center" }}>
+              <div style={{ fontSize: 24, fontWeight: 700, color: BRAND_COLOR }}>{msg.discount.amount}</div>
+              <div style={{ fontSize: 12, color: "#666", marginTop: 4 }}>{msg.discount.description}</div>
+              <div style={{ marginTop: 12, backgroundColor: "#f0fdfa", border: "1px solid #99f6e4", borderRadius: 8, padding: "8px 12px" }}>
+                <div style={{ fontSize: 14, fontWeight: 700, color: "#0d9488", letterSpacing: 1 }}>{msg.discount.code}</div>
+              </div>
+            </div>
+          )}
+          {msg.order && (
+            <div style={{ backgroundColor: "#fff", border: "1px solid #e5e7eb", borderRadius: 16, padding: 14, maxWidth: 240 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 10 }}>
+                <div style={{ width: 8, height: 8, borderRadius: 4, backgroundColor: msg.order.status === "confirmed" ? "#22c55e" : "#3b82f6" }} />
+                <span style={{ fontSize: 13, fontWeight: 600, color: "#333" }}>Order {msg.order.status === "confirmed" ? "Confirmed" : "Shipped"}</span>
+              </div>
+              <div style={{ fontSize: 14, fontWeight: 500, color: "#333" }}>{msg.order.item}</div>
+              <div style={{ fontSize: 13, color: "#666", marginTop: 2 }}>{msg.order.price}</div>
+              <div style={{ marginTop: 10, padding: "8px 10px", backgroundColor: "#f0fdfa", borderRadius: 8, fontSize: 12, color: BRAND_COLOR, fontWeight: 500 }}>
+                📦 {msg.order.eta}
+              </div>
+            </div>
+          )}
+          {msg.tracking && (
+            <div style={{ backgroundColor: "#fff", border: "1px solid #e5e7eb", borderRadius: 16, padding: 14, maxWidth: 240 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 10 }}>
+                <div style={{ width: 8, height: 8, borderRadius: 4, backgroundColor: "#3b82f6" }} />
+                <span style={{ fontSize: 13, fontWeight: 600, color: "#333" }}>{msg.tracking.status}</span>
+              </div>
+              <div style={{ fontSize: 12, color: "#666" }}>{msg.tracking.carrier}</div>
+              <div style={{ fontSize: 10, color: "#999", marginTop: 4, fontFamily: "monospace", backgroundColor: "#f8fafc", padding: "4px 6px", borderRadius: 4 }}>{msg.tracking.tracking}</div>
+              <div style={{ marginTop: 10, padding: "8px 10px", backgroundColor: "#f0fdfa", borderRadius: 8, fontSize: 12, color: BRAND_COLOR, fontWeight: 500 }}>
+                📦 {msg.tracking.eta}
+              </div>
+            </div>
+          )}
+          {msg.tips && (
+            <div style={{ backgroundColor: "#fff", border: "1px solid #e5e7eb", borderRadius: 16, padding: 14, maxWidth: 250 }}>
+              <div style={{ fontSize: 13, fontWeight: 600, color: "#333", marginBottom: 10 }}>{msg.tips.title}</div>
+              {msg.tips.items.map(function(tip, idx) {
+                return (
+                  <div key={idx} style={{ display: "flex", gap: 8, marginBottom: 8, fontSize: 13, color: "#555" }}>
+                    <span>{tip.emoji}</span>
+                    <span>{tip.text}</span>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+          {msg.dosing && (
+            <div style={{ backgroundColor: "#fff", border: "1px solid #e5e7eb", borderRadius: 16, padding: 14, maxWidth: 240 }}>
+              <div style={{ fontSize: 13, fontWeight: 600, color: "#333", marginBottom: 10 }}>💊 Dosing Guide</div>
+              {msg.dosing.items.map(function(item, idx) {
+                return (
+                  <div key={idx} style={{ display: "flex", justifyContent: "space-between", marginBottom: 6, fontSize: 13 }}>
+                    <span style={{ color: "#666" }}>{item.weight}</span>
+                    <span style={{ color: BRAND_COLOR, fontWeight: 500 }}>{item.dose}</span>
+                  </div>
+                );
+              })}
+              {msg.dosing.note && (
+                <div style={{ marginTop: 10, padding: "8px 10px", backgroundColor: "#fef9c3", borderRadius: 8, fontSize: 11, color: "#854d0e" }}>
+                  💡 {msg.dosing.note}
+                </div>
+              )}
+            </div>
+          )}
+          {msg.link && (
+            <button style={{ padding: "10px 16px", backgroundColor: BRAND_COLOR, color: "white", border: "none", borderRadius: 20, fontWeight: 600, fontSize: 13, cursor: "pointer" }}>
+              {msg.link.text} →
+            </button>
+          )}
+          {msg.ingredients && (
+            <div style={{ backgroundColor: "#fff", border: "1px solid #e5e7eb", borderRadius: 16, padding: 14, maxWidth: 260 }}>
+              <div style={{ fontSize: 13, fontWeight: 600, color: "#333", marginBottom: 10 }}>🧪 {msg.ingredients.title}</div>
+              {msg.ingredients.items.map(function(item, idx) {
+                return (
+                  <div key={idx} style={{ marginBottom: 8, paddingBottom: 8, borderBottom: idx < msg.ingredients.items.length - 1 ? "1px solid #f3f4f6" : "none" }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", fontSize: 13 }}>
+                      <span style={{ fontWeight: 500, color: "#333" }}>{item.name}</span>
+                      <span style={{ color: BRAND_COLOR, fontSize: 12 }}>{item.amount}</span>
+                    </div>
+                    <div style={{ fontSize: 11, color: "#888", marginTop: 2 }}>{item.benefit}</div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+          {msg.bundle && (
+            <div style={{ backgroundColor: "#fff", border: "2px solid #22c55e", borderRadius: 16, padding: 14, maxWidth: 240 }}>
+              <div style={{ fontSize: 14, fontWeight: 700, color: "#333", marginBottom: 8 }}>🎁 {msg.bundle.title}</div>
+              {msg.bundle.items.map(function(item, idx) {
+                return <div key={idx} style={{ fontSize: 13, color: "#555", marginBottom: 4 }}>✓ {item}</div>;
+              })}
+              <div style={{ marginTop: 10, display: "flex", alignItems: "center", gap: 8 }}>
+                <span style={{ fontSize: 13, color: "#999", textDecoration: "line-through" }}>{msg.bundle.originalPrice}</span>
+                <span style={{ fontSize: 18, fontWeight: 700, color: "#22c55e" }}>{msg.bundle.bundlePrice}</span>
+              </div>
+              <div style={{ marginTop: 6, fontSize: 12, color: "#22c55e", fontWeight: 500 }}>{msg.bundle.savings}</div>
+            </div>
+          )}
+          {msg.newProduct && (
+            <div style={{ backgroundColor: "#fff", border: "2px solid " + BRAND_COLOR, borderRadius: 16, overflow: "hidden", maxWidth: 240 }}>
+              <div style={{ height: 70, background: "linear-gradient(135deg, #0d9488 0%, #0891b2 100%)", display: "flex", alignItems: "center", justifyContent: "center", position: "relative" }}>
+                <span style={{ fontSize: 36 }}>🧠</span>
+                <div style={{ position: "absolute", top: 8, right: 8, backgroundColor: "#fbbf24", color: "#78350f", fontSize: 10, fontWeight: 700, padding: "2px 6px", borderRadius: 4 }}>
+                  {msg.newProduct.badge}
+                </div>
+              </div>
+              <div style={{ padding: 12 }}>
+                <div style={{ fontWeight: 700, fontSize: 15, color: "#0d9488" }}>{msg.newProduct.name}</div>
+                <div style={{ fontSize: 12, color: "#666", marginTop: 4 }}>{msg.newProduct.tagline}</div>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  // ============ MAIN RENDER ============
+
+  return (
+    <div style={{ minHeight: "100vh", backgroundColor: "#111", padding: 24, fontFamily: "system-ui, sans-serif" }}>
+      
+      {/* Header */}
+      <div style={{ textAlign: "center", marginBottom: 20 }}>
+        <div style={{ display: "inline-block", padding: "4px 12px", backgroundColor: "#333", color: "#aaa", fontSize: 11, borderRadius: 20, marginBottom: 8 }}>
+          INTERACTIVE DEMO
+        </div>
+        <h1 style={{ fontSize: 22, fontWeight: 700, color: "#2dd4bf", margin: 0 }}>Aspire Nutrition × RCS</h1>
+        <p style={{ color: "#777", fontSize: 13, marginTop: 4 }}>Rich Cards · Video · Carousels · Maps</p>
+      </div>
+
+      {/* Tabs */}
+      <div style={{ display: "flex", gap: 8, justifyContent: "center", marginBottom: 12 }}>
+        {["cart", "post", "new"].map(function(t) {
+          var labels = { cart: "🛒 Cart Abandonment", post: "📦 Post-Purchase", new: "🚀 New Product" };
+          return (
+            <button
+              key={t}
+              onClick={function() { setTab(t); }}
+              style={{
+                padding: "8px 12px",
+                borderRadius: 20,
+                border: "none",
+                fontSize: 12,
+                fontWeight: 500,
+                cursor: "pointer",
+                backgroundColor: tab === t ? BRAND_COLOR : "#333",
+                color: tab === t ? "white" : "#aaa",
+              }}
+            >
+              {labels[t]}
+            </button>
+          );
+        })}
+      </div>
+
+      {/* Post-Purchase Sub-tabs */}
+      {tab === "post" && (
+        <div style={{ display: "flex", gap: 6, justifyContent: "center", marginBottom: 16 }}>
+          {["confirmed", "day7", "day45"].map(function(st) {
+            return (
+              <button
+                key={st}
+                onClick={function() { setPostSubTab(st); }}
+                style={{
+                  padding: "5px 10px",
+                  borderRadius: 12,
+                  border: postSubTab === st ? "2px solid " + BRAND_COLOR : "1px solid #555",
+                  fontSize: 11,
+                  fontWeight: 500,
+                  cursor: "pointer",
+                  backgroundColor: postSubTab === st ? "#164e63" : "#222",
+                  color: postSubTab === st ? "#2dd4bf" : "#888",
+                }}
+              >
+                {postPurchaseScenarios[st].label}
+              </button>
+            );
+          })}
+        </div>
+      )}
+
+      {/* Main Layout */}
+      <div style={{ display: "flex", justifyContent: "center", alignItems: "flex-start", gap: 16 }}>
+        
+        {/* LEFT PANEL */}
+        <div style={{ width: leftPanelOpen ? 280 : 44, transition: "width 0.2s ease", flexShrink: 0 }}>
+          <button
+            onClick={function() { setLeftPanelOpen(!leftPanelOpen); }}
+            style={{
+              width: "100%", padding: "10px 12px", backgroundColor: "#1e3a5f", border: "1px solid #3b82f6",
+              borderRadius: leftPanelOpen ? "12px 12px 0 0" : 12, color: "#93c5fd", fontSize: 12, fontWeight: 600,
+              cursor: "pointer", display: "flex", alignItems: "center", justifyContent: leftPanelOpen ? "space-between" : "center", gap: 8,
+            }}
+          >
+            {leftPanelOpen ? "🤖 AI Context" : "🤖"}
+            <span style={{ fontSize: 10 }}>{leftPanelOpen ? "◀" : "▶"}</span>
+          </button>
+          {leftPanelOpen && (
+            <div style={{ backgroundColor: "#0f172a", border: "1px solid #3b82f6", borderTop: "none", borderRadius: "0 0 12px 12px", padding: 14, fontSize: 11, color: "#cbd5e1", maxHeight: 580, overflowY: "auto" }}>
+              <div style={{ marginBottom: 14 }}>
+                <div style={{ color: "#3b82f6", fontWeight: 600, marginBottom: 6 }}>🎯 Objective</div>
+                <div style={{ lineHeight: 1.5 }}>{currentAiContext.objective}</div>
+              </div>
+              <div style={{ marginBottom: 14 }}>
+                <div style={{ color: "#3b82f6", fontWeight: 600, marginBottom: 6 }}>🗣️ Brand Voice</div>
+                {currentAiContext.brandVoice.map(function(v, i) { return <div key={i} style={{ marginBottom: 4 }}>• {v}</div>; })}
+              </div>
+              <div style={{ marginBottom: 14 }}>
+                <div style={{ color: "#3b82f6", fontWeight: 600, marginBottom: 6 }}>🧭 Strategy</div>
+                {currentAiContext.strategy.map(function(s, i) { return <div key={i} style={{ marginBottom: 4 }}>{i + 1}. {s}</div>; })}
+              </div>
+              <div>
+                <div style={{ color: "#3b82f6", fontWeight: 600, marginBottom: 6 }}>📊 Success Metrics</div>
+                {currentAiContext.metrics.map(function(m, i) { return <div key={i} style={{ marginBottom: 4 }}>• {m}</div>; })}
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* PHONE */}
+        <div style={{ width: 380, flexShrink: 0 }}>
+          <div style={{ backgroundColor: "#222", borderRadius: 32, padding: 8 }}>
+            <div style={{ backgroundColor: "white", borderRadius: 26, overflow: "hidden" }}>
+              
+              {/* Status bar */}
+              <div style={{ display: "flex", justifyContent: "space-between", padding: "6px 20px", fontSize: 13, fontWeight: 600, position: "relative" }}>
+                <span>9:41</span>
+                <div style={{ position: "absolute", left: "50%", transform: "translateX(-50%)", width: 70, height: 22, backgroundColor: "#000", borderRadius: 11, top: 0 }} />
+                <span>📶🔋</span>
+              </div>
+
+              {/* Chat header */}
+              <div style={{ display: "flex", alignItems: "center", gap: 10, padding: "10px 14px", borderBottom: "1px solid #eee" }}>
+                <span style={{ color: "#3b82f6", fontSize: 20 }}>‹</span>
+                <div style={{ width: 32, height: 32, borderRadius: 16, backgroundColor: BRAND_COLOR, color: "white", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 600, fontSize: 14 }}>A</div>
+                <div>
+                  <div style={{ fontWeight: 600, fontSize: 15 }}>Aspire Nutrition</div>
+                  <div style={{ fontSize: 11, color: BRAND_COLOR }}>RCS Business Messaging</div>
+                </div>
+              </div>
+
+              {/* Messages */}
+              <div ref={scrollRef} style={{ height: 400, overflowY: "auto", padding: 14, backgroundColor: "#fff" }}>
+                <div style={{ textAlign: "center", fontSize: 11, color: "#999", marginBottom: 14 }}>{getTimestamp()}</div>
+                
+                {messages.map(renderMessage)}
+
+                {typing && (
+                  <div style={{ display: "flex", gap: 8, alignItems: "flex-start", marginBottom: 12 }}>
+                    <div style={{ width: 28, height: 28, borderRadius: 14, backgroundColor: BRAND_COLOR, color: "white", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 600, fontSize: 12 }}>A</div>
+                    <div style={{ backgroundColor: "#f3f4f6", padding: "12px 16px", borderRadius: 18, borderTopLeftRadius: 4, color: "#999" }}>• • •</div>
+                  </div>
+                )}
+
+                {replies.length > 0 && !typing && (
+                  <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginTop: 8 }}>
+                    {replies.map(function(r, i) {
+                      return (
+                        <button
+                          key={i}
+                          onClick={function() { handleReply(r); }}
+                          style={{ padding: "8px 14px", borderRadius: 18, border: "2px solid #3b82f6", backgroundColor: "white", color: "#3b82f6", fontSize: 13, fontWeight: 500, cursor: "pointer" }}
+                        >
+                          {r}
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}
+
+                {replies.length === 0 && !typing && messages.length > 0 && (
+                  <div style={{ textAlign: "center", padding: 16 }}>
+                    <div style={{ fontSize: 11, color: "#999", marginBottom: 6 }}>End of conversation</div>
+                    <button onClick={restart} style={{ fontSize: 12, color: BRAND_COLOR, background: "none", border: "none", cursor: "pointer" }}>↻ Start over</button>
+                  </div>
+                )}
+              </div>
+
+              {/* Input */}
+              <div style={{ display: "flex", alignItems: "center", gap: 8, padding: 10, borderTop: "1px solid #eee" }}>
+                <span style={{ color: "#999", fontSize: 20 }}>+</span>
+                <div style={{ flex: 1, backgroundColor: "#f3f4f6", borderRadius: 18, padding: "8px 14px", fontSize: 14, color: "#999" }}>RCS message</div>
+                <div style={{ width: 28, height: 28, borderRadius: 14, backgroundColor: "#e5e7eb", display: "flex", alignItems: "center", justifyContent: "center", color: "#999", fontSize: 14 }}>↑</div>
+              </div>
+            </div>
+          </div>
+
+          <div style={{ textAlign: "center", marginTop: 16 }}>
+            <button onClick={restart} style={{ fontSize: 13, color: "#666", background: "none", border: "none", cursor: "pointer" }}>↻ Restart conversation</button>
+          </div>
+        </div>
+
+        {/* RIGHT PANEL */}
+        <div style={{ width: rightPanelOpen ? 280 : 44, transition: "width 0.2s ease", flexShrink: 0 }}>
+          <button
+            onClick={function() { setRightPanelOpen(!rightPanelOpen); }}
+            style={{
+              width: "100%", padding: "10px 12px", backgroundColor: "#3d1f5c", border: "1px solid #a855f7",
+              borderRadius: rightPanelOpen ? "12px 12px 0 0" : 12, color: "#d8b4fe", fontSize: 12, fontWeight: 600,
+              cursor: "pointer", display: "flex", alignItems: "center", justifyContent: rightPanelOpen ? "space-between" : "center", gap: 8,
+            }}
+          >
+            {rightPanelOpen ? "👤 Shopper Context" : "👤"}
+            <span style={{ fontSize: 10 }}>{rightPanelOpen ? "▶" : "◀"}</span>
+          </button>
+          {rightPanelOpen && (
+            <div style={{ backgroundColor: "#1a0a2e", border: "1px solid #a855f7", borderTop: "none", borderRadius: "0 0 12px 12px", padding: 14, fontSize: 11, color: "#e9d5ff", maxHeight: 580, overflowY: "auto" }}>
+              <div style={{ marginBottom: 14 }}>
+                <div style={{ fontSize: 16, fontWeight: 700, color: "#fff" }}>{currentShopperContext.name}</div>
+                <div style={{ display: "inline-block", marginTop: 4, padding: "2px 8px", borderRadius: 10, fontSize: 10, fontWeight: 600, backgroundColor: currentShopperContext.lifecycleColor, color: "#fff" }}>
+                  {currentShopperContext.lifecycle}
+                </div>
+              </div>
+              <div style={{ marginBottom: 14 }}>
+                <div style={{ color: "#a855f7", fontWeight: 600, marginBottom: 6 }}>📍 Demographics</div>
+                <div style={{ marginBottom: 4 }}>• {currentShopperContext.demographics.location}</div>
+                <div>• {currentShopperContext.demographics.family}</div>
+              </div>
+              <div style={{ marginBottom: 14 }}>
+                <div style={{ color: "#a855f7", fontWeight: 600, marginBottom: 6 }}>👶 Child Info</div>
+                <div style={{ fontSize: 10, color: "#c084fc", marginBottom: 4 }}>{currentShopperContext.childInfo.label}</div>
+                {currentShopperContext.childInfo.details.map(function(d, i) { return <div key={i} style={{ marginBottom: 4 }}>• {d}</div>; })}
+              </div>
+              <div style={{ marginBottom: 14 }}>
+                <div style={{ color: "#a855f7", fontWeight: 600, marginBottom: 6 }}>🛍️ Purchase History</div>
+                {currentShopperContext.purchaseHistory ? (
+                  currentShopperContext.purchaseHistory.map(function(p, i) {
+                    return (
+                      <div key={i} style={{ display: "flex", justifyContent: "space-between", marginBottom: 4, padding: "4px 6px", backgroundColor: "#2d1a4a", borderRadius: 4 }}>
+                        <span>{p.item}</span>
+                        <span style={{ color: "#a855f7" }}>{p.date}</span>
+                      </div>
+                    );
+                  })
+                ) : (
+                  <div style={{ color: "#888", fontStyle: "italic" }}>No purchases yet</div>
+                )}
+              </div>
+              {currentShopperContext.pastConversations && (
+                <div style={{ marginBottom: 14 }}>
+                  <div style={{ color: "#a855f7", fontWeight: 600, marginBottom: 6 }}>💬 Past Conversations</div>
+                  {currentShopperContext.pastConversations.map(function(c, i) { return <div key={i} style={{ marginBottom: 4 }}>• {c}</div>; })}
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* RCS Features Legend */}
+      <div style={{ textAlign: "center", marginTop: 24, padding: 16, backgroundColor: "#1a1a2e", borderRadius: 12, maxWidth: 600, margin: "24px auto 0" }}>
+        <div style={{ fontSize: 11, color: "#888", marginBottom: 8 }}>RCS FEATURES DEMONSTRATED</div>
+        <div style={{ display: "flex", justifyContent: "center", gap: 16, flexWrap: "wrap" }}>
+          {[
+            { icon: "🎴", label: "Rich Cards" },
+            { icon: "🎠", label: "Carousels" },
+            { icon: "▶️", label: "Video" },
+            { icon: "📊", label: "Media" },
+            { icon: "🗺️", label: "Maps" },
+            { icon: "💬", label: "Quick Reply" },
+          ].map(function(f, i) {
+            return (
+              <div key={i} style={{ display: "flex", alignItems: "center", gap: 4 }}>
+                <span>{f.icon}</span>
+                <span style={{ fontSize: 11, color: "#aaa" }}>{f.label}</span>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />);
+  </script>
+</body>
+</html>
