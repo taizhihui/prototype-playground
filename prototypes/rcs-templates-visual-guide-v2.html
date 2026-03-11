@@ -1,0 +1,1114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RCS Template Visual Guide v2</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { 
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
+      background: #f5f5f5; 
+      padding: 40px 20px;
+      color: #333;
+    }
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    h1 {
+      text-align: center;
+      font-size: 28px;
+      margin-bottom: 8px;
+      color: #1a1a1a;
+    }
+    .subtitle {
+      text-align: center;
+      color: #666;
+      margin-bottom: 12px;
+      font-size: 14px;
+    }
+    .version-badge {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    .version-badge span {
+      background: #dcfce7;
+      color: #166534;
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .section {
+      margin-bottom: 48px;
+    }
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid #e0e0e0;
+    }
+    .section-number {
+      background: #0891b2;
+      color: white;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 14px;
+    }
+    .section-title {
+      font-size: 20px;
+      font-weight: 600;
+    }
+    .section-count {
+      background: #e0f2fe;
+      color: #0891b2;
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .section-description {
+      color: #666;
+      font-size: 14px;
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+    .templates-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 24px;
+    }
+    .template-card {
+      background: white;
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .template-name {
+      font-family: 'SF Mono', Monaco, monospace;
+      font-size: 11px;
+      background: #f3f4f6;
+      padding: 4px 8px;
+      border-radius: 4px;
+      margin-bottom: 16px;
+      color: #666;
+    }
+    
+    /* Phone mockup */
+    .phone {
+      width: 280px;
+      background: #fff;
+      border-radius: 24px;
+      border: 8px solid #1a1a1a;
+      overflow: hidden;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.15);
+    }
+    .phone-header {
+      background: #f8f9fa;
+      padding: 8px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    .phone-avatar {
+      width: 36px;
+      height: 36px;
+      background: #0891b2;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 700;
+      font-size: 14px;
+    }
+    .phone-brand {
+      font-weight: 600;
+      font-size: 14px;
+    }
+    .phone-status {
+      font-size: 11px;
+      color: #22c55e;
+    }
+    .phone-content {
+      padding: 16px;
+      background: #fff;
+      min-height: 280px;
+    }
+    
+    /* Message bubbles */
+    .message-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    .message-avatar {
+      width: 28px;
+      height: 28px;
+      background: #0891b2;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 600;
+      font-size: 11px;
+      flex-shrink: 0;
+    }
+    .text-bubble {
+      background: #f3f4f6;
+      padding: 10px 14px;
+      border-radius: 18px;
+      border-top-left-radius: 4px;
+      font-size: 14px;
+      line-height: 1.4;
+      max-width: 200px;
+    }
+    
+    /* Rich card */
+    .rich-card {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      overflow: hidden;
+      max-width: 220px;
+    }
+    .rich-card-media {
+      height: 100px;
+      background: linear-gradient(135deg, #0891b2 0%, #06b6d4 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .rich-card-media-icon {
+      font-size: 40px;
+    }
+    .rich-card-body {
+      padding: 12px;
+    }
+    .rich-card-title {
+      font-weight: 600;
+      font-size: 14px;
+      margin-bottom: 4px;
+    }
+    .rich-card-subtitle {
+      font-size: 12px;
+      color: #666;
+      margin-bottom: 4px;
+    }
+    .rich-card-description {
+      font-size: 12px;
+      color: #888;
+      margin-bottom: 12px;
+      line-height: 1.4;
+    }
+    .rich-card-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .rich-card-btn {
+      padding: 10px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 500;
+      text-align: center;
+      cursor: pointer;
+    }
+    .rich-card-btn.primary {
+      background: #0891b2;
+      color: white;
+      border: none;
+    }
+    .rich-card-btn.secondary {
+      background: white;
+      color: #0891b2;
+      border: 2px solid #0891b2;
+    }
+    .rich-card-btn.url {
+      background: white;
+      color: #dc2626;
+      border: 2px solid #dc2626;
+    }
+    
+    /* Quick replies (chip list) */
+    .chip-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+    .chip {
+      padding: 8px 14px;
+      border: 2px solid #0891b2;
+      border-radius: 18px;
+      font-size: 12px;
+      color: #0891b2;
+      font-weight: 500;
+      background: white;
+    }
+    
+    /* Carousel */
+    .carousel-container {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+    }
+    .carousel-card {
+      min-width: 140px;
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .carousel-card-media {
+      height: 70px;
+      background: linear-gradient(135deg, #0891b2 0%, #06b6d4 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .carousel-card-media-icon {
+      font-size: 28px;
+    }
+    .carousel-card-body {
+      padding: 10px;
+    }
+    .carousel-card-title {
+      font-weight: 600;
+      font-size: 12px;
+      margin-bottom: 2px;
+    }
+    .carousel-card-subtitle {
+      font-size: 11px;
+      color: #666;
+      margin-bottom: 8px;
+    }
+    .carousel-card-btn {
+      width: 100%;
+      padding: 6px;
+      border-radius: 14px;
+      font-size: 11px;
+      font-weight: 500;
+      text-align: center;
+      background: white;
+      color: #0891b2;
+      border: 2px solid #0891b2;
+    }
+    .carousel-hint {
+      font-size: 10px;
+      color: #999;
+      text-align: center;
+      margin-top: 4px;
+    }
+    
+    /* Media only */
+    .media-placeholder {
+      width: 100%;
+      height: 120px;
+      background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 40px;
+      border-radius: 12px;
+    }
+    
+    /* Info callout */
+    .info-callout {
+      background: #fef3c7;
+      border-left: 4px solid #f59e0b;
+      padding: 12px 16px;
+      margin-top: 12px;
+      border-radius: 0 8px 8px 0;
+      font-size: 12px;
+      color: #92400e;
+    }
+    
+    /* Constraints table */
+    .constraints {
+      margin-top: 12px;
+      font-size: 11px;
+      color: #666;
+      background: #f9fafb;
+      padding: 10px;
+      border-radius: 8px;
+    }
+    .constraints-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 4px 0;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    .constraints-row:last-child {
+      border-bottom: none;
+    }
+    .constraints-label {
+      color: #888;
+    }
+    .constraints-value {
+      font-weight: 600;
+      color: #333;
+    }
+    .constraints-value.qr {
+      color: #0891b2;
+    }
+    .constraints-value.url {
+      color: #dc2626;
+    }
+    
+    /* Use case tag */
+    .use-case {
+      font-size: 11px;
+      color: #666;
+      background: #f3f4f6;
+      padding: 6px 10px;
+      border-radius: 6px;
+      margin-top: 12px;
+      max-width: 220px;
+      text-align: center;
+    }
+    
+    /* Navigation */
+    .nav {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: white;
+      border-radius: 12px;
+      padding: 16px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      font-size: 12px;
+      max-width: 200px;
+    }
+    .nav-title {
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #333;
+    }
+    .nav-item {
+      display: block;
+      padding: 6px 0;
+      color: #666;
+      text-decoration: none;
+      border-bottom: 1px solid #f3f4f6;
+    }
+    .nav-item:hover {
+      color: #0891b2;
+    }
+    .nav-item:last-child {
+      border-bottom: none;
+    }
+    
+    /* Button type legend */
+    .legend {
+      display: flex;
+      gap: 24px;
+      margin-bottom: 24px;
+      padding: 12px 16px;
+      background: white;
+      border-radius: 8px;
+      font-size: 12px;
+    }
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .legend-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+    .legend-dot.qr {
+      background: #0891b2;
+    }
+    .legend-dot.url {
+      background: #dc2626;
+    }
+    
+    @media (max-width: 900px) {
+      .nav { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>RCS Template Visual Guide</h1>
+    <p class="subtitle">Minimal template set for AI Journey — 11 templates, ordered by priority</p>
+    <div class="version-badge">
+      <span>v2 — Audited & Reduced from 31 templates</span>
+    </div>
+    
+    <!-- Legend -->
+    <div class="legend">
+      <div class="legend-item">
+        <div class="legend-dot qr"></div>
+        <span><strong>QUICK_REPLY</strong> — stays in chat, AI handles</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-dot url"></div>
+        <span><strong>URL</strong> — opens browser, leaves chat</span>
+      </div>
+    </div>
+    
+    <!-- Section 1: Text Only -->
+    <section class="section" id="text">
+      <div class="section-header">
+        <div class="section-number">1</div>
+        <h2 class="section-title">Text Only</h2>
+        <span class="section-count">1 template</span>
+      </div>
+      <p class="section-description">Plain text messages for conversational exchanges. No buttons, no media. Used for greetings, explanations, follow-ups, and messages that don't require user action.</p>
+      
+      <div class="templates-grid">
+        <div class="template-card">
+          <div class="template-name">text_only</div>
+          <div class="phone">
+            <div class="phone-header">
+              <div class="phone-avatar">A</div>
+              <div>
+                <div class="phone-brand">Aspire Nutrition</div>
+                <div class="phone-status">Online</div>
+              </div>
+            </div>
+            <div class="phone-content">
+              <div class="message-row">
+                <div class="message-avatar">A</div>
+                <div class="text-bubble">Hey Jane! 👋</div>
+              </div>
+              <div class="message-row">
+                <div class="message-avatar">A</div>
+                <div class="text-bubble">I noticed you were checking out Bio-Heal earlier. Totally get it — choosing the right supplement is a big decision.</div>
+              </div>
+            </div>
+          </div>
+          <div class="constraints">
+            <div class="constraints-row">
+              <span class="constraints-label">Body</span>
+              <span class="constraints-value">1,600 chars max</span>
+            </div>
+            <div class="constraints-row">
+              <span class="constraints-label">Variables</span>
+              <span class="constraints-value">✓ Supported</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Section 2: Quick Replies -->
+    <section class="section" id="quick-replies">
+      <div class="section-header">
+        <div class="section-number">2</div>
+        <h2 class="section-title">Quick Replies</h2>
+        <span class="section-count">3 templates</span>
+      </div>
+      <p class="section-description">Text message with tappable reply buttons (rendered as horizontal chips). Used when AI needs to gather input or offer multiple-choice options. All buttons are QUICK_REPLY type.</p>
+      
+      <div class="templates-grid">
+        <!-- 2 replies -->
+        <div class="template-card">
+          <div class="template-name">quick_replies_2</div>
+          <div class="phone">
+            <div class="phone-header">
+              <div class="phone-avatar">A</div>
+              <div>
+                <div class="phone-brand">Aspire Nutrition</div>
+                <div class="phone-status">Online</div>
+              </div>
+            </div>
+            <div class="phone-content">
+              <div class="message-row">
+                <div class="message-avatar">A</div>
+                <div>
+                  <div class="text-bubble">Would you like me to save your cart for later?</div>
+                  <div class="chip-list">
+                    <span class="chip">Yes, save it</span>
+                    <span class="chip">No thanks</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="use-case">Binary choice: Yes/No, This/That</div>
+        </div>
+        
+        <!-- 3 replies -->
+        <div class="template-card">
+          <div class="template-name">quick_replies_3</div>
+          <div class="phone">
+            <div class="phone-header">
+              <div class="phone-avatar">A</div>
+              <div>
+                <div class="phone-brand">Aspire Nutrition</div>
+                <div class="phone-status">Online</div>
+              </div>
+            </div>
+            <div class="phone-content">
+              <div class="message-row">
+                <div class="message-avatar">A</div>
+                <div>
+                  <div class="text-bubble">What's your main health goal?</div>
+                  <div class="chip-list">
+                    <span class="chip">Gut health</span>
+                    <span class="chip">Energy</span>
+                    <span class="chip">Sleep</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="use-case">Multiple choice: 3 options</div>
+        </div>
+        
+        <!-- 4 replies -->
+        <div class="template-card">
+          <div class="template-name">quick_replies_4</div>
+          <div class="phone">
+            <div class="phone-header">
+              <div class="phone-avatar">A</div>
+              <div>
+                <div class="phone-brand">Aspire Nutrition</div>
+                <div class="phone-status">Online</div>
+              </div>
+            </div>
+            <div class="phone-content">
+              <div class="message-row">
+                <div class="message-avatar">A</div>
+                <div>
+                  <div class="text-bubble">How's it going with Bio-Heal so far?</div>
+                  <div class="chip-list">
+                    <span class="chip">Going great!</span>
+                    <span class="chip">Having trouble</span>
+                    <span class="chip">Haven't started</span>
+                    <span class="chip">Need help</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="use-case">Multiple choice: 4 options (max)</div>
+        </div>
+      </div>
+      
+      <div class="constraints" style="max-width: 400px; margin-top: 20px;">
+        <div class="constraints-row">
+          <span class="constraints-label">Body text</span>
+          <span class="constraints-value">1,024 chars max</span>
+        </div>
+        <div class="constraints-row">
+          <span class="constraints-label">Button title</span>
+          <span class="constraints-value">20 chars max</span>
+        </div>
+        <div class="constraints-row">
+          <span class="constraints-label">Button payload</span>
+          <span class="constraints-value">200 chars max (base64 JSON)</span>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Section 3: Carousel -->
+    <section class="section" id="carousel">
+      <div class="section-header">
+        <div class="section-number">3</div>
+        <h2 class="section-title">Carousel</h2>
+        <span class="section-count">2 templates</span>
+      </div>
+      <p class="section-description">Swipeable cards for showing multiple products. Each card has image, title, and button(s). Use when AI recommends 2-3 products. If showing 1 product, use card_media_* instead.</p>
+      
+      <div class="templates-grid">
+        <!-- 2 cards -->
+        <div class="template-card">
+          <div class="template-name">carousel_2</div>
+          <div class="phone">
+            <div class="phone-header">
+              <div class="phone-avatar">A</div>
+              <div>
+                <div class="phone-brand">Aspire Nutrition</div>
+                <div class="phone-status">Online</div>
+              </div>
+            </div>
+            <div class="phone-content">
+              <div class="message-row">
+                <div class="message-avatar">A</div>
+                <div>
+                  <div class="text-bubble" style="margin-bottom: 8px;">Based on your needs, I'd recommend one of these:</div>
+                  <div class="carousel-container">
+                    <div class="carousel-card">
+                      <div class="carousel-card-media" style="background: linear-gradient(135deg, #0891b2 0%, #06b6d4 100%);">
+                        <span class="carousel-card-media-icon">🧬</span>
+                      </div>
+                      <div class="carousel-card-body">
+                        <div class="carousel-card-title">Bio-Heal Powder</div>
+                        <div class="carousel-card-subtitle">$49.95</div>
+                        <button class="carousel-card-btn">Add to Cart</button>
+                      </div>
+                    </div>
+                    <div class="carousel-card">
+                      <div class="carousel-card-media" style="background: linear-gradient(135deg, #7c3aed 0%, #a78bfa 100%);">
+                        <span class="carousel-card-media-icon">💊</span>
+                      </div>
+                      <div class="carousel-card-body">
+                        <div class="carousel-card-title">Bio-Heal Capsules</div>
+                        <div class="carousel-card-subtitle">$54.95</div>
+                        <button class="carousel-card-btn">Add to Cart</button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="carousel-hint">← Swipe →</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="use-case">A/B comparison: 2 product options</div>
+        </div>
+        
+        <!-- 3 cards -->
+        <div class="template-card">
+          <div class="template-name">carousel_3</div>
+          <div class="phone">
+            <div class="phone-header">
+              <div class="phone-avatar">A</div>
+              <div>
+                <div class="phone-brand">Aspire Nutrition</div>
+                <div class="phone-status">Online</div>
+              </div>
+            </div>
+            <div class="phone-content">
+              <div class="message-row">
+                <div class="message-avatar">A</div>
+                <div>
+                  <div class="text-bubble" style="margin-bottom: 8px;">Here are our top 3 picks for gut health:</div>
+                  <div class="carousel-container">
+                    <div class="carousel-card">
+                      <div class="carousel-card-media" style="background: linear-gradient(135deg, #0891b2 0%, #06b6d4 100%);">
+                        <span class="carousel-card-media-icon">🧬</span>
+                      </div>
+                      <div class="carousel-card-body">
+                        <div class="carousel-card-title">Bio-Heal</div>
+                        <div class="carousel-card-subtitle">$49.95</div>
+                        <button class="carousel-card-btn">Add</button>
+                      </div>
+                    </div>
+                    <div class="carousel-card">
+                      <div class="carousel-card-media" style="background: linear-gradient(135deg, #7c3aed 0%, #a78bfa 100%);">
+                        <span class="carousel-card-media-icon">💊</span>
+                      </div>
+                      <div class="carousel-card-body">
+                        <div class="carousel-card-title">Pro+</div>
+                        <div class="carousel-card-subtitle">$69.95</div>
+                        <button class="carousel-card-btn">Add</button>
+                      </div>
+                    </div>
+                    <div class="carousel-card">
+                      <div class="carousel-card-media" style="background: linear-gradient(135deg, #059669 0%, #34d399 100%);">
+                        <span class="carousel-card-media-icon">🌿</span>
+                      </div>
+                      <div class="carousel-card-body">
+                        <div class="carousel-card-title">Fiber+</div>
+                        <div class="carousel-card-subtitle">$39.95</div>
+                        <button class="carousel-card-btn">Add</button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="carousel-hint">← Swipe →</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="use-case">Product showcase: top 3 recommendations</div>
+        </div>
+      </div>
+      
+      <div class="constraints" style="max-width: 400px; margin-top: 20px;">
+        <div class="constraints-row">
+          <span class="constraints-label">Cards</span>
+          <span class="constraints-value">2-3 (fewer performs better)</span>
+        </div>
+        <div class="constraints-row">
+          <span class="constraints-label">Card title + body</span>
+          <span class="constraints-value">160 chars combined</span>
+        </div>
+        <div class="constraints-row">
+          <span class="constraints-label">Card body</span>
+          <span class="constraints-value">❌ Dropped in RCS</span>
+        </div>
+        <div class="constraints-row">
+          <span class="constraints-label">Buttons per card</span>
+          <span class="constraints-value">1-2</span>
+        </div>
+      </div>
+      
+      <div class="info-callout" style="max-width: 500px;">
+        ⚠️ <strong>Note:</strong> If AI needs to show 4+ products, it should either pick the top 3, send multiple messages, or narrow down via conversation first.
+      </div>
+    </section>
+    
+    <!-- Section 4: Media Only -->
+    <section class="section" id="media">
+      <div class="section-header">
+        <div class="section-number">4</div>
+        <h2 class="section-title">Media Only</h2>
+        <span class="section-count">1 template</span>
+      </div>
+      <p class="section-description">Image or video with optional caption text. No buttons. Good for sharing product images, lifestyle content, or visual explanations.</p>
+      
+      <div class="templates-grid">
+        <div class="template-card">
+          <div class="template-name">media_only</div>
+          <div class="phone">
+            <div class="phone-header">
+              <div class="phone-avatar">A</div>
+              <div>
+                <div class="phone-brand">Aspire Nutrition</div>
+                <div class="phone-status">Online</div>
+              </div>
+            </div>
+            <div class="phone-content">
+              <div class="message-row">
+                <div class="message-avatar">A</div>
+                <div>
+                  <div class="media-placeholder">🧬</div>
+                  <div class="text-bubble" style="margin-top: 8px; max-width: 180px;">Here's how the powder looks when mixed — nice smooth texture!</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="constraints">
+            <div class="constraints-row">
+              <span class="constraints-label">Media</span>
+              <span class="constraints-value">5MB max, image or video</span>
+            </div>
+            <div class="constraints-row">
+              <span class="constraints-label">Body</span>
+              <span class="constraints-value">1,600 chars (optional)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Section 5: Card with Media (URL) -->
+    <section class="section" id="card-media-url">
+      <div class="section-header">
+        <div class="section-number">5</div>
+        <h2 class="section-title">Card with Media (URL)</h2>
+        <span class="section-count">1 template</span>
+      </div>
+      <p class="section-description">Rich card with product image and URL button. User leaves chat to complete action on website. Use for checkout, full PDP, or any action requiring browser.</p>
+      
+      <div class="templates-grid">
+        <div class="template-card">
+          <div class="template-name">card_media_1url</div>
+          <div class="phone">
+            <div class="phone-header">
+              <div class="phone-avatar">A</div>
+              <div>
+                <div class="phone-brand">Aspire Nutrition</div>
+                <div class="phone-status">Online</div>
+              </div>
+            </div>
+            <div class="phone-content">
+              <div class="message-row">
+                <div class="message-avatar">A</div>
+                <div class="rich-card">
+                  <div class="rich-card-media">
+                    <span class="rich-card-media-icon">🧬</span>
+                  </div>
+                  <div class="rich-card-body">
+                    <div class="rich-card-title">Bio-Heal Powder</div>
+                    <div class="rich-card-subtitle">$49.95 · 30 servings</div>
+                    <div class="rich-card-buttons">
+                      <button class="rich-card-btn url">View Full Details →</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="use-case">Direct to PDP for reviews, specs, full experience</div>
+          <div class="constraints">
+            <div class="constraints-row">
+              <span class="constraints-label">View Full Details</span>
+              <span class="constraints-value url">URL → opens product page</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Section 6: Card with Media (QR) -->
+    <section class="section" id="card-media-qr">
+      <div class="section-header">
+        <div class="section-number">6</div>
+        <h2 class="section-title">Card with Media (Quick Reply)</h2>
+        <span class="section-count">2 templates</span>
+      </div>
+      <p class="section-description">Rich cards with product image and QUICK_REPLY buttons. User stays in chat — actions handled by AI/backend. Primary use: product showcases with conversational CTAs.</p>
+      
+      <div class="templates-grid">
+        <!-- 1 QR -->
+        <div class="template-card">
+          <div class="template-name">card_media_1qr</div>
+          <div class="phone">
+            <div class="phone-header">
+              <div class="phone-avatar">A</div>
+              <div>
+                <div class="phone-brand">Aspire Nutrition</div>
+                <div class="phone-status">Online</div>
+              </div>
+            </div>
+            <div class="phone-content">
+              <div class="message-row">
+                <div class="message-avatar">A</div>
+                <div class="rich-card">
+                  <div class="rich-card-media">
+                    <span class="rich-card-media-icon">🧬</span>
+                  </div>
+                  <div class="rich-card-body">
+                    <div class="rich-card-title">Bio-Heal Powder</div>
+                    <div class="rich-card-subtitle">$49.95 · 30 servings</div>
+                    <div class="rich-card-buttons">
+                      <button class="rich-card-btn primary">Add to Cart →</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="use-case">Single action: Add to Cart</div>
+          <div class="constraints">
+            <div class="constraints-row">
+              <span class="constraints-label">Add to Cart</span>
+              <span class="constraints-value qr">QUICK_REPLY → backend adds to cart</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 2 QR -->
+        <div class="template-card">
+          <div class="template-name">card_media_2qr</div>
+          <div class="phone">
+            <div class="phone-header">
+              <div class="phone-avatar">A</div>
+              <div>
+                <div class="phone-brand">Aspire Nutrition</div>
+                <div class="phone-status">Online</div>
+              </div>
+            </div>
+            <div class="phone-content">
+              <div class="message-row">
+                <div class="message-avatar">A</div>
+                <div class="rich-card">
+                  <div class="rich-card-media">
+                    <span class="rich-card-media-icon">🧬</span>
+                  </div>
+                  <div class="rich-card-body">
+                    <div class="rich-card-title">Bio-Heal Powder</div>
+                    <div class="rich-card-subtitle">$49.95 · 30 servings</div>
+                    <div class="rich-card-buttons">
+                      <button class="rich-card-btn primary">Add to Cart →</button>
+                      <button class="rich-card-btn secondary">Learn More</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="use-case">Primary + secondary: Add to Cart, Learn More</div>
+          <div class="constraints">
+            <div class="constraints-row">
+              <span class="constraints-label">Add to Cart</span>
+              <span class="constraints-value qr">QUICK_REPLY → backend adds to cart</span>
+            </div>
+            <div class="constraints-row">
+              <span class="constraints-label">Learn More</span>
+              <span class="constraints-value qr">QUICK_REPLY → AI provides info</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Section 7: Card without Media (URL) -->
+    <section class="section" id="card-no-media-url">
+      <div class="section-header">
+        <div class="section-number">7</div>
+        <h2 class="section-title">Card without Media (URL)</h2>
+        <span class="section-count">1 template</span>
+      </div>
+      <p class="section-description">Text-based card with URL button. User leaves chat to complete action. Primary use: shipping notifications with carrier tracking.</p>
+      
+      <div class="templates-grid">
+        <div class="template-card">
+          <div class="template-name">card_no_media_1url</div>
+          <div class="phone">
+            <div class="phone-header">
+              <div class="phone-avatar">A</div>
+              <div>
+                <div class="phone-brand">Aspire Nutrition</div>
+                <div class="phone-status">Online</div>
+              </div>
+            </div>
+            <div class="phone-content">
+              <div class="message-row">
+                <div class="message-avatar">A</div>
+                <div class="rich-card" style="background: #f0fdfa;">
+                  <div class="rich-card-body">
+                    <div class="rich-card-title">📦 Your Order Has Shipped!</div>
+                    <div class="rich-card-subtitle">USPS · 9400111899223847</div>
+                    <div class="rich-card-description">Estimated arrival: Mar 14-16</div>
+                    <div class="rich-card-buttons">
+                      <button class="rich-card-btn url">Track on USPS →</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="use-case">Shipping notification with carrier tracking</div>
+          <div class="constraints">
+            <div class="constraints-row">
+              <span class="constraints-label">Track on USPS</span>
+              <span class="constraints-value url">URL → opens carrier tracking</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Summary -->
+    <section class="section" id="summary" style="background: white; padding: 24px; border-radius: 16px; margin-top: 48px;">
+      <h2 style="font-size: 20px; margin-bottom: 16px;">📋 Template Summary (Priority Order)</h2>
+      <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
+        <thead>
+          <tr style="background: #f3f4f6;">
+            <th style="padding: 12px; text-align: center; border-bottom: 2px solid #e5e7eb; width: 50px;">#</th>
+            <th style="padding: 12px; text-align: left; border-bottom: 2px solid #e5e7eb;">Category</th>
+            <th style="padding: 12px; text-align: left; border-bottom: 2px solid #e5e7eb;">Templates</th>
+            <th style="padding: 12px; text-align: center; border-bottom: 2px solid #e5e7eb;">Count</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; text-align: center; font-weight: 600;">1</td>
+            <td style="padding: 12px; border-bottom: 1px solid #e5e7eb;">Text Only</td>
+            <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; font-family: monospace; font-size: 12px;">text_only</td>
+            <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; text-align: center;">1</td>
+          </tr>
+          <tr>
+            <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; text-align: center; font-weight: 600;">2</td>
+            <td style="padding: 12px; border-bottom: 1px solid #e5e7eb;">Quick Replies</td>
+            <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; font-family: monospace; font-size: 12px;">quick_replies_2, quick_replies_3, quick_replies_4</td>
+            <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; text-align: center;">3</td>
+          </tr>
+          <tr>
+            <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; text-align: center; font-weight: 600;">3</td>
+            <td style="padding: 12px; border-bottom: 1px solid #e5e7eb;">Carousel</td>
+            <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; font-family: monospace; font-size: 12px;">carousel_2, carousel_3</td>
+            <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; text-align: center;">2</td>
+          </tr>
+          <tr>
+            <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; text-align: center; font-weight: 600;">4</td>
+            <td style="padding: 12px; border-bottom: 1px solid #e5e7eb;">Media Only</td>
+            <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; font-family: monospace; font-size: 12px;">media_only</td>
+            <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; text-align: center;">1</td>
+          </tr>
+          <tr>
+            <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; text-align: center; font-weight: 600;">5</td>
+            <td style="padding: 12px; border-bottom: 1px solid #e5e7eb;">Card with Media (URL)</td>
+            <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; font-family: monospace; font-size: 12px;">card_media_1url</td>
+            <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; text-align: center;">1</td>
+          </tr>
+          <tr>
+            <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; text-align: center; font-weight: 600;">6</td>
+            <td style="padding: 12px; border-bottom: 1px solid #e5e7eb;">Card with Media (QR)</td>
+            <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; font-family: monospace; font-size: 12px;">card_media_1qr, card_media_2qr</td>
+            <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; text-align: center;">2</td>
+          </tr>
+          <tr>
+            <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; text-align: center; font-weight: 600;">7</td>
+            <td style="padding: 12px; border-bottom: 1px solid #e5e7eb;">Card without Media (URL)</td>
+            <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; font-family: monospace; font-size: 12px;">card_no_media_1url</td>
+            <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; text-align: center;">1</td>
+          </tr>
+          <tr style="background: #f0fdfa; font-weight: 600;">
+            <td style="padding: 12px;" colspan="3">Total Templates</td>
+            <td style="padding: 12px; text-align: center;">11</td>
+          </tr>
+        </tbody>
+      </table>
+      
+      <div style="margin-top: 24px; padding: 16px; background: #f9fafb; border-radius: 12px;">
+        <div style="font-weight: 600; margin-bottom: 12px; font-size: 14px;">Button Type Decision Guide</div>
+        <table style="width: 100%; font-size: 12px; border-collapse: collapse;">
+          <tr>
+            <td style="padding: 8px; border-bottom: 1px solid #e5e7eb; font-weight: 500;">Action</td>
+            <td style="padding: 8px; border-bottom: 1px solid #e5e7eb; font-weight: 500;">Type</td>
+            <td style="padding: 8px; border-bottom: 1px solid #e5e7eb; font-weight: 500;">Why</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border-bottom: 1px solid #e5e7eb;">Add to Cart</td>
+            <td style="padding: 8px; border-bottom: 1px solid #e5e7eb; color: #0891b2; font-weight: 600;">QUICK_REPLY</td>
+            <td style="padding: 8px; border-bottom: 1px solid #e5e7eb;">Backend handles, stay in chat for upsell</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border-bottom: 1px solid #e5e7eb;">Learn More</td>
+            <td style="padding: 8px; border-bottom: 1px solid #e5e7eb; color: #0891b2; font-weight: 600;">QUICK_REPLY</td>
+            <td style="padding: 8px; border-bottom: 1px solid #e5e7eb;">AI retrieves and provides info conversationally</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border-bottom: 1px solid #e5e7eb;">Reorder</td>
+            <td style="padding: 8px; border-bottom: 1px solid #e5e7eb; color: #0891b2; font-weight: 600;">QUICK_REPLY</td>
+            <td style="padding: 8px; border-bottom: 1px solid #e5e7eb;">Backend handles, confirm in chat</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border-bottom: 1px solid #e5e7eb;">Complete Purchase</td>
+            <td style="padding: 8px; border-bottom: 1px solid #e5e7eb; color: #dc2626; font-weight: 600;">URL</td>
+            <td style="padding: 8px; border-bottom: 1px solid #e5e7eb;">Payment requires secure checkout page</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px; border-bottom: 1px solid #e5e7eb;">Track Order</td>
+            <td style="padding: 8px; border-bottom: 1px solid #e5e7eb; color: #dc2626; font-weight: 600;">URL</td>
+            <td style="padding: 8px; border-bottom: 1px solid #e5e7eb;">Carrier tracking has real-time map</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px;">View Full Details</td>
+            <td style="padding: 8px; color: #dc2626; font-weight: 600;">URL</td>
+            <td style="padding: 8px;">Full PDP has reviews, specs, zoom</td>
+          </tr>
+        </table>
+      </div>
+    </section>
+    
+  </div>
+  
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav-title">Jump to (by priority):</div>
+    <a href="#text" class="nav-item">1. Text Only</a>
+    <a href="#quick-replies" class="nav-item">2. Quick Replies</a>
+    <a href="#carousel" class="nav-item">3. Carousel</a>
+    <a href="#media" class="nav-item">4. Media Only</a>
+    <a href="#card-media-url" class="nav-item">5. Card + Media (URL)</a>
+    <a href="#card-media-qr" class="nav-item">6. Card + Media (QR)</a>
+    <a href="#card-no-media-url" class="nav-item">7. Card No Media (URL)</a>
+    <a href="#summary" class="nav-item">📋 Summary</a>
+  </nav>
+</body>
+</html>
