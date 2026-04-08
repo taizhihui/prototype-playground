@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Tone of voice — AI Journey</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: #f7f7f5;
+    color: #1a1a1a;
+    font-size: 14px;
+    display: flex;
+    min-height: 100vh;
+  }
+
+  /* ── Sidebar ── */
+  .sidebar {
+    width: 240px;
+    background: #fff;
+    border-right: 1px solid #e8e8e5;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    position: fixed;
+    top: 0; left: 0; bottom: 0;
+  }
+
+  .sidebar-header {
+    padding: 16px;
+    border-bottom: 1px solid #e8e8e5;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .sidebar-logo {
+    width: 28px; height: 28px;
+    background: linear-gradient(135deg, #7c5cfc, #5b3fd4);
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    color: #fff; font-size: 12px; font-weight: 700;
+  }
+
+  .sidebar-title { font-size: 13px; font-weight: 600; color: #1a1a1a; }
+
+  .merchant-pill {
+    margin: 12px 16px;
+    border: 1px solid #e8e8e5;
+    border-radius: 8px;
+    padding: 8px 10px;
+    display: flex; align-items: center; gap: 6px;
+    cursor: pointer;
+    font-size: 13px;
+    color: #1a1a1a;
+  }
+  .merchant-pill .store-icon {
+    width: 18px; height: 18px;
+    background: #96bf48;
+    border-radius: 4px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 9px; color: #fff;
+  }
+  .merchant-pill .dot { width: 6px; height: 6px; border-radius: 50%; background: #22c55e; margin-left: auto; }
+
+  .nav-section { padding: 8px 0; }
+
+  .nav-section-label {
+    padding: 6px 16px 4px;
+    font-size: 11px;
+    font-weight: 600;
+    color: #9a9a94;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+
+  .nav-item {
+    display: flex; align-items: center; gap: 8px;
+    padding: 6px 16px;
+    font-size: 13px;
+    color: #5a5a54;
+    cursor: pointer;
+    border-radius: 0;
+    text-decoration: none;
+  }
+  .nav-item:hover { background: #f7f7f5; color: #1a1a1a; }
+  .nav-item.active { background: #f0edff; color: #5b3fd4; font-weight: 500; }
+
+  .nav-icon { width: 14px; height: 14px; opacity: 0.6; flex-shrink: 0; }
+  .nav-item.active .nav-icon { opacity: 1; }
+
+  /* ── Main content ── */
+  .main {
+    margin-left: 240px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .topbar {
+    background: #fff;
+    border-bottom: 1px solid #e8e8e5;
+    padding: 0 32px;
+    height: 52px;
+    display: flex; align-items: center; justify-content: space-between;
+    position: sticky; top: 0; z-index: 10;
+  }
+
+  .topbar h1 { font-size: 17px; font-weight: 600; color: #1a1a1a; }
+
+  .tabs {
+    display: flex; gap: 0;
+    border-bottom: 1px solid #e8e8e5;
+    padding: 0 32px;
+    background: #fff;
+  }
+
+  .tab {
+    padding: 12px 0;
+    margin-right: 24px;
+    font-size: 13px;
+    color: #9a9a94;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+  }
+  .tab.active { color: #1a1a1a; border-bottom-color: #1a1a1a; font-weight: 500; }
+
+  .content { padding: 28px 32px; display: flex; flex-direction: column; gap: 16px; max-width: 680px; }
+
+  /* ── Cards ── */
+  .card {
+    background: #fff;
+    border: 1px solid #e8e8e5;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .card-header {
+    padding: 16px 20px;
+    display: flex; align-items: center; justify-content: space-between;
+    cursor: pointer;
+    user-select: none;
+  }
+  .card-header-left { display: flex; flex-direction: column; gap: 2px; }
+  .card-title { font-size: 14px; font-weight: 600; color: #1a1a1a; }
+  .card-desc { font-size: 13px; color: #7a7a74; }
+  .chevron { color: #9a9a94; font-size: 12px; transition: transform 0.2s; }
+  .chevron.open { transform: rotate(180deg); }
+
+  .card-body { padding: 0 20px 20px; border-top: 1px solid #e8e8e5; }
+  .card-body.hidden { display: none; }
+
+  /* ── Personality pills ── */
+  .pill-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding-top: 16px; }
+
+  .pill {
+    border: 1px solid #e8e8e5;
+    border-radius: 8px;
+    padding: 12px 14px;
+    cursor: pointer;
+    position: relative;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .pill:hover { border-color: #c0b8f8; }
+  .pill.selected { border-color: #7c5cfc; background: #f5f3ff; }
+  .pill-name { font-size: 13px; font-weight: 500; color: #1a1a1a; }
+  .pill-desc { font-size: 12px; color: #7a7a74; margin-top: 2px; }
+  .pill-check {
+    position: absolute; top: 10px; right: 10px;
+    width: 18px; height: 18px;
+    background: #22c55e;
+    border-radius: 50%;
+    display: none; align-items: center; justify-content: center;
+    color: #fff; font-size: 10px;
+  }
+  .pill.selected .pill-check { display: flex; }
+
+  /* ── Form fields ── */
+  .field { margin-top: 16px; }
+  .field label { display: block; font-size: 13px; font-weight: 500; color: #1a1a1a; margin-bottom: 6px; }
+  .field textarea {
+    width: 100%;
+    border: 1px solid #e8e8e5;
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 13px;
+    font-family: inherit;
+    color: #1a1a1a;
+    resize: vertical;
+    min-height: 80px;
+    line-height: 1.5;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  .field textarea:focus { border-color: #7c5cfc; }
+  .field-count { font-size: 11px; color: #9a9a94; margin-top: 4px; }
+
+  /* ── Context mode ── */
+  .context-group { display: flex; flex-wrap: wrap; gap: 6px; padding-top: 16px; }
+
+  .ctx-chip {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 6px 12px;
+    border: 1px solid #e8e8e5;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+    color: #5a5a54;
+    cursor: pointer;
+    background: #fff;
+    transition: all 0.15s;
+  }
+  .ctx-chip:hover { border-color: #c0b8f8; color: #1a1a1a; }
+  .ctx-chip.active { border-color: transparent; }
+  .ctx-chip.active.marketing { background: #ecfdf5; color: #166534; border-color: #bbf7d0; }
+  .ctx-chip.active.presale   { background: #f5f3ff; color: #5b3fd4; border-color: #ddd6fe; }
+  .ctx-chip.active.checkin   { background: #eff6ff; color: #1d4ed8; border-color: #bfdbfe; }
+  .ctx-chip.active.issue     { background: #fff7ed; color: #9a3412; border-color: #fed7aa; }
+  .ctx-dot { width: 6px; height: 6px; border-radius: 50%; }
+
+  .meters { margin-top: 14px; display: flex; flex-direction: column; gap: 10px; }
+  .meter-row { display: flex; align-items: center; gap: 10px; }
+  .meter-label { font-size: 12px; color: #7a7a74; width: 80px; flex-shrink: 0; }
+  .meter-track { flex: 1; height: 4px; background: #f0f0ee; border-radius: 2px; overflow: hidden; }
+  .meter-fill { height: 100%; border-radius: 2px; transition: width 0.3s ease; }
+  .meter-val { font-size: 11px; color: #9a9a94; width: 30px; text-align: right; flex-shrink: 0; }
+
+  .preview {
+    margin-top: 12px;
+    background: #f7f7f5;
+    border-radius: 8px;
+    padding: 12px 14px;
+  }
+  .preview-label { font-size: 11px; color: #9a9a94; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.04em; }
+  .preview-text { font-size: 13px; color: #3a3a34; line-height: 1.6; }
+
+  /* ── Restricted words ── */
+  .tags-wrap { padding-top: 14px; min-height: 40px; display: flex; flex-wrap: wrap; gap: 6px; align-items: flex-start; }
+
+  .word-tag {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 4px 10px;
+    background: #fff1f0;
+    border: 1px solid #fecaca;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+    color: #991b1b;
+  }
+  .word-tag button {
+    background: none; border: none; cursor: pointer;
+    color: #dc2626; font-size: 13px; line-height: 1;
+    padding: 0; display: flex; align-items: center;
+  }
+  .word-tag button:hover { color: #991b1b; }
+
+  .add-row {
+    display: flex; gap: 8px;
+    margin-top: 10px;
+  }
+  .add-row input {
+    flex: 1;
+    border: 1px solid #e8e8e5;
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 13px;
+    font-family: inherit;
+    color: #1a1a1a;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  .add-row input:focus { border-color: #7c5cfc; }
+  .add-row input::placeholder { color: #9a9a94; }
+
+  .add-row button {
+    padding: 8px 14px;
+    border: 1px solid #e8e8e5;
+    border-radius: 8px;
+    background: #fff;
+    font-size: 13px;
+    font-family: inherit;
+    color: #1a1a1a;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.15s;
+  }
+  .add-row button:hover { background: #f7f7f5; }
+
+  .suggest-label { font-size: 12px; color: #9a9a94; margin-top: 12px; margin-bottom: 6px; }
+  .suggest-row { display: flex; flex-wrap: wrap; gap: 5px; }
+  .suggest-chip {
+    font-size: 12px; padding: 3px 10px;
+    border: 1px solid #e8e8e5;
+    border-radius: 20px;
+    color: #7a7a74;
+    cursor: pointer;
+    background: #fff;
+    transition: all 0.12s;
+  }
+  .suggest-chip:hover { border-color: #fecaca; color: #991b1b; background: #fff1f0; }
+
+  .reason-hint { font-size: 11px; color: #9a9a94; margin-top: 8px; min-height: 16px; }
+
+  /* ── Rules ── */
+  .rules-list { padding-top: 14px; display: flex; flex-direction: column; gap: 0; }
+  .rule-row {
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: 10px 0;
+    border-bottom: 1px solid #f0f0ee;
+  }
+  .rule-row:last-child { border-bottom: none; }
+  .rule-badge {
+    width: 18px; height: 18px; border-radius: 50%;
+    flex-shrink: 0; margin-top: 1px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 9px; font-weight: 700;
+  }
+  .rule-do { background: #dcfce7; color: #166534; }
+  .rule-dont { background: #fee2e2; color: #991b1b; }
+  .rule-text { font-size: 13px; color: #3a3a34; line-height: 1.5; }
+
+  /* ── Save bar ── */
+  .save-bar {
+    position: fixed; bottom: 0; left: 240px; right: 0;
+    background: #fff;
+    border-top: 1px solid #e8e8e5;
+    padding: 12px 32px;
+    display: flex; align-items: center; justify-content: flex-end; gap: 10px;
+  }
+  .btn-secondary {
+    padding: 8px 16px;
+    border: 1px solid #e8e8e5;
+    border-radius: 8px;
+    background: #fff;
+    font-size: 13px;
+    font-family: inherit;
+    color: #5a5a54;
+    cursor: pointer;
+  }
+  .btn-primary {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 8px;
+    background: #1a1a1a;
+    color: #fff;
+    font-size: 13px;
+    font-family: inherit;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .btn-primary:hover { background: #333; }
+
+  .content { padding-bottom: 72px; }
+</style>
+</head>
+<body>
+
+<!-- Sidebar -->
+<aside class="sidebar">
+  <div class="sidebar-header">
+    <div class="sidebar-logo">AJ</div>
+    <span class="sidebar-title">AI Journey</span>
+  </div>
+
+  <div class="merchant-pill">
+    <div class="store-icon">S</div>
+    OutdoorToys
+    <div class="dot"></div>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-section-label">Analyze</div>
+    <a class="nav-item" href="#">
+      <svg class="nav-icon" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="1" width="12" height="12" rx="2"/><path d="M4 9l2-3 2 2 2-4"/></svg>
+      Overview
+    </a>
+    <a class="nav-item" href="#">
+      <svg class="nav-icon" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="7" cy="7" r="5"/><path d="M7 4v3l2 2"/></svg>
+      Intents
+    </a>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-section-label">Train</div>
+    <a class="nav-item" href="#">
+      <svg class="nav-icon" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 11l3-3 2 2 5-6"/></svg>
+      Skills
+    </a>
+    <a class="nav-item" href="#">
+      <svg class="nav-icon" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="10" height="10" rx="1"/><path d="M5 5h4M5 7h4M5 9h2"/></svg>
+      Knowledge
+    </a>
+    <a class="nav-item active" href="#">
+      <svg class="nav-icon" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 4c0-1 1-2 2-2h6c1 0 2 1 2 2v6c0 1-1 2-2 2H4c-1 0-2-1-2-2V4z"/><path d="M5 7h4M5 5h2"/></svg>
+      Tone of Voice
+    </a>
+    <a class="nav-item" href="#">
+      <svg class="nav-icon" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="7" cy="7" r="5"/><path d="M7 5v4M5 7h4"/></svg>
+      Campaigns
+    </a>
+    <a class="nav-item" href="#">
+      <svg class="nav-icon" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="4" width="10" height="7" rx="1"/><path d="M5 4V3a2 2 0 014 0v1"/></svg>
+      Flows
+    </a>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-section-label">Deploy</div>
+    <a class="nav-item" href="#">
+      <svg class="nav-icon" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 10l3-6 2 4 2-2 3 4"/></svg>
+      SMS
+    </a>
+  </div>
+</aside>
+
+<!-- Main -->
+<div class="main">
+  <div class="topbar">
+    <h1>Tone of voice</h1>
+  </div>
+
+  <div class="tabs">
+    <div class="tab active">General</div>
+    <div class="tab">Channel-specific</div>
+  </div>
+
+  <div class="content">
+
+    <!-- Personality -->
+    <div class="card">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-header-left">
+          <div class="card-title">Personality</div>
+          <div class="card-desc">Choose a personality that fits your brand or create your own.</div>
+        </div>
+        <span class="chevron open">▾</span>
+      </div>
+      <div class="card-body">
+        <div class="pill-grid">
+          <div class="pill" onclick="selectPill(this)">
+            <div class="pill-name">Friendly</div>
+            <div class="pill-desc">Warm, inviting, encouraging</div>
+            <div class="pill-check">✓</div>
+          </div>
+          <div class="pill" onclick="selectPill(this)">
+            <div class="pill-name">Professional</div>
+            <div class="pill-desc">Precise, polished, authoritative</div>
+            <div class="pill-check">✓</div>
+          </div>
+          <div class="pill" onclick="selectPill(this)">
+            <div class="pill-name">Playful</div>
+            <div class="pill-desc">Fun, imaginative, family-first</div>
+            <div class="pill-check">✓</div>
+          </div>
+          <div class="pill selected" onclick="selectPill(this)">
+            <div class="pill-name">Custom</div>
+            <div class="pill-desc">Customize your personality</div>
+            <div class="pill-check">✓</div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>AI personality</label>
+          <textarea id="personality-ta" oninput="updateCount(this, 'personality-count', 3000)" placeholder="Describe the personality in your own words…">Be fun and family-focused. You're a parent speaking to another parent — warm, relatable, and genuinely excited about what outdoor play can unlock for children. Keep messages short; nobody reads long ones. Never be pushy or salesy. Guide and help, don't pressure.</textarea>
+          <div class="field-count"><span id="personality-count">0</span>/3000</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Context mode -->
+    <div class="card">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-header-left">
+          <div class="card-title">Tone by context</div>
+          <div class="card-desc">Adjust how the AI shifts register based on the conversation situation.</div>
+        </div>
+        <span class="chevron open">▾</span>
+      </div>
+      <div class="card-body">
+        <div class="context-group">
+          <div class="ctx-chip active marketing" onclick="setCtx('marketing')" data-ctx="marketing">
+            <div class="ctx-dot" style="background:#16a34a;"></div> Marketing campaign
+          </div>
+          <div class="ctx-chip presale" onclick="setCtx('presale')" data-ctx="presale">
+            <div class="ctx-dot" style="background:#7c5cfc;"></div> Pre-sale inquiry
+          </div>
+          <div class="ctx-chip checkin" onclick="setCtx('checkin')" data-ctx="checkin">
+            <div class="ctx-dot" style="background:#2563eb;"></div> Post-purchase check-in
+          </div>
+          <div class="ctx-chip issue" onclick="setCtx('issue')" data-ctx="issue">
+            <div class="ctx-dot" style="background:#ea580c;"></div> Customer issue
+          </div>
+        </div>
+
+        <div class="meters">
+          <div class="meter-row">
+            <span class="meter-label">Fun</span>
+            <div class="meter-track"><div class="meter-fill" id="m-fun" style="background:#16a34a;"></div></div>
+            <span class="meter-val" id="v-fun"></span>
+          </div>
+          <div class="meter-row">
+            <span class="meter-label">Warmth</span>
+            <div class="meter-track"><div class="meter-fill" id="m-warm" style="background:#d97706;"></div></div>
+            <span class="meter-val" id="v-warm"></span>
+          </div>
+          <div class="meter-row">
+            <span class="meter-label">Resolution</span>
+            <div class="meter-track"><div class="meter-fill" id="m-resolve" style="background:#2563eb;"></div></div>
+            <span class="meter-val" id="v-resolve"></span>
+          </div>
+          <div class="meter-row">
+            <span class="meter-label">Urgency</span>
+            <div class="meter-track"><div class="meter-fill" id="m-urgency" style="background:#ea580c;"></div></div>
+            <span class="meter-val" id="v-urgency"></span>
+          </div>
+        </div>
+
+        <div class="preview">
+          <div class="preview-label">Example message tone</div>
+          <div class="preview-text" id="preview-text"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- What to say -->
+    <div class="card">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-header-left">
+          <div class="card-title">What to say</div>
+          <div class="card-desc">Define greetings, sign-offs, and message patterns the AI should use.</div>
+        </div>
+        <span class="chevron open">▾</span>
+      </div>
+      <div class="card-body">
+        <div class="field">
+          <label>Greeting</label>
+          <textarea id="greeting-ta" oninput="updateCount(this, 'greeting-count', 600)" placeholder="How should the AI open conversations?">Always start warm — "Hey [first name]!" or "Hi there!" Keep it short and human.</textarea>
+          <div class="field-count"><span id="greeting-count">0</span>/600</div>
+        </div>
+        <div class="field">
+          <label>Sign-off</label>
+          <textarea id="signoff-ta" oninput="updateCount(this, 'signoff-count', 600)" placeholder="How should the AI close conversations?">End with something helpful like "Hope the kids love it!" or "Any questions, just shout." Avoid formal corporate sign-offs.</textarea>
+          <div class="field-count"><span id="signoff-count">0</span>/600</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Restricted words -->
+    <div class="card">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-header-left">
+          <div class="card-title">Restricted words</div>
+          <div class="card-desc">Words and phrases the AI will never use.</div>
+        </div>
+        <span class="chevron open">▾</span>
+      </div>
+      <div class="card-body">
+        <div class="tags-wrap" id="tags-area"></div>
+
+        <div class="add-row">
+          <input type="text" id="word-input" placeholder="e.g. limited time, deal, cheap…" maxlength="40" />
+          <button onclick="addWord()">Add</button>
+        </div>
+
+        <div class="suggest-label">Suggestions based on your brand personality</div>
+        <div class="suggest-row" id="suggestions"></div>
+        <div class="reason-hint" id="reason-hint"></div>
+      </div>
+    </div>
+
+    <!-- Always-on rules -->
+    <div class="card">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-header-left">
+          <div class="card-title">Behavior rules</div>
+          <div class="card-desc">Consistent behaviors that apply in every conversation.</div>
+        </div>
+        <span class="chevron open">▾</span>
+      </div>
+      <div class="card-body">
+        <div class="rules-list">
+          <div class="rule-row">
+            <div class="rule-badge rule-do">✓</div>
+            <div class="rule-text">Apologize once at the start of an issue, then move straight to action — don't keep repeating sorry</div>
+          </div>
+          <div class="rule-row">
+            <div class="rule-badge rule-do">✓</div>
+            <div class="rule-text">Match the shopper's energy — pick up on serious or frustrated tones and shift register accordingly</div>
+          </div>
+          <div class="rule-row">
+            <div class="rule-badge rule-do">✓</div>
+            <div class="rule-text">Keep messages short — no one reads long ones</div>
+          </div>
+          <div class="rule-row">
+            <div class="rule-badge rule-dont">✗</div>
+            <div class="rule-text">No aggressive promotional language or fast-fashion urgency tactics</div>
+          </div>
+          <div class="rule-row">
+            <div class="rule-badge rule-dont">✗</div>
+            <div class="rule-text">Don't be pushy on sales — guide and help, don't pressure</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+</div><!-- /main -->
+
+<div class="save-bar">
+  <button class="btn-secondary">Discard</button>
+  <button class="btn-primary">Save changes</button>
+</div>
+
+<script>
+  // Card toggle
+  function toggleCard(header) {
+    const body = header.nextElementSibling;
+    const chevron = header.querySelector('.chevron');
+    body.classList.toggle('hidden');
+    chevron.classList.toggle('open');
+  }
+
+  // Personality pills
+  function selectPill(pill) {
+    pill.closest('.pill-grid').querySelectorAll('.pill').forEach(p => p.classList.remove('selected'));
+    pill.classList.add('selected');
+  }
+
+  // Char counts
+  function updateCount(ta, countId, max) {
+    document.getElementById(countId).textContent = ta.value.length;
+  }
+  document.querySelectorAll('textarea').forEach(ta => {
+    const countId = ta.id.replace('-ta', '-count');
+    if (document.getElementById(countId)) {
+      document.getElementById(countId).textContent = ta.value.length;
+    }
+  });
+
+  // Context mode
+  const contexts = {
+    marketing: { fun:95, warm:80, resolve:20, urgency:30, preview:"Whether your little one is sailing the high seas or slaying dragons — this is just the beginning. Let their imagination run wild." },
+    presale:   { fun:70, warm:85, resolve:30, urgency:20, preview:"Oh great choice — this is one I'd recommend myself! It comes with everything you need to get started. Have you seen the accessories that go with it?" },
+    checkin:   { fun:55, warm:90, resolve:60, urgency:10, preview:"Just checking in to make sure everything arrived safely and the kids are loving it! Let us know if there's anything at all we can help with." },
+    issue:     { fun:5,  warm:75, resolve:95, urgency:80, preview:"So sorry to hear that — that's absolutely not what we'd expect. Let's get this sorted for you straight away. I'll arrange a replacement today." },
+  };
+
+  function setCtx(ctx) {
+    document.querySelectorAll('.ctx-chip').forEach(c => { c.classList.remove('active'); if(c.dataset.ctx===ctx) c.classList.add('active'); });
+    const d = contexts[ctx];
+    ['fun','warm','resolve','urgency'].forEach(k => {
+      document.getElementById('m-'+k).style.width = d[k]+'%';
+      document.getElementById('v-'+k).textContent = d[k]+'%';
+    });
+    document.getElementById('preview-text').textContent = d.preview;
+  }
+  setCtx('marketing');
+
+  // Restricted words
+  const suggestions = [
+    { word:"limited time",   reason:"Creates pressure — off-brand for a guidance-first voice" },
+    { word:"deal",           reason:"Feels transactional, not family-friendly" },
+    { word:"cheap",          reason:"Undercuts perceived quality and brand warmth" },
+    { word:"act now",        reason:"Aggressive urgency, the opposite of the brand ethos" },
+    { word:"don't miss out", reason:"FOMO-driven — not the tone Becky described" },
+    { word:"flash sale",     reason:"Fast-fashion energy, explicitly flagged as off-brand" },
+    { word:"buy now",        reason:"Too pushy — prefer 'find out more' or 'see it here'" },
+  ];
+  const added = new Set();
+
+  function renderSuggestions() {
+    const el = document.getElementById('suggestions');
+    el.innerHTML = '';
+    suggestions.filter(s => !added.has(s.word)).forEach(s => {
+      const chip = document.createElement('span');
+      chip.className = 'suggest-chip';
+      chip.textContent = '+ ' + s.word;
+      chip.onclick = () => addWordStr(s.word, s.reason);
+      el.appendChild(chip);
+    });
+  }
+
+  function addWord() {
+    const input = document.getElementById('word-input');
+    const val = input.value.trim().toLowerCase();
+    if (!val) return;
+    const match = suggestions.find(s => s.word === val);
+    addWordStr(val, match ? match.reason : '');
+    input.value = '';
+  }
+
+  function addWordStr(word, reason) {
+    if (added.has(word)) return;
+    added.add(word);
+    const area = document.getElementById('tags-area');
+    const tag = document.createElement('span');
+    tag.className = 'word-tag';
+    tag.id = 'tag-' + word.replace(/\s+/g,'-');
+    tag.innerHTML = word + '<button onclick="removeWord(\'' + word.replace(/'/g,"\\'") + '\')" title="Remove">&#x2715;</button>';
+    tag.onmouseenter = () => { if(reason) document.getElementById('reason-hint').textContent = '"' + word + '" — ' + reason; };
+    tag.onmouseleave = () => { document.getElementById('reason-hint').textContent = ''; };
+    area.appendChild(tag);
+    renderSuggestions();
+  }
+
+  function removeWord(word) {
+    added.delete(word);
+    const el = document.getElementById('tag-' + word.replace(/\s+/g,'-'));
+    if (el) el.remove();
+    document.getElementById('reason-hint').textContent = '';
+    renderSuggestions();
+  }
+
+  document.getElementById('word-input').addEventListener('keydown', e => { if(e.key==='Enter') addWord(); });
+  renderSuggestions();
+</script>
+</body>
+</html>
