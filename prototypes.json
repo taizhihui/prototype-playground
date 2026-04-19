@@ -8,5 +8,25 @@
     "image": "",
     "badge": "Interactive",
     "tags": ["RCS", "Conversational", "Rich Media"]
+  },
+  {
+    "name": "Brand Tone of Voice",
+    "author": "Zhi",
+    "date": "Apr 19",
+    "description": "Mockup exploring how brand tone of voice can be configured and previewed.",
+    "file": "brand-tone-of-voice.html",
+    "image": "",
+    "badge": "Mockup",
+    "tags": ["Brand", "Tone of Voice", "AI"]
+  },
+  {
+    "name": "RCS Templates Visual Guide",
+    "author": "Zhi",
+    "date": "Apr 19",
+    "description": "Visual guide showcasing RCS template patterns and components.",
+    "file": "rcs-templates-visual-guide-v2.html",
+    "image": "",
+    "badge": "Guide",
+    "tags": ["RCS", "Templates", "Visual Guide"]
   }
 ]
