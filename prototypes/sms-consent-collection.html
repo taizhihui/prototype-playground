@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Subscribers — AI Journey</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: #f7f7f5;
+    color: #1a1a1a;
+    font-size: 14px;
+    display: flex;
+    min-height: 100vh;
+  }
+
+  /* Sidebar */
+  .sidebar {
+    width: 240px;
+    background: #fff;
+    border-right: 1px solid #e8e8e5;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    position: fixed;
+    top: 0; left: 0; bottom: 0;
+  }
+  .sidebar-header {
+    padding: 16px;
+    border-bottom: 1px solid #e8e8e5;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .sidebar-logo {
+    width: 28px; height: 28px;
+    background: linear-gradient(135deg, #7c5cfc, #5b3fd4);
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    color: #fff; font-size: 12px; font-weight: 700;
+  }
+  .sidebar-title { font-size: 13px; font-weight: 600; color: #1a1a1a; }
+
+  .merchant-pill {
+    margin: 12px 16px;
+    border: 1px solid #e8e8e5;
+    border-radius: 8px;
+    padding: 8px 10px;
+    display: flex; align-items: center; gap: 6px;
+    cursor: pointer;
+    font-size: 13px;
+    color: #1a1a1a;
+  }
+  .merchant-pill .store-icon {
+    width: 18px; height: 18px;
+    background: #96bf48;
+    border-radius: 4px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 9px; color: #fff;
+  }
+  .merchant-pill .dot { width: 6px; height: 6px; border-radius: 50%; background: #22c55e; margin-left: auto; }
+
+  .nav-section { padding: 8px 0; }
+  .nav-item {
+    display: flex; align-items: center; gap: 8px;
+    padding: 8px 16px;
+    font-size: 13px;
+    color: #5a5a54;
+    cursor: pointer;
+    text-decoration: none;
+  }
+  .nav-item:hover { background: #f7f7f5; color: #1a1a1a; }
+  .nav-item.active { background: #f0edff; color: #5b3fd4; font-weight: 500; }
+  .nav-item .new-pill {
+    margin-left: auto;
+    font-size: 10px;
+    background: #5b3fd4;
+    color: #fff;
+    padding: 2px 6px;
+    border-radius: 8px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+
+  /* Main content */
+  .main {
+    margin-left: 240px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  .topbar {
+    background: #fff;
+    border-bottom: 1px solid #e8e8e5;
+    padding: 0 32px;
+    height: 52px;
+    display: flex; align-items: center; justify-content: space-between;
+    position: sticky; top: 0; z-index: 10;
+  }
+  .topbar h1 { font-size: 17px; font-weight: 600; color: #1a1a1a; }
+  .topbar-actions { display: flex; gap: 8px; }
+  .btn {
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: 1px solid #e8e8e5;
+    background: #fff;
+    color: #1a1a1a;
+    font-size: 13px;
+    cursor: pointer;
+  }
+  .btn:hover { background: #f7f7f5; }
+  .btn-primary {
+    background: #5b3fd4;
+    color: #fff;
+    border-color: #5b3fd4;
+  }
+  .btn-primary:hover { background: #4a2fc4; }
+
+  .tabs {
+    display: flex;
+    border-bottom: 1px solid #e8e8e5;
+    padding: 0 32px;
+    background: #fff;
+  }
+  .tab {
+    padding: 12px 16px;
+    font-size: 13px;
+    color: #5a5a54;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+  }
+  .tab:hover { color: #1a1a1a; }
+  .tab.active { color: #5b3fd4; border-bottom-color: #5b3fd4; font-weight: 500; }
+
+  .content { padding: 24px 32px; flex: 1; }
+
+  /* Tab content */
+  .tab-pane { display: none; }
+  .tab-pane.active { display: block; }
+
+  /* Cards */
+  .card {
+    background: #fff;
+    border: 1px solid #e8e8e5;
+    border-radius: 8px;
+    margin-bottom: 16px;
+  }
+  .card-header {
+    padding: 14px 20px;
+    border-bottom: 1px solid #e8e8e5;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .card-title { font-size: 14px; font-weight: 600; }
+  .card-body { padding: 20px; }
+  .card-empty {
+    padding: 40px;
+    text-align: center;
+    color: #9a9a94;
+  }
+
+  /* Form list */
+  .form-row {
+    display: grid;
+    grid-template-columns: 200px 120px 100px 120px 100px 100px 60px;
+    gap: 16px;
+    align-items: center;
+    padding: 14px 20px;
+    border-top: 1px solid #f0f0ed;
+    font-size: 13px;
+  }
+  .form-row.header {
+    border-top: none;
+    color: #9a9a94;
+    font-weight: 500;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .form-row .name { font-weight: 500; }
+  .form-row .surface-icon {
+    width: 28px; height: 28px;
+    border-radius: 6px;
+    background: #f0edff;
+    color: #5b3fd4;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 13px;
+    margin-right: 8px;
+    vertical-align: middle;
+  }
+  .pill {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 500;
+  }
+  .pill-active { background: #dcfce7; color: #166534; }
+  .pill-draft { background: #f1f1ee; color: #5a5a54; }
+  .pill-region { background: #f0edff; color: #5b3fd4; }
+  .ellipsis { text-align: right; color: #9a9a94; cursor: pointer; }
+
+  /* Subscribers table */
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  .table th {
+    text-align: left;
+    padding: 12px 20px;
+    color: #9a9a94;
+    font-weight: 500;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    border-bottom: 1px solid #e8e8e5;
+  }
+  .table td {
+    padding: 12px 20px;
+    border-bottom: 1px solid #f0f0ed;
+  }
+  .table tr:last-child td { border-bottom: none; }
+  .table tr.clickable { cursor: pointer; }
+  .table tr.clickable:hover { background: #faf9f7; }
+  .table .source-icon {
+    display: inline-block;
+    width: 20px; height: 20px;
+    border-radius: 4px;
+    background: #f0edff;
+    color: #5b3fd4;
+    text-align: center;
+    line-height: 20px;
+    font-size: 11px;
+    margin-right: 8px;
+    vertical-align: middle;
+  }
+
+  /* Edit panel */
+  .panel {
+    display: none;
+    position: fixed;
+    top: 0; right: 0; bottom: 0;
+    width: 520px;
+    background: #fff;
+    border-left: 1px solid #e8e8e5;
+    box-shadow: -4px 0 20px rgba(0,0,0,0.04);
+    z-index: 20;
+    display: flex;
+    flex-direction: column;
+  }
+  .panel.hidden { display: none; }
+  .panel-header {
+    padding: 16px 20px;
+    border-bottom: 1px solid #e8e8e5;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .panel-title { font-size: 14px; font-weight: 600; }
+  .panel-close { background: none; border: none; font-size: 18px; cursor: pointer; color: #9a9a94; }
+  .panel-body { flex: 1; overflow-y: auto; padding: 20px; }
+  .panel-footer {
+    padding: 12px 20px;
+    border-top: 1px solid #e8e8e5;
+    display: flex; gap: 8px; justify-content: flex-end;
+  }
+  .panel-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.2);
+    z-index: 15;
+    display: none;
+  }
+  .panel-overlay.show { display: block; }
+  .panel-section { margin-bottom: 20px; }
+  .panel-label { font-size: 12px; font-weight: 600; color: #9a9a94; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 8px; }
+  .panel-input {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid #e8e8e5;
+    border-radius: 6px;
+    font-size: 13px;
+    font-family: inherit;
+  }
+  .panel-input:focus { outline: none; border-color: #5b3fd4; }
+
+  .disclosure-box {
+    background: #faf9f7;
+    border: 1px solid #e8e8e5;
+    border-radius: 6px;
+    padding: 12px;
+    font-size: 12px;
+    color: #5a5a54;
+    line-height: 1.5;
+    position: relative;
+  }
+  .disclosure-meta {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-top: 8px;
+    font-size: 11px;
+    color: #9a9a94;
+  }
+  .disclosure-edit-btn {
+    background: none;
+    border: 1px solid #e8e8e5;
+    border-radius: 4px;
+    padding: 3px 8px;
+    cursor: pointer;
+    font-size: 11px;
+    color: #5b3fd4;
+  }
+  .ai-badge {
+    display: inline-flex; align-items: center; gap: 4px;
+    background: linear-gradient(135deg, #f0edff, #e8e0ff);
+    color: #5b3fd4;
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 500;
+  }
+  .legal-warning {
+    display: none;
+    background: #fff7e6;
+    border: 1px solid #f5d680;
+    border-radius: 6px;
+    padding: 10px 12px;
+    margin-top: 8px;
+    font-size: 12px;
+    color: #9a6a00;
+  }
+  .legal-warning.show { display: flex; gap: 8px; align-items: flex-start; }
+
+  .toggle-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+  .toggle-row .label { font-size: 13px; }
+  .toggle {
+    width: 32px; height: 18px;
+    background: #5b3fd4;
+    border-radius: 9px;
+    position: relative;
+    cursor: pointer;
+  }
+  .toggle::after {
+    content: '';
+    position: absolute;
+    width: 14px; height: 14px;
+    background: #fff;
+    border-radius: 50%;
+    top: 2px; right: 2px;
+    transition: 0.2s;
+  }
+  .toggle.off { background: #d4d4d0; }
+  .toggle.off::after { right: auto; left: 2px; }
+
+  /* Preview phone */
+  .phone-preview {
+    width: 280px;
+    margin: 0 auto;
+    background: #fff;
+    border: 8px solid #1a1a1a;
+    border-radius: 32px;
+    padding: 16px 14px;
+    font-size: 12px;
+  }
+  .phone-bubble {
+    background: #f0edff;
+    border-radius: 16px;
+    padding: 12px;
+    margin-bottom: 8px;
+    color: #1a1a1a;
+    line-height: 1.4;
+  }
+
+  /* Audit drilldown */
+  .audit-grid {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 12px 24px;
+    padding: 8px 0;
+  }
+  .audit-grid .label { color: #9a9a94; font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.04em; }
+  .audit-grid .value { font-size: 13px; color: #1a1a1a; }
+  .audit-grid .value code { background: #f0f0ed; padding: 2px 6px; border-radius: 4px; font-size: 12px; }
+
+  .banner-note {
+    background: #f0edff;
+    border: 1px solid #d4c8ff;
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-bottom: 16px;
+    font-size: 12px;
+    color: #5b3fd4;
+    display: flex; align-items: center; gap: 8px;
+  }
+</style>
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="sidebar-header">
+    <div class="sidebar-logo">G</div>
+    <div class="sidebar-title">AI Journey</div>
+  </div>
+  <div class="merchant-pill">
+    <div class="store-icon">S</div>
+    <span>one-bone</span>
+    <span class="dot"></span>
+  </div>
+  <div class="nav-section">
+    <a class="nav-item">📊 Analytics</a>
+    <a class="nav-item">📣 Campaigns</a>
+    <a class="nav-item">🔁 Flows</a>
+    <a class="nav-item">🧪 Playground</a>
+    <a class="nav-item">🎯 Segments</a>
+    <a class="nav-item active">👥 Subscribers <span class="new-pill">NEW</span></a>
+  </div>
+</aside>
+
+<main class="main">
+  <div class="topbar">
+    <h1>Subscribers</h1>
+    <div class="topbar-actions">
+      <button class="btn">Import from Klaviyo</button>
+      <button class="btn-primary btn" onclick="document.getElementById('panel').classList.remove('hidden'); document.getElementById('overlay').classList.add('show');">+ New sign-up form</button>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <div class="tab active" onclick="setTab('forms')">Sign-up forms</div>
+    <div class="tab" onclick="setTab('list')">Subscribers</div>
+    <div class="tab" onclick="setTab('audit')">Audit log</div>
+  </div>
+
+  <div class="content">
+
+    <div class="banner-note">
+      ✦ Conceptual prototype — not a final design. Built as a stand-in for spec review.
+    </div>
+
+    <!-- Sign-up forms tab -->
+    <div class="tab-pane active" id="pane-forms">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Active sign-up forms</div>
+          <span style="font-size: 12px; color: #9a9a94;">3 of 3 v0 surfaces in use</span>
+        </div>
+        <div class="form-row header">
+          <div>Form</div>
+          <div>Surface</div>
+          <div>Region</div>
+          <div>Opt-in method</div>
+          <div>Subscribers</div>
+          <div>Status</div>
+          <div></div>
+        </div>
+        <div class="form-row">
+          <div class="name"><span class="surface-icon">▢</span>Spring popup — free pair</div>
+          <div>Popup</div>
+          <div><span class="pill pill-region">US</span></div>
+          <div>Single</div>
+          <div>1,247</div>
+          <div><span class="pill pill-active">Active</span></div>
+          <div class="ellipsis">⋯</div>
+        </div>
+        <div class="form-row">
+          <div class="name"><span class="surface-icon">≡</span>Footer signup</div>
+          <div>Embedded</div>
+          <div><span class="pill pill-region">US + CA</span></div>
+          <div>Single / Double</div>
+          <div>312</div>
+          <div><span class="pill pill-active">Active</span></div>
+          <div class="ellipsis">⋯</div>
+        </div>
+        <div class="form-row">
+          <div class="name"><span class="surface-icon">📱</span>Tap-to-text — homepage</div>
+          <div>Tap-to-text</div>
+          <div><span class="pill pill-region">US + CA</span></div>
+          <div>Auto-confirm</div>
+          <div>89</div>
+          <div><span class="pill pill-draft">Draft</span></div>
+          <div class="ellipsis">⋯</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Compliance posture</div>
+          <span class="ai-badge">✦ AI-managed</span>
+        </div>
+        <div class="card-body">
+          <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px;">
+            <div>
+              <div class="panel-label">10DLC registration</div>
+              <div style="display: flex; align-items: center; gap: 6px; margin-top: 4px;"><span class="pill pill-active">Approved</span><span style="color: #9a9a94; font-size: 12px;">via Twilio</span></div>
+            </div>
+            <div>
+              <div class="panel-label">Phone number</div>
+              <div style="margin-top: 4px;">+1 (888) 555-0142 <span style="color: #9a9a94; font-size: 12px;">shared shortcode</span></div>
+            </div>
+            <div>
+              <div class="panel-label">Disclosure version</div>
+              <div style="margin-top: 4px;">v3 — current <span style="color: #9a9a94; font-size: 12px;">applied to 1,648 records</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Subscribers tab -->
+    <div class="tab-pane" id="pane-list">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Subscribers</div>
+          <div style="display: flex; gap: 8px; font-size: 12px;">
+            <span style="color: #9a9a94;">1,648 total · 1,602 active · 46 opted out</span>
+          </div>
+        </div>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Phone</th>
+              <th>Source</th>
+              <th>Region</th>
+              <th>Method</th>
+              <th>Opted in</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="clickable" onclick="setTab('audit')">
+              <td>+1 (415) ••• 4421</td>
+              <td><span class="source-icon">▢</span>Spring popup</td>
+              <td><span class="pill pill-region">US</span></td>
+              <td>Single</td>
+              <td>2026-04-26 14:22</td>
+              <td><span class="pill pill-active">Active</span></td>
+            </tr>
+            <tr class="clickable" onclick="setTab('audit')">
+              <td>+1 (604) ••• 7812</td>
+              <td><span class="source-icon">≡</span>Footer signup</td>
+              <td><span class="pill pill-region">CA</span></td>
+              <td>Double (Y)</td>
+              <td>2026-04-26 13:08</td>
+              <td><span class="pill pill-active">Active</span></td>
+            </tr>
+            <tr class="clickable" onclick="setTab('audit')">
+              <td>+1 (212) ••• 9034</td>
+              <td><span class="source-icon">📱</span>Tap-to-text</td>
+              <td><span class="pill pill-region">US</span></td>
+              <td>Auto-confirm</td>
+              <td>2026-04-26 11:52</td>
+              <td><span class="pill pill-active">Active</span></td>
+            </tr>
+            <tr class="clickable" onclick="setTab('audit')">
+              <td>+1 (323) ••• 1188</td>
+              <td><span class="source-icon">▢</span>Spring popup</td>
+              <td><span class="pill pill-region">US</span></td>
+              <td>Single</td>
+              <td>2026-04-25 21:17</td>
+              <td><span class="pill pill-draft">Opted out</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Audit log tab -->
+    <div class="tab-pane" id="pane-audit">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Consent record · +1 (604) ••• 7812</div>
+          <div style="display: flex; gap: 8px;">
+            <button class="btn">Export JSON</button>
+            <button class="btn">Export CSV</button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="audit-grid">
+            <div class="label">Timestamp</div>
+            <div class="value">2026-04-26 13:08:42 UTC</div>
+
+            <div class="label">IP address</div>
+            <div class="value"><code>198.96.92.114</code> (Toronto, ON)</div>
+
+            <div class="label">Source surface</div>
+            <div class="value">Footer signup (Embedded form, ID: emb_2f81ae21)</div>
+
+            <div class="label">Region detected</div>
+            <div class="value">CA — CASL flow applied</div>
+
+            <div class="label">Opt-in method</div>
+            <div class="value">Double opt-in · confirmed by reply Y at 13:09:14 UTC</div>
+
+            <div class="label">Disclosure version</div>
+            <div class="value">v3 (auto-generated, unedited) — <a style="color: #5b3fd4;">view</a></div>
+
+            <div class="label">Lead magnet</div>
+            <div class="value">15% off welcome — code <code>WELCOME15</code></div>
+
+            <div class="label">Provided fields</div>
+            <div class="value">Phone (E.164), country code (CA detected from IP)</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Disclosure shown to shopper at consent time</div>
+          <span class="ai-badge">✦ AI-generated v3</span>
+        </div>
+        <div class="card-body">
+          <div class="disclosure-box">
+            By submitting this form and signing up for texts, you consent to receive marketing text messages (e.g. promos, cart reminders) from one-bone at the number provided, including messages sent by autodialer. Your express consent is required under CASL — consent is not a condition of purchase. Msg & data rates may apply. Msg frequency varies (up to 6 msg/month). Reply STOP to unsubscribe or HELP for help. View our <a style="color: #5b3fd4;">Privacy Policy</a> and <a style="color: #5b3fd4;">Terms</a>.
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<!-- Edit panel for sign-up form config -->
+<div class="panel-overlay" id="overlay" onclick="closePanel()"></div>
+<aside class="panel hidden" id="panel">
+  <div class="panel-header">
+    <div class="panel-title">New sign-up form</div>
+    <button class="panel-close" onclick="closePanel()">×</button>
+  </div>
+  <div class="panel-body">
+    <div class="panel-section">
+      <div class="panel-label">Surface type</div>
+      <select class="panel-input">
+        <option>Popup</option>
+        <option>Embedded form</option>
+        <option>Tap-to-text</option>
+      </select>
+    </div>
+
+    <div class="panel-section">
+      <div class="panel-label">Form name</div>
+      <input class="panel-input" value="Spring popup — free pair" />
+    </div>
+
+    <div class="panel-section">
+      <div class="panel-label">Region coverage</div>
+      <div style="display: flex; gap: 8px;">
+        <span class="pill pill-region">US</span>
+        <span class="pill pill-region">CA</span>
+        <span class="pill pill-draft">+ Add region</span>
+      </div>
+    </div>
+
+    <div class="panel-section">
+      <div class="toggle-row">
+        <span class="label">Double opt-in (US)</span>
+        <span class="toggle off"></span>
+      </div>
+      <div class="toggle-row">
+        <span class="label">Double opt-in (CA)</span>
+        <span class="toggle"></span>
+      </div>
+      <div style="font-size: 11px; color: #9a9a94;">CASL requires express consent — double opt-in default in CA cannot be turned off without legal review.</div>
+    </div>
+
+    <div class="panel-section">
+      <div class="panel-label" style="display: flex; justify-content: space-between; align-items: center;">
+        <span>Disclosure language</span>
+        <span class="ai-badge">✦ Auto-generated v3</span>
+      </div>
+      <div class="disclosure-box">
+        By submitting this form and signing up for texts, you consent to receive marketing text messages (e.g. promos, cart reminders) from one-bone at the number provided, including messages sent by autodialer. Consent is not a condition of purchase. Msg & data rates may apply. Msg frequency varies (up to 6 msg/month). Reply STOP to unsubscribe or HELP for help. View our <a style="color: #5b3fd4;">Privacy Policy</a> and <a style="color: #5b3fd4;">Terms</a>.
+      </div>
+      <div class="disclosure-meta">
+        <span>Pulled from program config: brand, frequency, region.</span>
+        <button class="disclosure-edit-btn" onclick="document.querySelector('.legal-warning').classList.toggle('show')">Edit copy</button>
+      </div>
+      <div class="legal-warning">
+        ⚠ <span><strong>Legal review recommended.</strong> Editing the auto-generated disclosure may affect compliance posture. Edited versions are tracked separately in the audit log.</span>
+      </div>
+    </div>
+
+    <div class="panel-section">
+      <div class="panel-label">Lead magnet</div>
+      <div class="toggle-row">
+        <span class="label">Discount code unlock</span>
+        <span class="toggle"></span>
+      </div>
+      <div class="toggle-row">
+        <span class="label">Free shipping</span>
+        <span class="toggle off"></span>
+      </div>
+    </div>
+
+    <div class="panel-section">
+      <div class="panel-label">Preview</div>
+      <div class="phone-preview">
+        <div style="text-align: center; font-weight: 600; margin-bottom: 8px;">GET A FREE PAIR OF UNDERWEAR TODAY</div>
+        <div style="text-align: center; font-size: 11px; color: #5a5a54; margin-bottom: 12px;">Once you try ONE BONE underwear, you'll never go back.</div>
+        <div style="background: #f7f7f5; border: 1px solid #e8e8e5; border-radius: 6px; padding: 6px; margin-bottom: 8px; font-size: 11px; color: #9a9a94;">📞 Phone Number</div>
+        <div style="font-size: 9px; line-height: 1.4; color: #9a9a94; margin-bottom: 8px;">By submitting this form... Msg & data rates may apply. Reply STOP. <a style="color: #5b3fd4;">Privacy</a> & <a style="color: #5b3fd4;">Terms</a>.</div>
+        <div style="background: #ff4f6b; color: #fff; text-align: center; padding: 8px; border-radius: 6px; font-weight: 600; font-size: 11px;">SIGN UP</div>
+      </div>
+    </div>
+
+  </div>
+  <div class="panel-footer">
+    <button class="btn" onclick="closePanel()">Cancel</button>
+    <button class="btn-primary btn">Save and publish</button>
+  </div>
+</aside>
+
+<script>
+  function setTab(name) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+    document.querySelector(`.tab:nth-child(${ {forms:1, list:2, audit:3}[name] })`).classList.add('active');
+    document.getElementById('pane-' + name).classList.add('active');
+  }
+  function closePanel() {
+    document.getElementById('panel').classList.add('hidden');
+    document.getElementById('overlay').classList.remove('show');
+  }
+  document.querySelectorAll('.toggle').forEach(t => t.addEventListener('click', () => t.classList.toggle('off')));
+</script>
+
+</body>
+</html>

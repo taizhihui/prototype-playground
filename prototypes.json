@@ -1,5 +1,15 @@
 [
   {
+    "name": "SMS Consent Collection",
+    "author": "Zhi",
+    "date": "Apr 28",
+    "description": "Stand-in mockup for the SMS consent collection v0 spec. Shows Subscribers nav inserted into AI Journey with three tabs: sign-up forms, subscriber list, audit log. Demonstrates AI-generated TCPA/CASL disclosure with edit-and-version-track flow.",
+    "file": "sms-consent-collection.html",
+    "image": "",
+    "badge": "Mockup",
+    "tags": ["SMS", "Consent", "Compliance"]
+  },
+  {
     "name": "Aspire Nutrition RCS Demo",
     "author": "Zhi",
     "date": "Mar 10",
