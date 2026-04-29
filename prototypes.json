@@ -1,5 +1,15 @@
 [
   {
+    "name": "Continue Conversation on Chat",
+    "author": "Zhi",
+    "date": "Apr 29",
+    "description": "Aspire Nutrition shopper experience prototype illustrating AI Journey SMS → on-site Shopping Assistant continuity. Four-act flow: browse abandonment SMS → two-way conversation → on-site chat auto-opens hydrated with full SMS history → in-chat conversion with discount honored. Companion to the Demo April board storyboard (which shows the reverse direction).",
+    "file": "continue-conversation-on-chat.html",
+    "image": "",
+    "badge": "Interactive",
+    "tags": ["SMS", "Shopping Assistant", "AI Journey", "Continuity", "Aspire"]
+  },
+  {
     "name": "SMS Consent Collection",
     "author": "Zhi",
     "date": "Apr 28",
