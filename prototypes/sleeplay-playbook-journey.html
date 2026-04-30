@@ -1,0 +1,1965 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AI Journey Playbook — Sleeplay shopper simulation</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<style>
+  body {
+    font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    background: #f5f5f7;
+    color: #111;
+  }
+
+  .phone-frame {
+    border-radius: 42px;
+    background: #111;
+    padding: 10px;
+    box-shadow: 0 30px 60px -15px rgba(0,0,0,0.45);
+    flex-shrink: 0;
+  }
+  .phone-screen {
+    background: #fff;
+    border-radius: 32px;
+    overflow: hidden;
+    height: 600px;
+    width: 360px;
+    display: flex;
+    flex-direction: column;
+  }
+  .phone-statusbar {
+    height: 40px;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 22px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #000;
+  }
+  .phone-header {
+    background: #f7f7f8;
+    border-bottom: 1px solid #e5e5e7;
+    padding: 8px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+  .phone-header .name {
+    font-size: 13px;
+    font-weight: 600;
+    color: #000;
+  }
+  .phone-header .sub {
+    font-size: 10px;
+    color: #6b7280;
+    margin-top: 1px;
+  }
+
+  .chat-scroll {
+    flex: 1;
+    overflow-y: auto;
+    padding: 12px 12px 16px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    background: #fff;
+  }
+  .chat-scroll > * { flex-shrink: 0; }
+  .chat-scroll::-webkit-scrollbar { width: 4px; }
+  .chat-scroll::-webkit-scrollbar-thumb { background: #d4d4d8; border-radius: 2px; }
+
+  .bubble-in {
+    background: #e9e9eb;
+    color: #000;
+    border-radius: 18px;
+    padding: 8px 14px;
+    max-width: 80%;
+    align-self: flex-start;
+    font-size: 14px;
+    line-height: 1.35;
+    word-wrap: break-word;
+  }
+  .bubble-out {
+    background: #007aff;
+    color: #fff;
+    border-radius: 18px;
+    padding: 8px 14px;
+    max-width: 80%;
+    align-self: flex-end;
+    font-size: 14px;
+    line-height: 1.35;
+    word-wrap: break-word;
+  }
+  .bubble-link {
+    color: inherit;
+    text-decoration: underline;
+    word-break: break-all;
+  }
+
+  .timestamp {
+    font-size: 10px;
+    color: #8e8e93;
+    text-align: center;
+    margin: 8px 0 4px 0;
+    font-weight: 500;
+  }
+
+  .context-banner {
+    background: #fef3c7;
+    border: 1px solid #fde68a;
+    border-radius: 12px;
+    padding: 10px 12px;
+    margin: 8px 0;
+    font-size: 12px;
+    color: #78350f;
+    line-height: 1.45;
+  }
+  .context-banner .ctx-label {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #92400e;
+    margin-bottom: 2px;
+  }
+
+  .stage-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .stage-nurture       { background: #f1f5f9; color: #334155; border: 1px solid #cbd5e1; }
+  .stage-education     { background: #dbeafe; color: #1e40af; border: 1px solid #93c5fd; }
+  .stage-consideration { background: #cffafe; color: #155e75; border: 1px solid #67e8f9; }
+  .stage-conversion    { background: #fef3c7; color: #92400e; border: 1px solid #fcd34d; }
+  .stage-postpurchase  { background: #d1fae5; color: #065f46; border: 1px solid #6ee7b7; }
+  .stage-retention     { background: #ede9fe; color: #5b21b6; border: 1px solid #c4b5fd; }
+
+  .stage-dot { width: 8px; height: 8px; border-radius: 999px; }
+  .dot-nurture       { background: #64748b; }
+  .dot-education     { background: #2563eb; }
+  .dot-consideration { background: #0891b2; }
+  .dot-conversion    { background: #d97706; }
+  .dot-postpurchase  { background: #059669; }
+  .dot-retention     { background: #7c3aed; }
+
+  .annotation-card {
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  }
+  .annotation-section {
+    border-top: 1px solid #f3f4f6;
+    padding-top: 16px;
+    margin-top: 16px;
+  }
+  .annotation-section:first-of-type { border-top: 0; padding-top: 0; margin-top: 0; }
+  .annotation-label {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #6b7280;
+    margin-bottom: 6px;
+  }
+  .annotation-body {
+    font-size: 13.5px;
+    line-height: 1.55;
+    color: #1f2937;
+  }
+  .annotation-body em {
+    font-style: normal;
+    background: #fef9c3;
+    padding: 0 3px;
+    border-radius: 3px;
+  }
+
+  .app-grid {
+    display: grid;
+    grid-template-columns: 150px 1fr 380px;
+    gap: 28px;
+    align-items: start;
+  }
+  .stages-col { padding-top: 4px; }
+  .playbook-col { min-width: 0; }
+  .phone-col {
+    position: sticky;
+    top: 24px;
+    align-self: start;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .stage-bar-vertical {
+    display: flex;
+    flex-direction: column;
+  }
+  .stage-bar-item-v {
+    border-left: 3px solid #e5e7eb;
+    padding: 10px 0 10px 14px;
+    cursor: pointer;
+    transition: all 0.15s;
+    text-align: left;
+    background: transparent;
+    font: inherit;
+    color: inherit;
+    width: 100%;
+  }
+  .stage-bar-item-v:hover { background: #fafafa; }
+  .stage-bar-item-v.active { border-left-color: currentColor; background: #fafafa; }
+  .stage-bar-item-v.done { border-left-color: currentColor; opacity: 0.55; }
+  .stage-bar-item-v.pending { opacity: 0.45; }
+  .stage-bar-label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    display: block;
+  }
+  .stage-bar-sub {
+    font-size: 11px;
+    color: #6b7280;
+    margin-top: 2px;
+    display: block;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 9px 16px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    transition: all 0.15s;
+    border: 1px solid transparent;
+    cursor: pointer;
+  }
+  .btn-primary {
+    background: #111;
+    color: #fff;
+  }
+  .btn-primary:hover { background: #000; }
+  .btn-primary:disabled { background: #9ca3af; cursor: not-allowed; }
+  .btn-secondary {
+    background: #fff;
+    color: #111;
+    border-color: #e5e7eb;
+  }
+  .btn-secondary:hover { background: #f9fafb; }
+  .btn-ghost {
+    background: transparent;
+    color: #6b7280;
+  }
+  .btn-ghost:hover { color: #111; }
+
+  .progress-track {
+    height: 4px;
+    background: #e5e7eb;
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: #111;
+    transition: width 0.3s ease-out;
+  }
+
+  /* ---- RCS rich messaging ---- */
+  .rcs-badge {
+    display: inline-flex;
+    align-items: center;
+    font-size: 9px;
+    font-weight: 700;
+    padding: 1px 5px;
+    border-radius: 4px;
+    background: #ede9fe;
+    color: #6d28d9;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    line-height: 1.3;
+  }
+  .rcs-row {
+    align-self: flex-start;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin: 4px 0 2px 4px;
+  }
+  .rcs-row .label {
+    font-size: 10px;
+    color: #9ca3af;
+    font-weight: 500;
+  }
+
+  .qr-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 2px;
+    margin-bottom: 4px;
+    align-self: flex-start;
+    max-width: 88%;
+  }
+  .qr-chip {
+    background: #fff;
+    border: 1.5px solid #007aff;
+    color: #007aff;
+    border-radius: 999px;
+    padding: 6px 14px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s;
+    line-height: 1.2;
+    font-family: inherit;
+  }
+  .qr-chip:hover { background: #eaf3ff; transform: translateY(-1px); }
+  .qr-chip:active { transform: translateY(0); }
+  .qr-chip-taken {
+    background: #007aff;
+    color: #fff;
+    border-color: #007aff;
+  }
+  .qr-chip-taken:hover { background: #007aff; transform: none; }
+  .qr-chip-disabled {
+    cursor: default;
+    border-color: #d1d5db;
+    color: #9ca3af;
+    background: #f9fafb;
+  }
+  .qr-chip-disabled:hover { background: #f9fafb; transform: none; }
+  .qr-row-label {
+    font-size: 9px;
+    color: #9ca3af;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-left: 4px;
+    margin-bottom: -2px;
+    margin-top: 2px;
+    align-self: flex-start;
+    font-weight: 600;
+  }
+
+  .rich-card {
+    align-self: flex-start;
+    width: 92%;
+    max-width: 300px;
+    background: #fff;
+    border: 1px solid #e5e5e7;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    margin-top: 2px;
+  }
+  .rich-card-image {
+    height: 160px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    text-align: center;
+    padding: 16px;
+    position: relative;
+  }
+  .rich-card-image.with-photo {
+    background: #f8fafc !important;
+    color: #0f172a;
+    padding: 0;
+  }
+  .rich-card-image.with-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 16px;
+  }
+  .rich-card-image-title {
+    font-size: 19px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+  }
+  .rich-card-image-sub {
+    font-size: 10px;
+    font-weight: 600;
+    opacity: 0.85;
+    margin-top: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  /* Video card */
+  .video-card {
+    align-self: flex-start;
+    width: 92%;
+    max-width: 300px;
+    background: #fff;
+    border: 1px solid #e5e5e7;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    margin-top: 2px;
+  }
+  .video-thumb {
+    height: 168px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    overflow: hidden;
+  }
+  .video-thumb-bg {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 70%, #312e81 100%);
+  }
+  .video-thumb-bg::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 30% 30%, rgba(99, 102, 241, 0.4), transparent 60%);
+  }
+  .video-play {
+    position: relative;
+    z-index: 2;
+    width: 56px;
+    height: 56px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.95);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  }
+  .video-play svg { fill: #0f172a; margin-left: 3px; }
+  .video-duration {
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+    z-index: 2;
+    background: rgba(0, 0, 0, 0.7);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 6px;
+    border-radius: 4px;
+  }
+  .video-thumb-overlay-text {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    z-index: 2;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: rgba(255, 255, 255, 0.9);
+  }
+
+  /* Carousel */
+  .carousel-row {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    align-self: stretch;
+    padding: 4px 12px 4px 0;
+    margin: 2px -4px 2px 0;
+    width: 100%;
+  }
+  .carousel-row::-webkit-scrollbar { height: 4px; }
+  .carousel-row::-webkit-scrollbar-thumb { background: #d4d4d8; border-radius: 2px; }
+  .carousel-row .rich-card {
+    width: 240px;
+    max-width: 240px;
+    flex-shrink: 0;
+    scroll-snap-align: start;
+    margin: 0;
+  }
+  .carousel-row .rich-card-image { height: 130px; }
+  .carousel-row .rich-card-title { font-size: 13.5px; }
+  .carousel-row .rich-card-text { font-size: 12.5px; }
+  .carousel-row .rich-card-button { padding: 8px 12px; font-size: 12.5px; }
+  .carousel-hint {
+    font-size: 10px;
+    color: #9ca3af;
+    margin-left: 4px;
+    margin-top: 2px;
+    align-self: flex-start;
+    font-style: italic;
+  }
+  .rich-card-body {
+    padding: 12px 14px 12px;
+  }
+  .rich-card-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #000;
+    line-height: 1.3;
+  }
+  .rich-card-subtitle {
+    font-size: 12px;
+    color: #6b7280;
+    margin-top: 3px;
+    font-weight: 500;
+  }
+  .rich-card-text {
+    font-size: 13px;
+    color: #374151;
+    line-height: 1.45;
+    margin-top: 8px;
+  }
+  .rich-card-button {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 12px;
+    padding: 10px 14px;
+    background: #f5f5f7;
+    border: 1px solid #e5e5e7;
+    border-radius: 10px;
+    color: #007aff;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: default;
+    transition: background 0.15s;
+  }
+  .rich-card-button .external-icon {
+    font-size: 11px;
+    opacity: 0.7;
+  }
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/babel" data-presets="env,react">
+const { useState, useMemo, useEffect, useRef } = React;
+
+// ---- Stage definitions ---------------------------------------------------
+
+const STAGES = [
+  { id: "nurture",       label: "Nurture",       sub: "Cold list" },
+  { id: "education",     label: "Education",     sub: "Problem-aware" },
+  { id: "consideration", label: "Consideration", sub: "Comparing options" },
+  { id: "conversion",    label: "Conversion",    sub: "Cart, intent" },
+  { id: "postpurchase",  label: "Post-purchase", sub: "Bought 0-90d" },
+  { id: "retention",     label: "Retention",     sub: "Past window" },
+];
+
+const stageColor = {
+  nurture:       "#475569",
+  education:     "#1d4ed8",
+  consideration: "#0e7490",
+  conversion:    "#b45309",
+  postpurchase:  "#047857",
+  retention:     "#6d28d9",
+};
+
+// ---- Marcus's journey -----------------------------------------------------
+//
+// Persona evolves stage by stage:
+//   Nurture       — Mid-40s, snoring + waking up tired. Doesn't know he has apnea.
+//                   Opted into Sleeplay's list via the sleep quality quiz.
+//   Education     — Started investigating sleep apnea after the side-sleeper tip
+//                   didn't work. Reading Sleeplay's symptoms guide.
+//   Conversion    — Took a home sleep test, diagnosed with moderate apnea, has
+//                   an Rx on file. Cart abandon on the AirSense 11.
+//   Post-purchase — First-time CPAP buyer. AirSense 11 arriving tomorrow.
+//   Retention     — 90 days post-purchase. Hasn't reordered cushions.
+//
+// Voice rules (per Sleeplay AirSense 11 spec):
+//   - No emojis. No em dashes. "Hi Marcus" not "Hey!".
+//   - Plain CPAP language; no aspirational marketing.
+//   - No fear-mongering about untreated apnea.
+//   - Reference specific products and signals from history when available.
+//   - One link per message, woven into sentence flow.
+//   - First messages end with statements, not questions.
+
+const journey = [
+  // ============================================================
+  // STAGE 1 — NURTURE
+  // Marcus has sleep symptoms. Doesn't know he has apnea.
+  // ============================================================
+  {
+    type: "context",
+    stage: "nurture",
+    timestamp: "Day 0",
+    text: "Marcus opted into Sleeplay's SMS list 6 weeks ago after taking the sleep quality quiz on sleeplay.com. Quiz responses flagged daytime tiredness and snoring. He hasn't connected it to sleep apnea. No CPAP, no purchase, no recent browse.",
+  },
+  {
+    type: "message",
+    stage: "nurture",
+    actor: "sleeplay",
+    timestamp: "Mon 9:14 AM",
+    rcsTemplate: "text_only",
+    text: "Hi Marcus, this is Sleeplay. Quick one from our sleep team: most snoring eases when you sleep on your side instead of your back. Worth a try tonight. If it doesn't move the needle, the cause is usually upstream of position.",
+    suggestedReplies: ["Trying tonight", "What if it doesn't?", "Don't text me"],
+    chosenReply: "Trying tonight",
+    chipResponses: {
+      "What if it doesn't?": {
+        text: "If side-sleeping doesn't shift it, the cause is usually upstream of position. Disrupted sleep that comes back the next day is the kind of pattern worth a closer look. We can check in if you want.",
+        suggestedReplies: ["Trying tonight first", "What's a closer look?", "Check in next week"],
+      },
+      "Don't text me": {
+        text: "Got it, we'll stop. If you change your mind later, text RESUME or sign up again at sleeplay.com. Hope you sleep well.",
+        suggestedReplies: ["Pause 30 days instead", "Stop confirmed", "Resume now"],
+      },
+    },
+    annotation: {
+      signal: "Quiz-opted-in 6 weeks ago. Quiz responses flagged daytime tiredness and snoring. No purchase, no recent browse, no diagnostic data. Cold list, but with a clinical breadcrumb from the quiz.",
+      technique: "Reciprocity / value-first open + suggested-reply chips. The message is the gift; the chips are the safety net so the conversation doesn't die on \"what do I even ask back.\" Chips here map to the three nurture-stage shopper instincts: try it, doubt it, or sanity-check the brand.",
+      why: "Cialdini reciprocity. Naming his actual symptom (not generic sleep tips) makes the brand feel diagnostic, not promotional. The chips make the conversation continuable: \"What if it doesn't?\" is the explicit on-ramp into Education when the easy fix doesn't work.",
+      vs: "Klaviyo's broadcast either has no chips at all or a single \"Reply STOP\" footer. The conversation stops there.",
+    },
+  },
+
+  // ============================================================
+  // STAGE 2 — EDUCATION
+  // Side-sleeping didn't fix it. Marcus is now investigating apnea.
+  // ============================================================
+  {
+    type: "context",
+    stage: "education",
+    timestamp: "9 days later",
+    text: "Marcus tried sleeping on his side. Snoring continued. This week he visited Sleeplay's sleep apnea symptoms guide twice and clicked into the home sleep test page once. He's investigating the upstream cause.",
+  },
+  {
+    type: "message",
+    stage: "education",
+    actor: "sleeplay",
+    timestamp: "Wed 8:21 PM",
+    rcsTemplate: "text_only",
+    text: "Hi Marcus, saw you've been reading up on sleep apnea. One filter that helps before going further: are you most exhausted in the morning, or is it falling asleep that's the hard part. Apnea typically shows up as the first one.",
+    suggestedReplies: ["Mornings are worst", "Falling asleep"],
+    chosenReply: "Mornings are worst",
+    chipResponses: {
+      "Falling asleep": {
+        text: "OK, that pattern usually points to sleep onset insomnia, not apnea. Different cause, different fix. We don't specialize in that side, but the most common starting points are sleep hygiene habits and a melatonin trial. Worth checking with your doctor if it's been going on a while.",
+        suggestedReplies: ["Both, actually", "OK thanks", "What about snoring?"],
+      },
+    },
+    annotation: {
+      signal: "Sleep apnea symptoms guide x2 in 7 days. Home sleep test page x1 visit. No CPAP machine browse yet; he's still investigating the diagnosis, not shopping.",
+      technique: "Decision-tree question + binary suggested-reply chips. One tap to respond instead of typing. The chips ARE the question, scoped to the only two answers that matter for routing.",
+      why: "Loewenstein information gap. Chips collapse the response cost from \"compose a sentence\" to \"tap one,\" which is exactly the friction that kills SMS reply rates. The chip choice routes the AI's next move cleanly.",
+      vs: "Klaviyo can't ask a routable question and branch on the answer. It would default to a CPAP machine ad at the moment of highest engagement, which mismatches where Marcus actually is in the journey.",
+    },
+  },
+  {
+    type: "message",
+    stage: "education",
+    actor: "shopper",
+    text: "Mornings are worst",
+    isChipTap: true,
+  },
+  {
+    type: "message",
+    stage: "education",
+    actor: "sleeplay",
+    rcsTemplate: "text_only",
+    text: "Yeah, that's the classic apnea pattern. Before any machine talk, the right next step is a home sleep test. About $200, mailed to your door, results in a few days. It's the only way to know what's actually going on at night.",
+    suggestedReplies: ["Show me the test", "Insurance covers?", "Saw a doctor"],
+    chosenReply: "Show me the test",
+    chipResponses: {
+      "Insurance covers?": {
+        text: "Most plans cover home sleep tests if you submit them as out-of-network or with a doctor's referral. Coverage varies by plan, so for specifics we'd loop in support. The test itself is $199 out of pocket without insurance.",
+        suggestedReplies: ["Show me the test", "Loop in support", "HSA option?"],
+      },
+      "Saw a doctor": {
+        text: "If you already have a sleep study or a CPAP prescription, you can skip the home test and upload the Rx directly to Sleeplay. We'll handle insurance from there.",
+        suggestedReplies: ["Have an Rx", "Need a study still", "How do I upload?"],
+      },
+    },
+    annotation: {
+      signal: "Chip-tap confirmed morning exhaustion. Strong apnea signal, no diagnosis yet, no Rx on file.",
+      technique: "Refuses to sell the CPAP machine. Sets up the home sleep test as the next step in plain text, deliberately conversational. The card lands separately so the redirect feels deliberate, not a brushoff.",
+      why: "Selling an undiagnosed customer a $1,099 CPAP machine is a return waiting to happen. Sending him to diagnosis first builds trust and creates a high-fit buyer 1-2 weeks from now. This is where AI Journey demonstrably is not a sales bot. It's a guide.",
+      vs: "Klaviyo cannot do this. Marketing automation does not have the judgment to back off the sale at the moment of highest engagement. AI Journey reads the context and chooses not to push.",
+    },
+  },
+  {
+    type: "message",
+    stage: "education",
+    actor: "sleeplay",
+    rcsTemplate: "card_media_1url",
+    card: {
+      gradient: "linear-gradient(135deg, #0c4a6e 0%, #0284c7 100%)",
+      heroTitle: "WatchPAT One",
+      heroSub: "At-home sleep apnea test",
+      title: "WatchPAT One Home Sleep Test",
+      subtitle: "$199 · Mailed to you · Report in 2-3 days",
+      body: "Wear it for one night, mail it back, get a sleep physician's report. The only way to know what's actually happening at night.",
+      button: { label: "View test details", type: "URL" },
+    },
+    suggestedReplies: ["Order it", "Results when?", "Insurance?"],
+    chosenReply: "Order it",
+    chipResponses: {
+      "Results when?": {
+        text: "After your test night, mail it back the next morning. A board-certified sleep physician reviews it and emails the report in 2-3 business days. If results suggest CPAP, we can move directly to fitting.",
+        suggestedReplies: ["Order it", "What's in the report?", "Got it"],
+      },
+      "Insurance?": {
+        text: "Most plans cover the test as out-of-network. You pay $199 upfront and submit for reimbursement, and we can prep the paperwork. HSA and FSA also work for the full amount.",
+        suggestedReplies: ["Order it", "HSA option", "Skip insurance"],
+      },
+    },
+    annotation: {
+      signal: "Same context. The redirect needs to land as a real next-action, not a vague suggestion.",
+      technique: "RCS rich card: hero, price, timeline, single URL CTA. Surfaces the home sleep test as a tactile next-step in the same chat surface — no scroll-out, no \"go check our website.\"",
+      why: "The card form-factor signals intent. A bare link reads as a deflection; a card reads as \"this is the actual next step we're recommending.\" The visual weight makes the redirect convincing.",
+      vs: "Without RCS, this is a URL pasted into a text bubble. With RCS, it's a productized next-action surface that competes with the AirSense 11 link Marcus would have clicked otherwise.",
+    },
+  },
+
+  // ============================================================
+  // STAGE 3 — CONSIDERATION
+  // Diagnosed. In-market. Comparing AirSense 10 vs 11, Sleeplay vs alternatives.
+  // ============================================================
+  {
+    type: "context",
+    stage: "consideration",
+    timestamp: "2 weeks later",
+    text: "Marcus's home sleep test came back: moderate sleep apnea, CPAP prescribed. Rx uploaded to Sleeplay's portal. This week he viewed both the AirSense 10 ($849) and AirSense 11 ($1,099) on Sleeplay 3 times each, watched a YouTube comparison, and read 3 Reddit threads on r/CPAP. He's actively comparing.",
+  },
+  {
+    type: "message",
+    stage: "consideration",
+    actor: "sleeplay",
+    timestamp: "Tue 6:48 PM",
+    rcsTemplate: "text_only",
+    text: "Hi Marcus, saw you've been weighing the AirSense 10 and 11. Quick frame for newly-diagnosed buyers: both meet your prescription. The 10 is the clinical workhorse most providers still default to. The 11 is the upgrade if a quieter motor and the MyAir app matter for your case.",
+    suggestedReplies: ["Show me both", "Recommend?", "Just price"],
+    chosenReply: "Show me both",
+    chipResponses: {
+      "Recommend?": {
+        text: "Honest take, and I'd want to confirm one thing first: the AirSense 11 if quieter therapy and the MyAir app matter to you, the AirSense 10 if budget is the constraint. Both are clinically equivalent for moderate apnea like yours.",
+        suggestedReplies: ["Show me both", "Going with 11", "Going with 10"],
+      },
+      "Just price": {
+        text: "AirSense 10: $849. AirSense 11: $1,099. Both qualify for the Memorial Day sale starting Friday. The 11 will be 40% off ($659). The 10 won't be discounted. Worth knowing if you're on the fence.",
+        suggestedReplies: ["Show me both", "When's the sale?", "Going with 11"],
+      },
+    },
+    annotation: {
+      signal: "Active comparison: AirSense 10 page x3, AirSense 11 page x3, plus off-Sleeplay research (YouTube comparison, r/CPAP threads). Diagnosis confirmed. Rx on file. He's deciding between models, not whether to buy.",
+      technique: "Comparison framing as plain text. Anchors the decision (\"10 is the workhorse, 11 is the upgrade\") before pitching either. Honest about both meeting his prescription so the recommendation lands as a fit decision, not a sales push.",
+      why: "Cialdini reciprocity in comparison form. Acknowledging the 10 as a legitimate option (instead of trashing it to sell the 11) earns the right to recommend the 11 later. The frame gives Marcus a structure for the decision he's already trying to make on Reddit.",
+      vs: "Klaviyo at this moment would push the higher-margin 11 with a generic \"Meet the new gold standard\" subject line. AI Journey acknowledges the comparison Marcus is actually doing.",
+    },
+  },
+  {
+    type: "message",
+    stage: "consideration",
+    actor: "sleeplay",
+    rcsTemplate: "carousel_2",
+    carousel: [
+      {
+        gradient: "linear-gradient(135deg, #475569 0%, #94a3b8 100%)",
+        heroTitle: "AirSense 10",
+        heroSub: "ResMed · Workhorse",
+        title: "ResMed AirSense 10 AutoSet",
+        subtitle: "$849 · Clinical default",
+        body: "Proven 8 years. Slightly louder. No smartphone app. Same clinical efficacy as the 11.",
+        button: { label: "Learn more", type: "QUICK_REPLY" },
+      },
+      {
+        image: "https://www.cpap.com/cdn/shop/files/AirSense11-auto-cpap-machine-Transparent_a9isol.png?v=1756330302&width=1946",
+        title: "ResMed AirSense 11 AutoSet",
+        subtitle: "$1,099 · Upgrade",
+        body: "Quietest motor ResMed has shipped. AutoRamp. MyAir app for compliance tracking.",
+        button: { label: "Learn more", type: "QUICK_REPLY" },
+      },
+    ],
+    suggestedReplies: ["Worth $250 more?", "About the app", "Warranty?"],
+    chosenReply: "Worth $250 more?",
+    chipResponses: {
+      "About the app": {
+        text: "MyAir is ResMed's compliance tracking app. It shows your nightly usage hours, mask seal score, and event trends. Most newly-diagnosed users say it's what kept them honest in the first 90 days. Only the AirSense 11 connects to it.",
+        suggestedReplies: ["Worth $250 more?", "Show me a screenshot", "Going with 11"],
+      },
+      "Warranty?": {
+        text: "Both machines come with ResMed's 2-year warranty on the device. Sleeplay adds a 30-day return window if it's not the right fit. Mask cushions aren't covered (those are 30-day replenishables).",
+        suggestedReplies: ["Worth $250 more?", "What about masks?", "Got it"],
+      },
+    },
+    annotation: {
+      signal: "Same comparison context. The text frame set up the 10-vs-11 anchor; the carousel makes the comparison tactile.",
+      technique: "RCS carousel: side-by-side product cards Marcus can swipe between. Each card carries the differentiator in its body. Quick-reply buttons stay in chat so the AI can respond with a personalized take if he taps either.",
+      why: "Comparison shopping IS Marcus's current behavior (3 r/CPAP threads, YouTube). The carousel imports that comparison into the chat where the AI can read his reply and personalize. Visual side-by-side weights both options fairly, which keeps the trust earned by the comparison frame.",
+      vs: "Klaviyo cannot deliver a side-by-side comparison that lets the shopper engage with either option and route the next message accordingly. A static email comparison is one-way; this is two-way.",
+    },
+  },
+  {
+    type: "message",
+    stage: "consideration",
+    actor: "shopper",
+    text: "Worth $250 more?",
+    isChipTap: true,
+  },
+  {
+    type: "message",
+    stage: "consideration",
+    actor: "sleeplay",
+    rcsTemplate: "text_only",
+    text: "For your case, yes. Moderate apnea, your prescription pressure, and the morning exhaustion you flagged on the test all point to the 11. AutoRamp adapts pressure to your breathing in real time, which makes the lower-pressure adaptation phase easier through the first 30 days. The MyAir app is what most newly-diagnosed buyers credit with staying compliant past day 90. If budget's the constraint, the 10 is genuinely a great machine. If not, the 11 is the better fit for the pattern your test showed.",
+    suggestedReplies: ["Going with 11", "Financing?", "Anything else?"],
+    chosenReply: "Going with 11",
+    chipResponses: {
+      "Financing?": {
+        text: "We offer 0% financing through Affirm. Works out to about $109 a month over 12 months for the AirSense 11 at $1,099. Pre-qualify at checkout, no impact on your credit score.",
+        suggestedReplies: ["Going with 11", "Show me financing", "Pay upfront"],
+      },
+      "Anything else?": {
+        text: "Three things newly-diagnosed buyers usually ask: yes, the heated humidifier comes built in. Yes, you can use your own mask if you have one. And yes, all our machines are brand-new in factory-sealed boxes.",
+        suggestedReplies: ["Going with 11", "What masks fit?", "Box contents?"],
+      },
+    },
+    annotation: {
+      signal: "Direct value question scoped to his diagnosis. He's asking the AI to make the call. Decision is imminent.",
+      technique: "Personalized recommendation grounded in his specific diagnosis (moderate apnea, prescription pressure, morning exhaustion). Concrete mechanism (AutoRamp) tied to a concrete first-30-days outcome. Acknowledges the 10 as a real option to preserve trust.",
+      why: "Cialdini authority + commitment + reciprocity stacked. Authority via clinical reasoning, commitment by linking the 11 to his already-stated symptoms, reciprocity by not over-selling. The 90-day compliance reference (MyAir) is the long-term frame that justifies the price gap.",
+      vs: "Klaviyo cannot connect his test results to a per-shopper recommendation. The closest equivalent is a generic \"benefits of the AirSense 11\" email that ignores his actual prescription and signal.",
+    },
+  },
+
+  // ============================================================
+  // STAGE 4 — CONVERSION
+  // Decision made. Cart abandon on the AirSense 11.
+  // ============================================================
+  {
+    type: "context",
+    stage: "conversion",
+    timestamp: "1 week later",
+    text: "Marcus came back, added the AirSense 11 to his cart at $1,099, didn't check out. 18 hours since cart event. The Memorial Day Sale just went live.",
+  },
+  {
+    type: "message",
+    stage: "conversion",
+    actor: "sleeplay",
+    timestamp: "Sun 10:02 AM",
+    rcsTemplate: "card_media_1url",
+    card: {
+      image: "https://www.cpap.com/cdn/shop/files/AirSense11-auto-cpap-machine-Transparent_a9isol.png?v=1756330302&width=1946",
+      title: "Resume your AirSense 11 checkout",
+      subtitle: "$659 · Memorial Day price (was $1,099)",
+      body: "Hi Marcus, the AirSense 11 is still in your cart. 40% off, the lowest price we've offered all year. Sale ends Monday.",
+      button: { label: "Resume checkout", type: "URL" },
+    },
+    suggestedReplies: ["1099 is steep though", "Masks included?", "Will it actually work?", "Save for later"],
+    chosenReply: "1099 is steep though",
+    chipResponses: {
+      "Masks included?": {
+        text: "Mask not included with the machine. Most first-time buyers add the AirFit P10 (nasal pillows, $89) or AirFit F30 (full face, $129) at checkout. Your prescription doesn't specify, so it's your call based on sleep position. Both bundle-discount eligible.",
+        suggestedReplies: ["Add P10", "Add F30", "Skip mask for now"],
+      },
+      "Will it actually work?": {
+        text: "Fair question. AirSense 11 is at 4.8 stars from 12K verified Sleeplay reviews, and ResMed is the most-prescribed CPAP brand by US sleep clinicians. The mechanism: AutoSet adjusts pressure overnight to your breathing pattern, AutoRamp eases the first 30 minutes when you're falling asleep. If it doesn't work for you, our 30-day return covers it.",
+        suggestedReplies: ["I'll grab it", "How does AutoSet work?", "Returns policy?"],
+      },
+      "Save for later": {
+        text: "Saved. We'll hold the Memorial Day price for 7 days for you, even after the public sale ends Monday. Text READY when you want to check out, or tap below to pause sale alerts in the meantime.",
+        suggestedReplies: ["Got it", "Pause sale alerts", "Ready now"],
+      },
+    },
+    annotation: {
+      signal: "Cart abandon, AirSense 11, 18 hours ago. Newly diagnosed, Rx on file, first-time CPAP buyer. Inside the 0-7d cart-reference window per Sleeplay's signal-recency rules.",
+      technique: "RCS rich card with strikethrough price ($1,099 → $659), deadline, and single Resume-checkout URL button. Greeting + offer + CTA in one tap.",
+      why: "Loss aversion + visual confirmation of savings. The strikethrough does the math for him; the deadline closes the loop; the URL button gets him into checkout in one tap, not three.",
+      vs: "Klaviyo's cart-abandon SMS sends a text with a URL. RCS lets us put the strikethrough price visible at a glance, which is what most cart-abandon shoppers actually need to act. The next move is also where Klaviyo's playbook breaks.",
+    },
+  },
+  {
+    type: "message",
+    stage: "conversion",
+    actor: "shopper",
+    text: "1099 is steep though",
+  },
+  {
+    type: "message",
+    stage: "conversion",
+    actor: "sleeplay",
+    rcsTemplate: "text_only",
+    text: "40% off brings it to $659, the lowest we've offered all year and sale ends Monday. The 11 is at 4.8 stars from 12,000 Sleeplay reviews, and it's been our top-selling CPAP every month this year. Worth a look while it's live.",
+    suggestedReplies: ["I'll grab it", "Returns policy?", "Other ways to save?", "Pause sale texts"],
+    chosenReply: "I'll grab it",
+    chipResponses: {
+      "Returns policy?": {
+        text: "30-day returns on the machine if it's not the right fit. Open box is fine. Just send it back in the original packaging for a full refund minus shipping. Mask cushions can't be returned for hygiene reasons.",
+        suggestedReplies: ["I'll grab it", "How do I return?", "Got it"],
+      },
+      "Other ways to save?": {
+        text: "Memorial Day price is the lowest we'll offer this year. Bundling a mask gets you another 10% off the mask. HSA and FSA work for the full purchase. We don't have a price match policy though.",
+        suggestedReplies: ["I'll grab it", "Add a mask", "Skip the bundle"],
+      },
+      "Pause sale texts": {
+        text: "Done. We'll skip sale alerts for 30 days and only message you for transactional things like cart abandons or replenishment reminders. Re-enable anytime by texting RESUME or in your account settings.",
+        suggestedReplies: ["Got it", "Pause everything", "Resume sales"],
+      },
+    },
+    annotation: {
+      signal: "Free-text price objection. Marcus is in market; an objection here is a buying signal, not a rejection. The objection is also a trust check: \"is this really worth $1,099?\"",
+      technique: "Sale framing + deadline (no negotiation, no apology) + STACKED social proof from the playbook's decision-moment menu. Specifically: numeric reviews (4.8 stars / 12K reviews) for trust, recent volume framing (top-selling every month this year) for comparison fatigue. Peer-cohort proof already fired in Consideration, so the Conversion close goes harder-edged.",
+      why: "Playbook social-proof stack: each type answers a different doubt. Numeric reviews answer the trust question Marcus is implicitly asking. Recent volume framing answers the \"is everyone else picking this too\" question that hits at the decision moment. Per playbook v1, social proof types stack at decision time, not in the opener.",
+      vs: "Klaviyo cannot read \"1099 is steep\" and respond. It would either resend the same discount on a timer or do nothing. The two-way conversation lets the proof type match the specific objection the shopper raised.",
+    },
+  },
+  {
+    type: "message",
+    stage: "conversion",
+    actor: "shopper",
+    text: "I'll grab it",
+  },
+  {
+    type: "message",
+    stage: "conversion",
+    actor: "sleeplay",
+    rcsTemplate: "text_only",
+    text: "Locking it in. Default ship is free 2-day FedEx, so it lands Wednesday. If your week's packed or you'd rather it arrive on a quieter day, we can shift it.",
+    suggestedReplies: ["Wednesday works", "Friday instead", "Next Monday"],
+    chosenReply: "Wednesday works",
+    chipResponses: {
+      "Friday instead": {
+        text: "Done, Friday delivery confirmed. We'll text the FedEx tracking info Thursday afternoon so you can plan around it.",
+        suggestedReplies: ["Got it", "Text on arrival too?", "What time Friday?"],
+      },
+      "Next Monday": {
+        text: "Got it, holding the order until Monday's batch. Email confirmation now, tracking info next week.",
+        suggestedReplies: ["Got it", "Can I change later?", "Push another week"],
+      },
+    },
+    annotation: {
+      signal: "Marcus committed to buy. Order is ready to process — but commitment compliance jumps when the shopper picks a specific delivery moment instead of accepting the default ship date.",
+      technique: "Implementation intentions (Gollwitzer): when/where commitments lift follow-through. Asking \"when do you want it to land\" converts a passive purchase into an active commitment to a specific moment.",
+      why: "Gollwitzer's research on implementation intentions shows that connecting an action to a specific time/place increases follow-through 2-3x vs. abstract intent. SMS is native to this — quick chip-based time selection. Marcus has now committed not just to OWNING the AirSense 11 but to USING it on a specific day, which primes higher first-week compliance.",
+      vs: "Klaviyo's checkout flow ends at the receipt. It does not engage the shopper on delivery preference, missing the implementation-intentions moment that primes higher first-week usage compliance.",
+    },
+  },
+
+  // ============================================================
+  // STAGE 5 — POST-PURCHASE
+  // First-time CPAP user. Anxiety high. AirSense 11 arriving tomorrow.
+  // ============================================================
+  {
+    type: "context",
+    stage: "postpurchase",
+    timestamp: "4 days later",
+    text: "Marcus checked out, picked Wednesday delivery. The AirSense 11 ships, arriving tomorrow. First time he's used a CPAP. Anxiety is high; he's read mixed reviews of CPAP comfort online.",
+  },
+  {
+    type: "message",
+    stage: "postpurchase",
+    actor: "sleeplay",
+    timestamp: "Thu 8:30 AM",
+    rcsTemplate: "text_only",
+    text: "Hi Marcus, your AirSense 11 should land tomorrow. Heads-up: the first 3 nights with any CPAP usually feel different, not better. The AutoRamp learns your breathing pattern. By night 5 most people stop noticing it's running. Most folks who quit do so before hitting that point.",
+    suggestedReplies: ["Got it, thanks", "What if it doesn't?"],
+    chosenReply: "Got it, thanks",
+    chipResponses: {
+      "What if it doesn't?": {
+        text: "If you're past night 5 and it still doesn't feel right, message us and we'll loop in our sleep coach. The most common issue is mask seal (fixable in 5 minutes). Second most common is pressure feeling off, and your prescription has tolerance for adjustment.",
+        suggestedReplies: ["Got it", "Hope I won't need that", "Tell me about masks"],
+      },
+    },
+    annotation: {
+      signal: "AirSense 11 ordered 4 days ago. Day before delivery. First-time CPAP user, high anxiety, high return risk in the first week.",
+      technique: "Pre-empts buyer's remorse, then offers RCS quick-reply chips for the two reactions Marcus is likely to have: acknowledgment or escalation. Both stay inside the chat, both immediate.",
+      why: "First-week disappointment is the biggest CPAP returns driver. Pre-empting the \"this isn't working\" feeling at hour 1 prevents the cancellation at hour 72. The escalation chip lowers the bar for Marcus to surface a real issue early instead of churning silently.",
+      vs: "Klaviyo's post-purchase flow sends shipping updates. It does not know that night 3 is the danger zone for first-time CPAP users, and even if it did, it has no surface for Marcus to flag a problem in one tap.",
+    },
+  },
+  {
+    type: "message",
+    stage: "postpurchase",
+    actor: "shopper",
+    text: "good to know, was nervous about that",
+  },
+  {
+    type: "message",
+    stage: "postpurchase",
+    actor: "sleeplay",
+    rcsTemplate: "media_video",
+    text: "Totally normal, most first-timers are. Our sleep coach made a 90-second walkthrough for night 1 that covers the main surprises so nothing catches you off guard.",
+    video: {
+      title: "Your first night with the AirSense 11",
+      subtitle: "Sleep coach walkthrough",
+      duration: "1:32",
+      overlayLabel: "Sleeplay Sleep Coach",
+    },
+    suggestedReplies: ["Watching now", "Send transcript", "Ask the coach"],
+    chosenReply: "Watching now",
+    chipResponses: {
+      "Send transcript": {
+        text: "Sent. Check your email for the full transcript plus a one-page CPAP first-week checklist. Useful if reading is easier than video tonight.",
+        suggestedReplies: ["Got it", "Watching the video too", "Save coach contact"],
+      },
+      "Ask the coach": {
+        text: "Our sleep coach team is in chat 9-5 ET, Monday to Friday. You can also book a 15-minute video call if it helps to see things demo'd in real time. No charge.",
+        suggestedReplies: ["Book a call", "Just text questions", "Save for later"],
+      },
+    },
+    annotation: {
+      signal: "Free-text reply explicitly named the nervousness. Direct emotional signal to address.",
+      technique: "RCS rich media (video). Caption acknowledges the nervousness; the video itself is a 90s walkthrough by a real sleep coach. Visual + auditory comfort, not text reassurance.",
+      why: "First-time CPAP users return machines because the first night feels wrong. A pre-emptive video by a credible voice (Cialdini authority) lets Marcus see the setup and hear what to expect before he ever puts the mask on. Anxiety reduction at the exact moment it's highest.",
+      vs: "Klaviyo can attach a video to an email, but it can't trigger one in response to a free-text expression of nervousness. The fit between Marcus's reply and the next message is what makes this work.",
+    },
+  },
+  {
+    type: "message",
+    stage: "postpurchase",
+    actor: "sleeplay",
+    rcsTemplate: "text_only",
+    text: "Two things to put on the calendar so you don't have to track them: humidifier filter at 30 days, and your cushion at 30 days. We'll text when you're due.",
+    suggestedReplies: ["Sounds good", "I'll track myself"],
+    chosenReply: "Sounds good",
+    chipResponses: {
+      "I'll track myself": {
+        text: "OK, no automated reminders. Cushion at 30 days, filter at 30 days, full mask at 6 months. We'll skip the texts unless you re-enable them in account settings.",
+        suggestedReplies: ["Re-enable later", "Got the schedule", "What if I forget?"],
+      },
+    },
+    annotation: {
+      signal: "Anxiety addressed via the video. Open door to set replenishment cadence proactively.",
+      technique: "Pre-negotiates replenishment cadence as an explicit opt-in. RCS chips (\"Sounds good\" / \"I'll track myself\") let Marcus consent or decline in one tap.",
+      why: "Trust earned at this moment compounds. Marcus's tap is consent, which means the next replenishment text reads as a reminder he opted into, not an unprompted pitch. This is the move that converts a one-time machine buyer into a repeat customer (71.6% of Sleeplay's base is single-purchase today).",
+      vs: "Klaviyo would queue a generic 30-day replenishment email with a discount. No consent, no opt-in moment. When the email lands, it's an unprompted sales pitch, not a service.",
+    },
+  },
+  {
+    type: "context",
+    stage: "postpurchase",
+    timestamp: "10 days later",
+    text: "Marcus has been using the AirSense 11 nightly for two weeks. MyAir app shows 7-hour average usage and 92% mask seal — better-than-average first-month compliance.",
+  },
+  {
+    type: "message",
+    stage: "postpurchase",
+    actor: "sleeplay",
+    timestamp: "Sat 11:18 AM",
+    rcsTemplate: "card_media_1url",
+    text: "Two weeks in and you're at 92% mask seal, better than most first-timers. Heads-up on humidifier care: if you're using tap water, mineral buildup quietly shortens the chamber's life by about 6 months. Distilled is the fix.",
+    card: {
+      gradient: "linear-gradient(135deg, #0e7490 0%, #06b6d4 100%)",
+      heroTitle: "Distilled Water",
+      heroSub: "Auto-delivery for your AirSense 11",
+      title: "Distilled Water Auto-Delivery",
+      subtitle: "$24/mo · 4 gallons · pause anytime",
+      body: "Right amount for the AirSense 11 humidifier, delivered monthly. Skip a month or cancel from your account.",
+      button: { label: "Start subscription", type: "URL" },
+    },
+    suggestedReplies: ["Start subscription", "I'll buy locally", "Tell me more", "Pause cross-sell"],
+    chosenReply: "Start subscription",
+    chipResponses: {
+      "I'll buy locally": {
+        text: "Smart. Just check the label says distilled, not purified or spring. Mineral content is what matters for humidifier life.",
+        suggestedReplies: ["Got it", "What about filtered water?", "Pause cross-sell"],
+      },
+      "Tell me more": {
+        text: "Quick math: a year of tap water buildup costs roughly $200-300 in humidifier replacement. Distilled subscription is $288/year and prevents the buildup. Net cost about even, plus you don't run out.",
+        suggestedReplies: ["Start subscription", "Skip for now", "Pause cross-sell"],
+      },
+      "Pause cross-sell": {
+        text: "Got it. We'll skip cross-sell offers and only message you for replenishment reminders and account stuff.",
+        suggestedReplies: ["Got it", "Pause everything", "Resume cross-sell"],
+      },
+    },
+    annotation: {
+      signal: "14 days post-purchase. MyAir shows strong adherence (92% seal). Engagement window is open. Order history shows no distilled water purchase, so we know the humidifier risk is real.",
+      technique: "Cross-sell on COMPLEMENTARITY, not similarity. Distilled water completes the CPAP job (humidifier longevity); it's not a CPAP alternative. Surfaced as a service problem (mineral buildup) the AI proactively raises, not a product pitch.",
+      why: "Christensen JTBD: buyers hire products for outcomes, not categories. Marcus didn't hire a CPAP machine; he hired better sleep. Distilled water protects the outcome (working humidifier = continued better sleep). Per playbook, complementarity wins because it solves a problem the shopper already has, not one we want them to have.",
+      vs: "Klaviyo's cross-sell defaults to category-similar products (\"customers also bought another CPAP machine\"). It cannot reason about complementarity from connected-shopper context. The MyAir signal that mattered here — strong compliance, no distilled water purchase — is invisible to point-solution SMS.",
+    },
+  },
+  {
+    type: "context",
+    stage: "postpurchase",
+    timestamp: "About 2 weeks later",
+    text: "Marcus is 30 days in. MyAir shows consistent compliance and his subscription has shipped. Experience is fresh, opinions formed.",
+  },
+  {
+    type: "message",
+    stage: "postpurchase",
+    actor: "sleeplay",
+    timestamp: "Wed 7:42 PM",
+    rcsTemplate: "card_media_1url",
+    text: "Hi Marcus, you're 30 days in and your MyAir compliance is strong. Got 30 seconds for an honest review of the AirSense 11? Real-buyer reviews carry the most weight for the next person trying to choose.",
+    card: {
+      gradient: "linear-gradient(135deg, #b45309 0%, #f59e0b 100%)",
+      heroTitle: "Quick review?",
+      heroSub: "Verified buyer · 30 days in",
+      title: "Review your AirSense 11",
+      subtitle: "30 seconds · 5-star + optional comment",
+      body: "Pre-filled with your verified-buyer status. Honest scores help — polite ones don't.",
+      button: { label: "Open review form", type: "URL" },
+    },
+    suggestedReplies: ["Leave review", "Maybe later", "No reviews please"],
+    chosenReply: "Leave review",
+    chipResponses: {
+      "Maybe later": {
+        text: "No rush. We'll check back in 60 days. If anything's not working in the meantime, just text us — we'd rather fix it than read about it in a review.",
+        suggestedReplies: ["Got it", "Will text if issues", "Stop review asks"],
+      },
+      "No reviews please": {
+        text: "Got it, removing you from review requests. You'll still get transactional and replenishment messages but no UGC asks.",
+        suggestedReplies: ["Got it", "Pause everything", "Re-enable later"],
+      },
+    },
+    annotation: {
+      signal: "30 days post-purchase. Strong MyAir compliance. Experience is fresh (first-month memory peak), and Marcus has lived with the product long enough to have a genuine opinion.",
+      technique: "Automated review capture — verified buyer, fresh experience, structured rating + optional qualitative. Triggered on actual usage signal (30-day MyAir compliance), not just calendar time. Chip set INCLUDES decline options so the request doesn't read as coercive.",
+      why: "The 30-day mark is the peak of fresh-experience memory + accumulated usage. Earlier reviews are too thin (no real usage); later reviews bias toward extremes. Reviews captured at 30d carry the highest signal AND the highest acceptance rate. UGC compounds for future shoppers — every review here feeds the social proof in Stage 4 Conversion (\"4.8 from 12K verified reviews\").",
+      vs: "Klaviyo's review request flow is a one-way email with a generic CTA. No graceful decline, no triggering on actual usage signal, no real-time response if shopper pushes back. The result: lower opt-in rate and lower-quality reviews.",
+    },
+  },
+
+  // ============================================================
+  // STAGE 6 — RETENTION / WIN-BACK
+  // 60 days past purchase from review moment, ~90d total. Past replenishment window.
+  // ============================================================
+  {
+    type: "context",
+    stage: "retention",
+    timestamp: "60 days later",
+    text: "Marcus is past the recommended cushion replacement window by 60 days. No replenishment order at Sleeplay. Either he's buying elsewhere, or skipping replacements (common for first-time CPAP users who underestimate cushion wear).",
+  },
+  {
+    type: "message",
+    stage: "retention",
+    actor: "sleeplay",
+    timestamp: "Tue 7:15 PM",
+    rcsTemplate: "text_only",
+    text: "Hi Marcus, you're about 60 days past the recommended cushion replacement on your AirSense 11. Old cushions are the #1 cause of pressure leaks, which usually show up as morning dry mouth or the mask waking you up.",
+    suggestedReplies: ["Show me cushions", "Already replaced", "Done with CPAP"],
+    chosenReply: "Show me cushions",
+    chipResponses: {
+      "Already replaced": {
+        text: "Got it. Order history might just be out of date. Want to log them so we can update the next reminder, or are you all set on cushions for now?",
+        suggestedReplies: ["Log them", "All set", "Where do I log?"],
+      },
+      "Done with CPAP": {
+        text: "Sorry to hear that. CPAP isn't easy and discontinuation rates are real. If it's a fit issue we can troubleshoot. If it's something else, we'll respect that and stop the texts.",
+        suggestedReplies: ["Fit issue", "Stop texts", "Other reason"],
+      },
+    },
+    annotation: {
+      signal: "90 days post-purchase. No cushion order at Sleeplay. Replenishment window blown by 60 days. First-time user, likely underestimating cushion wear.",
+      technique: "Reason-why re-engagement in plain text. Concrete consequence of inaction (pressure leaks, then morning dry mouth), not \"you should reorder.\" The product card lands separately as the next-action.",
+      why: "Past-window means Marcus is either buying elsewhere or skipping replacements. A discount-only re-engagement burns trust on a health product and trains him to wait for the next coupon. The reason-why respects the customer and earns the next action without discounting.",
+      vs: "Klaviyo's win-back flow defaults to \"we miss you, here's 15% off.\" On a health product that reads transactional and discount-trained, and it costs margin every time it works.",
+    },
+  },
+  {
+    type: "message",
+    stage: "retention",
+    actor: "sleeplay",
+    rcsTemplate: "card_media_1url",
+    card: {
+      image: "https://www.cpap.com/cdn/shop/files/airfit-p10-pillows-xs-transparent-square.png?v=1759260501&width=1946",
+      title: "ResMed AirFit P10 Pillow Cushions",
+      subtitle: "$24.99 · 3-pack · Free shipping",
+      body: "The exact replacement cushions for your AirSense 11 setup. Order history pre-applied.",
+      button: { label: "Replace cushions", type: "URL" },
+    },
+    suggestedReplies: ["Add to cart", "Different size?", "Subscription?"],
+    chosenReply: "Add to cart",
+    chipResponses: {
+      "Different size?": {
+        text: "P10 cushions come in S, M, and L. Your order history shows M was the size shipped with your AirSense 11 setup. Most buyers stick with the same size unless seal issues come up. Want a different size?",
+        suggestedReplies: ["Stick with M", "Try S", "Try L"],
+      },
+      "Subscription?": {
+        text: "Yes — monthly cushion delivery for $19.99. Saves $5/month and you never run past the replacement window. Cancel anytime. Most replenishment customers switch within their first 6 months.",
+        suggestedReplies: ["Start subscription", "One-time order", "Tell me more"],
+      },
+    },
+    annotation: {
+      signal: "Same context. The reason was set up in text; now the action gets surfaced as a one-tap card.",
+      technique: "RCS rich card with the specific cushion SKU pre-matched to Marcus's order history. Hero, price, free-shipping signal, single URL CTA.",
+      why: "The reason-why lands first; the card lands second. Marcus reads the consequence, scrolls to the card, and has the exact replacement one tap away. No catalog browsing, no SKU matching, no friction. This is the connected-shopper experience working: order history determines the card content.",
+      vs: "Klaviyo would either link a generic mask category page or send a different SKU than what Marcus actually owns. The catalog isn't tied to his order history at the per-message level.",
+    },
+  },
+  {
+    type: "context",
+    stage: "retention",
+    timestamp: "About 3 months later",
+    text: "Marcus has reordered cushions on the recurring schedule (twice now). AirSense 11 is ~6 months in. Steady customer, strong compliance. Time to convert satisfaction into a growth signal.",
+  },
+  {
+    type: "message",
+    stage: "retention",
+    actor: "sleeplay",
+    timestamp: "Sat 9:30 AM",
+    rcsTemplate: "text_only",
+    text: "Quick one Marcus: 0 to 10, how likely are you to recommend Sleeplay to someone newly diagnosed? Honest scores help more than polite ones.",
+    suggestedReplies: ["10", "8-9", "5-7", "Skip survey"],
+    chosenReply: "10",
+    chipResponses: {
+      "8-9": {
+        text: "Good to hear. What's the one thing that would push it to a 10?",
+        suggestedReplies: ["Faster shipping", "More mask options", "Better app", "Skip"],
+      },
+      "5-7": {
+        text: "Got it. What's not working? We'd rather hear it now than read it in a review.",
+        suggestedReplies: ["Compliance is hard", "Pricier than expected", "Other", "Skip"],
+      },
+      "Skip survey": {
+        text: "No worries. We'll skip surveys going forward. Account settings has a toggle if you ever want to re-enable them.",
+        suggestedReplies: ["Got it", "Pause everything", "Re-enable later"],
+      },
+    },
+    annotation: {
+      signal: "Marcus is a 6-month customer with steady replenishment behavior. Loyalty signal is strong — but unmeasured satisfaction is a missed growth opportunity.",
+      technique: "NPS as conversation opener. Bracketed chips (10 / 8-9 / 5-7) replace typing a number, and the responses BRANCH by score: detractors get service recovery, passives get diagnostic, promoters get a referral ask. Skip option respects autonomy.",
+      why: "Per playbook, the service recovery paradox: well-handled complaints from detractors produce HIGHER loyalty than no complaint at all. NPS as opener (vs. standalone survey) lifts response rates 3-5x because it's in the channel they already trust. The promoter score is the strongest moment to ask for a referral — Cialdini consistency: people who said they would recommend are more likely to actually do it.",
+      vs: "Klaviyo's NPS lives in a separate flow tool (Survicate, Delighted, etc.). Friction to set up, lower response rates, no real-time branching by score, no native handoff into referral or service-recovery flows.",
+    },
+  },
+  {
+    type: "message",
+    stage: "retention",
+    actor: "sleeplay",
+    rcsTemplate: "card_media_1url",
+    text: "Awesome. Quick referral perk if you know anyone who's been told they should get a sleep test:",
+    card: {
+      gradient: "linear-gradient(135deg, #6d28d9 0%, #a78bfa 100%)",
+      heroTitle: "Refer a friend",
+      heroSub: "Both of you save",
+      title: "Refer a friend, both of you save",
+      subtitle: "$25 off for them · Free P10 cushion for you",
+      body: "Your code gets them $25 off any home sleep test or machine. We send you a free P10 cushion when their first order ships.",
+      button: { label: "Get my referral code", type: "URL" },
+    },
+    suggestedReplies: ["Get my code", "Share later", "No referrals please"],
+    chosenReply: "Get my code",
+    chipResponses: {
+      "Share later": {
+        text: "Saved. We'll text the code when you're ready, just reply CODE anytime. Or grab it from your account dashboard.",
+        suggestedReplies: ["Got it", "Pause referrals", "Send now"],
+      },
+      "No referrals please": {
+        text: "Got it, no more referral asks. We'll keep the door open if you change your mind, but it's silent from us until then.",
+        suggestedReplies: ["Got it", "Pause everything", "Re-enable later"],
+      },
+    },
+    annotation: {
+      signal: "Promoter score (10) just confirmed. Highest-conversion moment for a referral ask in the entire customer lifecycle.",
+      technique: "Referral ask grounded in promoter signal, with a two-sided perk (mutual value) and a graceful decline option. Cialdini consistency principle: Marcus just said he would recommend, so following through is now the path of least resistance.",
+      why: "Promoter referrals convert 4-5x better than cold acquisition because the recipient comes pre-warmed by Marcus's endorsement. Two-sided perks (their discount + his perk) lift completion rates because both parties feel rewarded. The cushion-as-reward (vs. cash) keeps Marcus in the replenishment ecosystem.",
+      vs: "Klaviyo's referral programs live in separate tools (ReferralCandy, Friendbuy). Not triggered on NPS score, not surfaced inline, not paired with shopper-control affordances. Lower conversion because the referral ask is never tied to the promoter signal that created the moment.",
+    },
+  },
+];
+
+// ---- Helpers --------------------------------------------------------------
+
+// Build the effective journey by walking canonical steps and injecting branch
+// responses where the user took a non-canonical chip. Skips the canonical
+// shopper reply when a branch was injected (since the branch already includes
+// a shopper bubble).
+function buildEffective(journey, chipTaps) {
+  const out = [];
+  for (let i = 0; i < journey.length; i++) {
+    const step = journey[i];
+
+    // Skip canonical shopper reply when a chip was tapped on the prev AI msg
+    if (step.type === "message" && step.actor === "shopper" && i > 0) {
+      const prevAi = journey[i - 1];
+      if (prevAi && prevAi.actor === "sleeplay" && prevAi.suggestedReplies && chipTaps[i - 1]) {
+        continue;
+      }
+    }
+
+    out.push({ ...step, _canonicalIdx: i });
+
+    // After an AI message with chips + a tap, inject shopper bubble (always)
+    // and branch AI response (only if non-canonical chip with chipResponses).
+    if (step.type === "message" && step.actor === "sleeplay" && step.suggestedReplies) {
+      const tap = chipTaps[i];
+      if (tap) {
+        const isNonCanonical = tap !== step.chosenReply;
+        out.push({
+          type: "message",
+          actor: "shopper",
+          stage: step.stage,
+          text: tap,
+          isChipTap: true,
+          _branchOf: i,
+          _isBranch: isNonCanonical,
+        });
+        if (isNonCanonical && step.chipResponses && step.chipResponses[tap]) {
+          const branchData = step.chipResponses[tap];
+          const branchKey = `${i}|${tap}`;
+          out.push({
+            type: "message",
+            actor: "sleeplay",
+            stage: step.stage,
+            rcsTemplate: branchData.rcsTemplate || "text_only",
+            ...branchData,
+            _branchOf: i,
+            _isBranch: true,
+            _branchKey: branchKey,
+          });
+          // If user tapped a chip on this branch response, render it as a shopper bubble
+          const subTap = chipTaps[branchKey];
+          if (subTap) {
+            out.push({
+              type: "message",
+              actor: "shopper",
+              stage: step.stage,
+              text: subTap,
+              isChipTap: true,
+              _branchOf: i,
+              _isBranch: true,
+            });
+          }
+        }
+      }
+    }
+  }
+  return out;
+}
+
+function lastSleeplayMessage(visibleSteps) {
+  for (let i = visibleSteps.length - 1; i >= 0; i--) {
+    const s = visibleSteps[i];
+    if (s.type === "message" && s.actor === "sleeplay") return s;
+  }
+  return null;
+}
+
+function firstEffectiveStepInStage(effective, stageId) {
+  return effective.findIndex(s => s.stage === stageId);
+}
+
+function stagesReachedFrom(visibleSteps) {
+  const seen = new Set();
+  for (const s of visibleSteps) seen.add(s.stage);
+  return seen;
+}
+
+function stageDescription(stageId) {
+  switch (stageId) {
+    case "nurture":
+      return "Cold list, weak or no signal. Goal: earn the right to sell later through unconditional value, not a sales pitch.";
+    case "education":
+      return "Shopper is investigating but not yet convinced of the problem. Goal: help them understand what's actually happening, not push the SKU.";
+    case "consideration":
+      return "Problem-aware and in-market for a solution. Goal: help them pick the right option for their specific situation, including ones that aren't ours.";
+    case "conversion":
+      return "Active intent, cart abandoned. Goal: handle objections at the decision moment with stacked social proof and a deadline, no apology for price.";
+    case "postpurchase":
+      return "Bought 0-90 days ago. Goal: reduce remorse, set replenishment cadence as opt-in, and pre-empt the failure modes the helpdesk knows about.";
+    case "retention":
+      return "Past replenishment window or churned. Goal: reason-why re-engagement, never discount-only on a health product. Always offer a graceful off-ramp.";
+    default:
+      return "";
+  }
+}
+
+// Render text with auto-linkified URLs and a subtle highlight on the URL.
+function renderText(text) {
+  const parts = text.split(/(https?:\/\/\S+)/g);
+  return parts.map((p, i) => {
+    if (/^https?:\/\//.test(p)) {
+      return <a key={i} href={p} target="_blank" rel="noopener noreferrer" className="bubble-link">{p}</a>;
+    }
+    return <span key={i}>{p}</span>;
+  });
+}
+
+// ---- Components -----------------------------------------------------------
+
+function StageBarVertical({ currentStage, reached, onJumpToStage }) {
+  return (
+    <div className="stage-bar-vertical">
+      {STAGES.map((s, i) => {
+        const isActive = s.id === currentStage;
+        const isDone = reached.has(s.id) && !isActive;
+        const cls = isActive ? "active" : isDone ? "done" : "pending";
+        return (
+          <button
+            key={s.id}
+            type="button"
+            className={`stage-bar-item-v ${cls}`}
+            style={{ color: stageColor[s.id] }}
+            onClick={() => onJumpToStage(s.id)}
+          >
+            <span className="stage-bar-label" style={{ color: isActive || isDone ? stageColor[s.id] : "#9ca3af" }}>
+              {i + 1}. {s.label}
+            </span>
+            <span className="stage-bar-sub">{s.sub}</span>
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
+function ContextBanner({ step }) {
+  const stage = STAGES.find(s => s.id === step.stage);
+  return (
+    <div className="context-banner">
+      <div className="ctx-label" style={{ color: stageColor[step.stage] }}>
+        {step.timestamp} — Stage {STAGES.findIndex(s => s.id === step.stage) + 1}: {stage.label}
+      </div>
+      <div>{step.text}</div>
+    </div>
+  );
+}
+
+function RcsLabel({ kind }) {
+  return (
+    <div className="rcs-row">
+      <span className="rcs-badge">RCS</span>
+      <span className="label">{kind}</span>
+    </div>
+  );
+}
+
+function RichCard({ card }) {
+  const hasPhoto = !!card.image;
+  return (
+    <div className="rich-card">
+      <div
+        className={`rich-card-image ${hasPhoto ? "with-photo" : ""}`}
+        style={hasPhoto ? {} : { background: card.gradient }}
+      >
+        {hasPhoto ? (
+          <img src={card.image} alt={card.title} loading="lazy" />
+        ) : (
+          <>
+            <div className="rich-card-image-title">{card.heroTitle}</div>
+            {card.heroSub && <div className="rich-card-image-sub">{card.heroSub}</div>}
+          </>
+        )}
+      </div>
+      <div className="rich-card-body">
+        <div className="rich-card-title">{card.title}</div>
+        {card.subtitle && <div className="rich-card-subtitle">{card.subtitle}</div>}
+        {card.body && <div className="rich-card-text">{card.body}</div>}
+        <button className="rich-card-button" type="button">
+          <span>{card.button.label}</span>
+          <span className="external-icon">{card.button.type === "URL" ? "↗" : "→"}</span>
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function VideoCard({ video }) {
+  return (
+    <div className="video-card">
+      <div className="video-thumb">
+        <div className="video-thumb-bg"></div>
+        {video.overlayLabel && <div className="video-thumb-overlay-text">{video.overlayLabel}</div>}
+        <div className="video-play" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+        </div>
+        <div className="video-duration">{video.duration}</div>
+      </div>
+      <div className="rich-card-body">
+        <div className="rich-card-title">{video.title}</div>
+        {video.subtitle && <div className="rich-card-subtitle">{video.subtitle}</div>}
+      </div>
+    </div>
+  );
+}
+
+function QuickReplyChips({ chips, tapped, isActive, onTap }) {
+  return (
+    <>
+      <div className="qr-row-label">Suggested replies</div>
+      <div className="qr-row">
+        {chips.map((c, i) => {
+          const isTapped = tapped === c;
+          const className = [
+            "qr-chip",
+            isTapped ? "qr-chip-taken" : "",
+            !isActive && !isTapped ? "qr-chip-disabled" : "",
+          ].filter(Boolean).join(" ");
+          return (
+            <button
+              key={i}
+              type="button"
+              className={className}
+              onClick={isActive && !tapped ? () => onTap(c) : undefined}
+              disabled={!isActive || !!tapped}
+            >
+              {c}
+            </button>
+          );
+        })}
+      </div>
+    </>
+  );
+}
+
+function renderSleeplayMessage({ step, hasReply, isActive, tappedChip, onChipTap }) {
+  const tpl = step.rcsTemplate || "text_only";
+  let mainContent = null;
+
+  if (tpl === "text_only") {
+    mainContent = <div className="bubble-in">{renderText(step.text)}</div>;
+  } else if (tpl === "card_media_1url") {
+    mainContent = (
+      <>
+        <RcsLabel kind="rich card" />
+        <RichCard card={step.card} />
+      </>
+    );
+  } else if (tpl === "carousel_2") {
+    mainContent = (
+      <>
+        <RcsLabel kind="carousel · 2 cards" />
+        <div className="carousel-row">
+          {step.carousel.map((c, i) => (
+            <RichCard key={i} card={c} />
+          ))}
+        </div>
+        <div className="carousel-hint">swipe to compare →</div>
+      </>
+    );
+  } else if (tpl === "media_video") {
+    mainContent = (
+      <>
+        {step.text && <div className="bubble-in">{renderText(step.text)}</div>}
+        <RcsLabel kind="rich media · video" />
+        <VideoCard video={step.video} />
+      </>
+    );
+  } else {
+    mainContent = <div className="bubble-in">{renderText(step.text || "")}</div>;
+  }
+
+  const chips = step.suggestedReplies;
+  const tapped = tappedChip || (hasReply && step.chosenReply ? step.chosenReply : null);
+
+  return (
+    <>
+      {mainContent}
+      {chips && chips.length > 0 && (
+        <QuickReplyChips
+          chips={chips}
+          tapped={tapped}
+          isActive={isActive && !tapped}
+          onTap={onChipTap}
+        />
+      )}
+    </>
+  );
+}
+
+function ChatStream({ visibleSteps, stepIndex, chipTaps, onChipTap }) {
+  const scrollRef = useRef(null);
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+    }
+  }, [visibleSteps.length]);
+
+  // For each Sleeplay message with chips, determine whether the user has
+  // progressed past a shopper reply (mark the chip as tapped retroactively).
+  const hasReplyMap = useMemo(() => {
+    const map = {};
+    for (let i = 0; i < visibleSteps.length; i++) {
+      const s = visibleSteps[i];
+      if (s.type !== "message" || s.actor !== "sleeplay" || !s.suggestedReplies) continue;
+      for (let j = i + 1; j < visibleSteps.length; j++) {
+        const t = visibleSteps[j];
+        if (t.type === "context") break;
+        if (t.type === "message" && t.actor === "shopper") {
+          map[i] = true;
+          break;
+        }
+      }
+    }
+    return map;
+  }, [visibleSteps]);
+
+  function findUpstreamChipTap(replyIdx) {
+    for (let j = replyIdx - 1; j >= 0; j--) {
+      const t = visibleSteps[j];
+      if (t.type === "context") return null;
+      if (t.type === "message" && t.actor === "sleeplay" && t.suggestedReplies) {
+        const cidx = t._canonicalIdx;
+        return (cidx != null && chipTaps[cidx]) || null;
+      }
+      if (t.type === "message" && t.actor === "shopper") return null;
+    }
+    return null;
+  }
+
+  return (
+    <div className="chat-scroll" ref={scrollRef}>
+      {visibleSteps.map((step, i) => {
+        if (step.type === "context") {
+          return <ContextBanner key={i} step={step} />;
+        }
+        const prev = i > 0 ? visibleSteps[i - 1] : null;
+        const showTimestamp =
+          step.timestamp &&
+          (i === 0 || (prev && (prev.type === "context" || prev.timestamp)));
+
+        if (step.actor === "shopper") {
+          let displayText = step.text;
+          const tappedFromUser = findUpstreamChipTap(i);
+          if (tappedFromUser) displayText = tappedFromUser;
+          return (
+            <React.Fragment key={i}>
+              {showTimestamp && <div className="timestamp">{step.timestamp}</div>}
+              <div className="bubble-out">{renderText(displayText)}</div>
+            </React.Fragment>
+          );
+        }
+
+        const isBranchAi = !!step._isBranch;
+        const chipTapKey = step._branchKey || step._canonicalIdx;
+        const chipTapKeyValid = chipTapKey != null;
+        return (
+          <React.Fragment key={i}>
+            {showTimestamp && <div className="timestamp">{step.timestamp}</div>}
+            {renderSleeplayMessage({
+              step,
+              hasReply: !!hasReplyMap[i],
+              isActive: i === stepIndex,
+              tappedChip: (chipTapKeyValid && chipTaps[chipTapKey]) || null,
+              onChipTap: (chipText) => { if (chipTapKeyValid) onChipTap(chipTapKey, chipText); },
+            })}
+          </React.Fragment>
+        );
+      })}
+    </div>
+  );
+}
+
+function Phone({ visibleSteps, stepIndex, chipTaps, onChipTap }) {
+  return (
+    <div className="phone-frame">
+      <div className="phone-screen">
+        <div className="phone-statusbar">
+          <span>9:41</span>
+          <span style={{ display: "flex", gap: 4, alignItems: "center" }}>
+            <span style={{ fontSize: 10 }}>5G</span>
+            <span style={{ width: 22, height: 10, border: "1px solid #000", borderRadius: 2, padding: 1, display: "inline-block" }}>
+              <span style={{ display: "block", width: "85%", height: "100%", background: "#000", borderRadius: 1 }}></span>
+            </span>
+          </span>
+        </div>
+        <div className="phone-header">
+          <div className="name">Sleeplay</div>
+          <div className="sub">+1 (855) 678-3637 &middot; RCS &middot; verified sender</div>
+        </div>
+        <ChatStream
+          visibleSteps={visibleSteps}
+          stepIndex={stepIndex}
+          chipTaps={chipTaps}
+          onChipTap={onChipTap}
+        />
+      </div>
+    </div>
+  );
+}
+
+function AnnotationPanel({ annotation, stage, messageIndex, totalMessages, isBranchView, isStageIntro, stageIntroText, stageIntroTimestamp }) {
+  if (isStageIntro) {
+    const stageInfo = STAGES.find(s => s.id === stage);
+    const stageNum = STAGES.findIndex(s => s.id === stage) + 1;
+    return (
+      <div className="annotation-card">
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 18 }}>
+          <span className={`stage-pill stage-${stage}`}>
+            <span className={`stage-dot dot-${stage}`}></span>
+            Stage {stageNum}: {stageInfo.label}
+          </span>
+          <span style={{ fontSize: 11, color: "#9ca3af", fontWeight: 600 }}>
+            Stage opening
+          </span>
+        </div>
+        {stageIntroTimestamp && (
+          <div style={{ fontSize: 11, color: "#6b7280", marginBottom: 8, fontWeight: 500 }}>
+            {stageIntroTimestamp}
+          </div>
+        )}
+        <div className="annotation-section">
+          <div className="annotation-label">Where Marcus is now</div>
+          <div className="annotation-body">{stageIntroText}</div>
+        </div>
+        <div className="annotation-section">
+          <div className="annotation-label">What this stage is for</div>
+          <div className="annotation-body">{stageDescription(stage)}</div>
+        </div>
+        <div className="annotation-section">
+          <div className="annotation-body" style={{ color: "#6b7280", fontStyle: "italic" }}>
+            Click <strong>Next</strong> to see the AI's first move at this stage.
+          </div>
+        </div>
+      </div>
+    );
+  }
+  if (isBranchView) {
+    const stageInfo = STAGES.find(s => s.id === stage);
+    const stageNum = STAGES.findIndex(s => s.id === stage) + 1;
+    return (
+      <div className="annotation-card">
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 18 }}>
+          <span className={`stage-pill stage-${stage}`}>
+            <span className={`stage-dot dot-${stage}`}></span>
+            Stage {stageNum}: {stageInfo.label}
+          </span>
+          <span style={{ fontSize: 11, color: "#9ca3af", fontWeight: 600 }}>
+            Sidebar branch
+          </span>
+        </div>
+        <div className="annotation-section">
+          <div className="annotation-label">Branch dialogue</div>
+          <div className="annotation-body">
+            Marcus tapped a non-canonical chip. The AI is handling a sidebar question that doesn't lead the demo path. Click <strong>Next</strong> to resume the canonical flow at the next AI message.
+          </div>
+        </div>
+        <div className="annotation-section">
+          <div className="annotation-label">Why this matters</div>
+          <div className="annotation-body">
+            Every AI message ships with stage-appropriate suggested replies. If Marcus asks something off-canonical, the AI has a prepared answer that keeps the conversation alive instead of dropping it. The canonical 6-stage demo can pick up wherever the sidebar ends.
+          </div>
+        </div>
+        <div className="annotation-section">
+          <div className="annotation-label" style={{ color: "#b91c1c" }}>vs. one-way blast (Klaviyo)</div>
+          <div className="annotation-body" style={{ color: "#374151" }}>
+            Klaviyo cannot answer arbitrary shopper questions. The conversation dies if the shopper asks anything not on the broadcast script.
+          </div>
+        </div>
+      </div>
+    );
+  }
+  if (!annotation) {
+    return (
+      <div className="annotation-card">
+        <div className="annotation-body" style={{ color: "#6b7280" }}>
+          Click <strong>Next</strong> below to start the conversation.
+        </div>
+      </div>
+    );
+  }
+  const stageInfo = STAGES.find(s => s.id === stage);
+  const stageNum = STAGES.findIndex(s => s.id === stage) + 1;
+
+  return (
+    <div className="annotation-card">
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 18 }}>
+        <span className={`stage-pill stage-${stage}`}>
+          <span className={`stage-dot dot-${stage}`}></span>
+          Stage {stageNum}: {stageInfo.label}
+        </span>
+        <span style={{ fontSize: 11, color: "#9ca3af", fontWeight: 600 }}>
+          AI message {messageIndex} of {totalMessages}
+        </span>
+      </div>
+
+      <div className="annotation-section">
+        <div className="annotation-label">Signal we're acting on</div>
+        <div className="annotation-body">{annotation.signal}</div>
+      </div>
+
+      <div className="annotation-section">
+        <div className="annotation-label">Technique that just fired</div>
+        <div className="annotation-body">{annotation.technique}</div>
+      </div>
+
+      <div className="annotation-section">
+        <div className="annotation-label">Why it works</div>
+        <div className="annotation-body">{annotation.why}</div>
+      </div>
+
+      <div className="annotation-section">
+        <div className="annotation-label" style={{ color: "#b91c1c" }}>vs. one-way blast (Klaviyo)</div>
+        <div className="annotation-body" style={{ color: "#374151" }}>{annotation.vs}</div>
+      </div>
+    </div>
+  );
+}
+
+function App() {
+  const [stepIndex, setStepIndex] = useState(1);
+  const [chipTaps, setChipTaps] = useState({}); // { canonicalIdx: chipText }
+
+  const effectiveJourney = useMemo(() => buildEffective(journey, chipTaps), [chipTaps]);
+  const visibleSteps = useMemo(() => effectiveJourney.slice(0, stepIndex + 1), [effectiveJourney, stepIndex]);
+
+  const latestStep = effectiveJourney[stepIndex];
+  const isStageIntro = !!(latestStep && latestStep.type === "context");
+  const lastMsg = lastSleeplayMessage(visibleSteps);
+  const currentStage = (latestStep && latestStep.stage) || "nurture";
+  const annotation = !isStageIntro && lastMsg && !lastMsg._isBranch ? lastMsg.annotation : null;
+  const isBranchView = !isStageIntro && !!(lastMsg && lastMsg._isBranch);
+  const stageIntroText = isStageIntro ? latestStep.text : null;
+  const stageIntroTimestamp = isStageIntro ? latestStep.timestamp : null;
+  const reached = useMemo(() => stagesReachedFrom(visibleSteps), [visibleSteps]);
+
+  // Count CANONICAL AI messages up to and including current (branches don't count)
+  const aiMessageCount = useMemo(() => {
+    let n = 0;
+    for (let i = 0; i <= stepIndex && i < effectiveJourney.length; i++) {
+      const s = effectiveJourney[i];
+      if (s.type === "message" && s.actor === "sleeplay" && !s._isBranch) n++;
+    }
+    return n;
+  }, [stepIndex, effectiveJourney]);
+  const totalAIMessages = useMemo(
+    () => journey.filter(s => s.type === "message" && s.actor === "sleeplay").length,
+    []
+  );
+
+  const atEnd = stepIndex >= effectiveJourney.length - 1;
+  const atStart = stepIndex <= 0;
+
+  function next() {
+    if (!atEnd) setStepIndex(stepIndex + 1);
+  }
+  function prev() {
+    if (!atStart) setStepIndex(stepIndex - 1);
+  }
+  function restart() {
+    setStepIndex(1);
+    setChipTaps({});
+  }
+  function jumpToStage(stageId) {
+    const idx = firstEffectiveStepInStage(effectiveJourney, stageId);
+    if (idx >= 0) setStepIndex(idx);
+  }
+  function handleChipTap(key, chipText) {
+    const newChipTaps = { ...chipTaps, [key]: chipText };
+    setChipTaps(newChipTaps);
+    const newEffective = buildEffective(journey, newChipTaps);
+    let aiPosInNew = -1;
+    if (typeof key === "number") {
+      // Canonical chip — find the canonical AI message
+      aiPosInNew = newEffective.findIndex(s => s._canonicalIdx === key && !s._isBranch);
+    } else {
+      // Branch chip — find the branch AI message via _branchKey
+      aiPosInNew = newEffective.findIndex(s => s._branchKey === key);
+    }
+    if (aiPosInNew >= 0 && aiPosInNew + 1 < newEffective.length) {
+      setStepIndex(aiPosInNew + 1);
+    }
+  }
+
+  // Keyboard navigation
+  useEffect(() => {
+    function onKey(e) {
+      if (e.key === "ArrowRight" || e.key === " ") { e.preventDefault(); next(); }
+      else if (e.key === "ArrowLeft") { e.preventDefault(); prev(); }
+      else if (e.key === "r" || e.key === "R") { restart(); }
+    }
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [stepIndex]);
+
+  const progressPct = Math.round(((stepIndex + 1) / effectiveJourney.length) * 100);
+
+  return (
+    <div style={{ minHeight: "100vh", padding: "32px 32px 48px 32px", maxWidth: 1400, margin: "0 auto" }}>
+      {/* Header */}
+      <header style={{ marginBottom: 24 }}>
+        <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", flexWrap: "wrap", gap: 12 }}>
+          <div>
+            <h1 style={{ fontSize: 22, fontWeight: 700, letterSpacing: "-0.01em" }}>
+              AI Journey Playbook — shopper simulation
+            </h1>
+            <p style={{ fontSize: 13.5, color: "#4b5563", marginTop: 4, maxWidth: 860 }}>
+              Reference customer: <strong>Sleeplay</strong> (CPAP). Persona: <strong>Marcus</strong>, mid-40s, on Sleeplay's list after the sleep quality quiz. Wakes up tired and snoring; doesn't yet know he has sleep apnea. Across 6 stages: cold list → problem-aware → comparing options → committed buyer → first-time AirSense 11 owner → lapsed cushion buyer worth winning back. Channel assumed RCS-enabled. <strong>Every AI message ships with stage-appropriate suggested replies + a shopper-control off-ramp</strong> (snooze, pause specific categories, stop) so the conversation respects autonomy at every step and never dies on "what do I even ask back." Rich cards, carousels, and video layer in where they earn their place. <strong>Tap the chips to advance.</strong>
+            </p>
+          </div>
+          <div style={{ fontSize: 11, color: "#6b7280", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.05em" }}>
+            Internal preview &middot; Apr 2026
+          </div>
+        </div>
+      </header>
+
+      {/* Main grid: stages | playbook | phone+controls */}
+      <div className="app-grid">
+        <div className="stages-col">
+          <StageBarVertical
+            currentStage={currentStage}
+            reached={reached}
+            onJumpToStage={jumpToStage}
+          />
+        </div>
+
+        <div className="playbook-col">
+          <AnnotationPanel
+            annotation={annotation}
+            stage={isStageIntro ? currentStage : (lastMsg ? lastMsg.stage : currentStage)}
+            messageIndex={aiMessageCount}
+            totalMessages={totalAIMessages}
+            isBranchView={isBranchView}
+            isStageIntro={isStageIntro}
+            stageIntroText={stageIntroText}
+            stageIntroTimestamp={stageIntroTimestamp}
+          />
+        </div>
+
+        <div className="phone-col">
+          <Phone
+            visibleSteps={visibleSteps}
+            stepIndex={stepIndex}
+            chipTaps={chipTaps}
+            onChipTap={handleChipTap}
+          />
+
+          <div className="progress-track">
+            <div className="progress-fill" style={{ width: `${progressPct}%` }}></div>
+          </div>
+
+          <div style={{ display: "flex", gap: 8, flexWrap: "wrap", justifyContent: "center" }}>
+            <button className="btn btn-secondary" onClick={prev} disabled={atStart}>
+              ← Back
+            </button>
+            <button className="btn btn-primary" onClick={next} disabled={atEnd} style={{ flex: 1 }}>
+              {atEnd ? "Journey complete" : "Next →"}
+            </button>
+            <button className="btn btn-ghost" onClick={restart}>Restart</button>
+          </div>
+
+          <div style={{ fontSize: 10.5, color: "#9ca3af", textAlign: "center" }}>
+            <kbd style={{ padding: "1px 5px", border: "1px solid #d1d5db", borderRadius: 4, fontSize: 10 }}>→</kbd> / <kbd style={{ padding: "1px 5px", border: "1px solid #d1d5db", borderRadius: 4, fontSize: 10 }}>←</kbd> step &middot; <kbd style={{ padding: "1px 5px", border: "1px solid #d1d5db", borderRadius: 4, fontSize: 10 }}>R</kbd> restart
+          </div>
+        </div>
+      </div>
+
+      {/* Footer */}
+      <footer style={{ marginTop: 40, paddingTop: 20, borderTop: "1px solid #e5e7eb", fontSize: 11.5, color: "#6b7280", lineHeight: 1.6 }}>
+        <strong style={{ color: "#374151" }}>How to read this prototype.</strong> Klaviyo would fire roughly the same outbound moments. The difference is what happens after the send: AI Journey reads the reply (or lack of it), reads the connected shopper context (purchase history, browsing, support history), and picks the right RCS template for the moment. The annotation panel surfaces the signal, the technique, and the template choice on every AI message. RCS-only formats degrade gracefully to text + URL on SMS-only carriers. Source: <em>specs/ai-journey-playbook-v1.md</em>, <em>specs/campaign-prompts/sleeplay-airsense-11-2026-04-29*</em>, <em>RCS templates visual guide v2</em>.
+      </footer>
+    </div>
+  );
+}
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(<App />);
+</script>
+</body>
+</html>
