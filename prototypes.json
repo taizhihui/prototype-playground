@@ -1,5 +1,15 @@
 [
   {
+    "name": "Flow Test — Welcome",
+    "author": "Zhi",
+    "date": "May 4",
+    "description": "Prototype for the real-shopper flow testing feature, using the Welcome flow as the example. Three subscriber scenarios cycle through the Test panel: brand-new subscriber (no context), returning subscriber who re-opted in via keyword (high context), and post-purchase checkout opt-in (medium context). Shows the Trigger event section in the reasoning card — the key UX difference from campaign testing.",
+    "file": "flow-test-welcome.html",
+    "image": "",
+    "badge": "Interactive",
+    "tags": ["Flows", "Testing", "AI Journey", "Shopper Context"]
+  },
+  {
     "name": "Campaign Test — Real Shopper",
     "author": "Zhi",
     "date": "May 4",
