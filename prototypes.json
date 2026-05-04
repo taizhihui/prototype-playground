@@ -1,5 +1,15 @@
 [
   {
+    "name": "Campaign Test — Real Shopper",
+    "author": "Zhi",
+    "date": "May 4",
+    "description": "Prototype for the real-shopper campaign testing feature. Shows how the Test panel evolves from a hardcoded mock to a real shopper pulled from the target audience — with context level badge, expanded reasoning (Shopify profile + context used + context absent), and a 'Try another shopper' cycle across high / medium / no-context archetypes.",
+    "file": "campaign-test-real-shopper.html",
+    "image": "",
+    "badge": "Interactive",
+    "tags": ["Campaigns", "Testing", "AI Journey", "Shopper Context"]
+  },
+  {
     "name": "Continue Conversation on Chat",
     "author": "Zhi",
     "date": "Apr 29",
