@@ -235,6 +235,42 @@ h2 { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; }
 .m-key { font-size: 12px; color: var(--muted); }
 .m-sub { font-size: 12px; color: var(--accent); margin-top: 2px; }
 
+/* ── Config strip ── */
+.config-strip { display: flex; flex-direction: column; gap: 9px; margin-top: 20px; padding: 18px 22px; background: var(--card); border: 1px solid var(--border); border-radius: 10px; }
+.cs-item { display: grid; grid-template-columns: 88px 1fr; gap: 14px; align-items: start; font-size: 13px; }
+.cs-key { font-weight: 500; color: var(--muted); padding-top: 1px; letter-spacing: 0.01em; }
+.cs-val { color: #B0A8A0; line-height: 1.5; }
+
+/* ── Lifecycle card ── */
+.lifecycle-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 24px 28px; margin-top: 12px; }
+.lc-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); margin-bottom: 4px; }
+.lc-sub { font-size: 12px; color: var(--muted); margin-bottom: 22px; }
+.lifecycle-stages { display: grid; grid-template-columns: 1fr 18px 1.5fr 18px 1fr 18px 1fr; align-items: start; }
+.ls-connector { display: flex; align-items: flex-start; justify-content: center; padding-top: 8px; color: var(--border2); font-size: 16px; font-weight: 300; }
+.ls { padding-right: 16px; }
+.ls.focal { border-left: 2px solid var(--accent); padding-left: 12px; padding-right: 12px; margin-left: -2px; }
+.ls-bar { height: 2px; border-radius: 2px; width: 32px; margin-bottom: 10px; }
+.ls-bar.default { background: var(--subtle); }
+.ls-bar.accent { background: var(--accent); }
+.ls-bar.orange { background: var(--orange); }
+.ls-bar.green { background: var(--green); }
+.ls-name { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 2px; }
+.ls-range { font-size: 11px; color: var(--muted); margin-bottom: 8px; }
+.ls-action { font-size: 12px; color: #807870; line-height: 1.5; margin-bottom: 8px; }
+.ls-signals-row { font-size: 11px; color: #504840; }
+.ls-badge { display: inline-block; font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; padding: 2px 7px; border-radius: 3px; margin-top: 8px; }
+.ls-badge.accent { color: var(--accent); background: var(--accent-dim); }
+.ls-badge.orange { color: #C07848; background: var(--orange-dim); }
+.ls-badge.green { color: var(--green); background: var(--green-dim); }
+
+/* ── Signal intelligence grid ── */
+.si-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 10px; }
+.si-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 18px 20px; }
+.si-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+.si-stat { font-size: 26px; font-weight: 300; letter-spacing: -0.02em; color: var(--text); line-height: 1; margin-bottom: 3px; }
+.si-label { font-size: 12px; font-weight: 500; color: #908880; margin-bottom: 8px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+.si-desc { font-size: 12px; color: var(--muted); line-height: 1.55; }
+
 /* ── Shopping Assistant context card ── */
 .sa-context { background: #0E1212; border: 1px solid rgba(74,152,152,0.22); border-radius: 8px; overflow: hidden; margin-bottom: 10px; }
 .sa-context-bar { background: #111818; padding: 8px 12px; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid rgba(74,152,152,0.18); }
@@ -287,32 +323,98 @@ h2 { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; }
   <section id="setup">
     <div class="narrow">
       <div class="eyebrow">Container Setup</div>
-      <h2>What the marketer configured</h2>
-      <div class="container-card">
-        <div class="c-label">Container: First-Time Buyer Growth</div>
-        <div class="field-grid">
-          <div class="field">
-            <div class="fk">Goal</div>
-            <div class="fv">Maximize 90-day repeat purchase rate for first-time buyers.</div>
-          </div>
-          <div class="field">
-            <div class="fk">Audience</div>
-            <div class="fv">First-time buyers who purchased in the last 60 days and have not reordered.</div>
-          </div>
-          <div class="field">
-            <div class="fk">Signals</div>
-            <div class="fv">
-              <span class="tag">Cart abandon</span>
-              <span class="tag">Browse abandon</span>
-              <span class="tag">Repurchase window</span>
-              <span class="tag">Memorial Day promo</span>
-            </div>
-          </div>
-          <div class="field">
-            <div class="fk">Guardrails</div>
-            <div class="fv" style="color:#706860;">Max 2 messages/week &nbsp;·&nbsp; No discounts above 15% outside active sales &nbsp;·&nbsp; No messages 9pm–10am &nbsp;·&nbsp; Suppress if active conversation or open support ticket</div>
-          </div>
+      <h2>What the container knows</h2>
+      <div class="config-strip">
+        <div class="cs-item">
+          <span class="cs-key">Goal</span>
+          <span class="cs-val">Maximize 90-day repeat purchase rate for first-time buyers.</span>
         </div>
+        <div class="cs-item">
+          <span class="cs-key">Audience</span>
+          <span class="cs-val">First-time buyers who purchased in the last 60 days and have not reordered.</span>
+        </div>
+        <div class="cs-item">
+          <span class="cs-key">Guardrails</span>
+          <span class="cs-val" style="color:#686058;">Max 2 messages/week &nbsp;·&nbsp; No discounts above 15% outside active sales &nbsp;·&nbsp; No messages 9pm–10am &nbsp;·&nbsp; Suppress if active conversation or open support ticket</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Lifecycle diagram — full page width -->
+    <div class="lifecycle-card" style="margin-top:20px;">
+      <div class="lc-eyebrow">First-Time Buyer Lifecycle</div>
+      <div class="lc-sub">The shopper journey this container is optimizing for — and where it acts</div>
+      <div class="lifecycle-stages">
+
+        <div class="ls">
+          <div class="ls-bar default"></div>
+          <div class="ls-name">Post-purchase</div>
+          <div class="ls-range">Days 1–7</div>
+          <div class="ls-action">Build product anticipation. Set expectations. Reduce post-purchase anxiety.</div>
+          <div class="ls-signals-row">Post-purchase flow · Order fulfilled trigger</div>
+        </div>
+
+        <div class="ls-connector">›</div>
+
+        <div class="ls focal">
+          <div class="ls-bar accent"></div>
+          <div class="ls-name">Active consideration</div>
+          <div class="ls-range">Days 8–44</div>
+          <div class="ls-action">Cart recovery · Browse nudge · Cross-channel continuity from Shopping Assistant · Promo capture</div>
+          <div class="ls-signals-row">Cart abandon · Browse · SA session · Campaign signals</div>
+          <div class="ls-badge accent">Container most active</div>
+        </div>
+
+        <div class="ls-connector">›</div>
+
+        <div class="ls">
+          <div class="ls-bar orange"></div>
+          <div class="ls-name">Disengaged</div>
+          <div class="ls-range">Day 45+</div>
+          <div class="ls-action">Win-back triggered by re-browse signal, repurchase window, or promo convergence.</div>
+          <div class="ls-signals-row">Re-browse + repurchase window + active promo</div>
+          <div class="ls-badge orange">Inactivity threshold: Day 45</div>
+        </div>
+
+        <div class="ls-connector">›</div>
+
+        <div class="ls">
+          <div class="ls-bar green"></div>
+          <div class="ls-name">Repeat buyer</div>
+          <div class="ls-range">2nd purchase</div>
+          <div class="ls-action">Container objective achieved. Shopper graduates to retention container.</div>
+          <div class="ls-signals-row">—</div>
+          <div class="ls-badge green">Container exits</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Signal intelligence grid — full page width -->
+    <div class="si-grid">
+      <div class="si-card">
+        <div class="si-eyebrow">Cart Recovery</div>
+        <div class="si-stat">13.4%</div>
+        <div class="si-label">Cart abandon CVR</div>
+        <div class="si-desc">10× Klaviyo's baseline on the same segment. Highest-priority signal. Container acts within 4 hours of abandonment.</div>
+      </div>
+      <div class="si-card">
+        <div class="si-eyebrow">Repurchase Window</div>
+        <div class="si-stat">30–60d</div>
+        <div class="si-label">First-to-second order gap</div>
+        <div class="si-desc">Peak reorder probability for apparel. Container weights all signals higher during this window — including campaigns and browse sessions.</div>
+      </div>
+      <div class="si-card">
+        <div class="si-eyebrow">Inactivity Threshold</div>
+        <div class="si-stat">Day 45</div>
+        <div class="si-label">Dormancy flag</div>
+        <div class="si-desc">No activity past Day 45 marks a shopper as disengaged. A re-browse signal breaks dormancy and re-activates win-back logic immediately.</div>
+      </div>
+      <div class="si-card">
+        <div class="si-eyebrow">Cross-Channel Intent</div>
+        <div class="si-stat">SA session</div>
+        <div class="si-label">Highest-intent signal</div>
+        <div class="si-desc">A closed Shopping Assistant session means a purchase blocker was resolved on the webstore. Container acts immediately via RCS — context already in hand.</div>
       </div>
     </div>
   </section>
