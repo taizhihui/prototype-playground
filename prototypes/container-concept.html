@@ -174,48 +174,48 @@ h2 { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; }
 
 /* Column: RCS */
 .col-rcs { padding: 22px; background: var(--card); }
-.rcs-window { background: #0A0A0A; border-radius: 10px; border: 1px solid var(--border); overflow: hidden; }
+.rcs-window { background: var(--bg); border-radius: 10px; border: 1px solid var(--border); overflow: hidden; }
 .rcs-bar {
-  background: #141414; padding: 10px 13px;
+  background: var(--card); padding: 10px 13px;
   display: flex; align-items: center; gap: 9px;
   border-bottom: 1px solid var(--border);
 }
 .rcs-avatar {
   width: 30px; height: 30px; border-radius: 50%; background: var(--accent);
   display: flex; align-items: center; justify-content: center;
-  font-size: 9px; font-weight: 800; letter-spacing: 0.05em; color: #0A0A0A; flex-shrink: 0;
+  font-size: 9px; font-weight: 800; letter-spacing: 0.05em; color: #FAF4EC; flex-shrink: 0;
 }
 .rcs-bname { font-size: 12px; font-weight: 600; color: var(--text); flex: 1; }
-.rcs-verified { font-size: 9px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #5A9B72; background: rgba(90,155,114,0.1); padding: 2px 7px; border-radius: 3px; }
+.rcs-verified { font-size: 9px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #2A7848; background: rgba(42,120,72,0.10); padding: 2px 7px; border-radius: 3px; }
 .rcs-msgs { padding: 12px; display: flex; flex-direction: column; gap: 8px; }
 
 /* Rich card */
-.rcs-card { background: #181818; border-radius: 8px; overflow: hidden; border: 1px solid var(--border); max-width: 280px; }
+.rcs-card { background: var(--card2); border-radius: 8px; overflow: hidden; border: 1px solid var(--border); max-width: 280px; }
 .rcs-card-img {
   height: 130px;
-  background: linear-gradient(140deg, #221C18 0%, #161210 40%, #1E1810 70%, #2A2018 100%);
+  background: linear-gradient(140deg, #E0D8CC 0%, #D4CBC0 40%, #DDD5C8 70%, #E8E0D4 100%);
   display: flex; align-items: center; justify-content: center;
   position: relative; overflow: hidden;
 }
 .rcs-card-img::before {
   content: ''; position: absolute; inset: 0;
-  background: repeating-linear-gradient(45deg, transparent, transparent 3px, rgba(255,255,255,0.012) 3px, rgba(255,255,255,0.012) 6px);
+  background: repeating-linear-gradient(45deg, transparent, transparent 3px, rgba(0,0,0,0.018) 3px, rgba(0,0,0,0.018) 6px);
 }
-.rcs-card-img-label { font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #6A5040; z-index: 1; }
+.rcs-card-img-label { font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #8A7860; z-index: 1; }
 .rcs-card-body { padding: 11px 12px 8px; }
 .rcs-card-prod { font-size: 13px; font-weight: 600; color: var(--text); }
 .rcs-card-price { font-size: 12px; color: var(--muted); margin-top: 1px; }
-.rcs-card-msg { font-size: 12px; color: #888078; line-height: 1.45; margin-top: 7px; }
+.rcs-card-msg { font-size: 12px; color: var(--muted); line-height: 1.45; margin-top: 7px; }
 .rcs-card-actions { display: flex; gap: 5px; padding: 8px 12px 10px; flex-wrap: wrap; border-top: 1px solid var(--border); }
-.rcs-btn { padding: 5px 11px; border-radius: 14px; font-size: 11px; font-weight: 500; color: var(--accent); background: var(--accent-dim); border: 1px solid rgba(201,169,110,0.18); cursor: default; white-space: nowrap; }
+.rcs-btn { padding: 5px 11px; border-radius: 14px; font-size: 11px; font-weight: 500; color: var(--accent); background: var(--accent-dim); border: 1px solid rgba(201,169,110,0.30); cursor: default; white-space: nowrap; }
 
 /* Text bubble */
 .rcs-row { display: flex; align-items: flex-end; gap: 6px; }
 .rcs-row.ob { flex-direction: row; }
 .rcs-row.sh { flex-direction: row-reverse; }
 .rcs-bub { padding: 7px 11px; border-radius: 12px; font-size: 12px; line-height: 1.5; max-width: 82%; white-space: pre-wrap; }
-.rcs-bub.ob { background: #1C1C1C; color: #C0B8B0; border-radius: 3px 12px 12px 12px; }
-.rcs-bub.sh { background: #1E2A1A; color: #98B890; border-radius: 12px 3px 12px 12px; }
+.rcs-bub.ob { background: #EAE6DE; color: #3A3630; border-radius: 3px 12px 12px 12px; }
+.rcs-bub.sh { background: var(--accent); color: #3A2810; border-radius: 12px 3px 12px 12px; }
 .rcs-ts { font-size: 10px; color: var(--muted); text-align: center; padding: 2px 0; }
 .rcs-held { background: rgba(217,72,88,0.08); border: 1px solid rgba(217,72,88,0.20); border-radius: 7px; padding: 8px 11px; font-size: 12px; color: #E06070; }
 
@@ -289,15 +289,15 @@ h2 { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; }
 .si-desc { font-size: 12px; color: var(--muted); line-height: 1.55; }
 
 /* ── Shopping Assistant context card ── */
-.sa-context { background: #0E1212; border: 1px solid rgba(74,152,152,0.22); border-radius: 8px; overflow: hidden; margin-bottom: 10px; }
-.sa-context-bar { background: #111818; padding: 8px 12px; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid rgba(74,152,152,0.18); }
-.sa-avatar { width: 22px; height: 22px; border-radius: 50%; background: rgba(74,152,152,0.18); display: flex; align-items: center; justify-content: center; font-size: 8px; font-weight: 700; color: var(--teal); flex-shrink: 0; }
+.sa-context { background: var(--card2); border: 1px solid rgba(40,120,120,0.25); border-radius: 8px; overflow: hidden; margin-bottom: 10px; }
+.sa-context-bar { background: var(--card); padding: 8px 12px; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid rgba(40,120,120,0.18); }
+.sa-avatar { width: 22px; height: 22px; border-radius: 50%; background: rgba(40,120,120,0.12); display: flex; align-items: center; justify-content: center; font-size: 8px; font-weight: 700; color: var(--teal); flex-shrink: 0; }
 .sa-label { font-size: 11px; font-weight: 600; color: var(--teal); }
 .sa-sublabel { font-size: 10px; color: var(--muted); margin-left: auto; }
 .sa-msgs { padding: 10px 12px; display: flex; flex-direction: column; gap: 6px; }
 .sa-bub { padding: 6px 10px; border-radius: 10px; font-size: 11px; line-height: 1.45; max-width: 85%; }
-.sa-bub.shopper { background: #1A2218; color: #88A888; border-radius: 10px 3px 10px 10px; align-self: flex-end; }
-.sa-bub.ai { background: #141E1E; color: #6A9898; border-radius: 3px 10px 10px 10px; }
+.sa-bub.shopper { background: rgba(40,120,120,0.10); color: #287878; border-radius: 10px 3px 10px 10px; align-self: flex-end; }
+.sa-bub.ai { background: var(--card); color: #5A5248; border-radius: 3px 10px 10px 10px; border: 1px solid var(--border); }
 .cross-bridge { display: flex; align-items: center; gap: 8px; padding: 6px 0 8px; font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #7878C0; }
 .cross-bridge::before, .cross-bridge::after { content: ''; flex: 1; height: 1px; background: rgba(80,80,160,0.25); }
 
@@ -999,7 +999,7 @@ What are you after?</div>
                 </div>
                 <div class="rcs-msgs">
                   <div class="rcs-card">
-                    <div class="rcs-card-img" style="background:linear-gradient(140deg,#1A1A22 0%,#121018 40%,#1C1820 70%,#222028 100%);">
+                    <div class="rcs-card-img" style="background:linear-gradient(140deg,#DDD5C8 0%,#D4CCB8 40%,#DAD2C4 70%,#E4DCCC 100%);">
                       <span class="rcs-card-img-label">Memorial Day Sale</span>
                     </div>
                     <div class="rcs-card-body">
