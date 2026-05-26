@@ -400,31 +400,35 @@ h2 { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; }
       </div>
     </div>
 
-    <!-- Signal intelligence grid — full page width -->
+    <!-- Container intelligence grid — full page width -->
+    <div style="margin-top:24px; margin-bottom:10px;">
+      <div class="eyebrow" style="margin-bottom:0;">Container Intelligence</div>
+      <div style="font-size:12px;color:var(--muted);margin-top:4px;">Behavioral inputs that drive this container's decisions</div>
+    </div>
     <div class="si-grid">
-      <div class="si-card">
-        <div class="si-eyebrow">Cart Recovery</div>
-        <div class="si-stat">13.4%</div>
-        <div class="si-label">Cart abandon CVR</div>
-        <div class="si-desc">10× Klaviyo's baseline on the same segment. Highest-priority signal. Container acts within 4 hours of abandonment.</div>
-      </div>
       <div class="si-card">
         <div class="si-eyebrow">Repurchase Window</div>
         <div class="si-stat">30–60d</div>
-        <div class="si-label">First-to-second order gap</div>
-        <div class="si-desc">Peak reorder probability for apparel. Container weights all signals higher during this window — including campaigns and browse sessions.</div>
+        <div class="si-label">Peak reorder window</div>
+        <div class="si-desc">ONE BONE first-time buyers most likely to reorder between days 30–60. Container weights all signals higher during this window — cart, browse, campaign, and SA sessions.</div>
       </div>
       <div class="si-card">
-        <div class="si-eyebrow">Inactivity Threshold</div>
-        <div class="si-stat">Day 45</div>
-        <div class="si-label">Dormancy flag</div>
-        <div class="si-desc">No activity past Day 45 marks a shopper as disengaged. A re-browse signal breaks dormancy and re-activates win-back logic immediately.</div>
+        <div class="si-eyebrow">Purchase Progression</div>
+        <div class="si-stat">Tees → Bottoms</div>
+        <div class="si-label">Most common 1st→2nd order path</div>
+        <div class="si-desc">First-time tee buyers most likely to return for Canvas Pants or Athletic Shorts. Container surfaces the right catalog match based on what they already own.</div>
       </div>
       <div class="si-card">
-        <div class="si-eyebrow">Cross-Channel Intent</div>
-        <div class="si-stat">SA session</div>
-        <div class="si-label">Highest-intent signal</div>
-        <div class="si-desc">A closed Shopping Assistant session means a purchase blocker was resolved on the webstore. Container acts immediately via RCS — context already in hand.</div>
+        <div class="si-eyebrow">Suppression Logic</div>
+        <div class="si-stat">4 conditions</div>
+        <div class="si-label">When the container holds</div>
+        <div class="si-desc">Active conversation open · Support ticket unresolved · Message sent within 7 days · Shopper replied "not now" within 48h. Container holds and re-evaluates on the next signal — does not skip.</div>
+      </div>
+      <div class="si-card">
+        <div class="si-eyebrow">Signal Hierarchy</div>
+        <div class="si-stat">SA › Cart › Browse</div>
+        <div class="si-label">Intent ranking</div>
+        <div class="si-desc">Container leads with the highest-intent signal when multiple are active. Shopping Assistant session outranks cart abandon — purchase blocker is already resolved, context is already in hand.</div>
       </div>
     </div>
   </section>
