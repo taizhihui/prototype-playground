@@ -1,5 +1,15 @@
 [
   {
+    "name": "Container Concept — ONE BONE",
+    "author": "Zhi",
+    "date": "May 26",
+    "description": "Concept prototype illustrating AI Journey's container model: a single goal-driven unit that evaluates every shopper signal in real time and decides who to engage, when, and how — replacing separate flow and campaign configuration. Four ONE BONE scenarios: clean cart recovery, signal merge (cart + promo), campaign suppression during active conversation, and dormant shopper re-engagement via three converging signals. Uses Ripple-style three-column layout: Insight / Shopper Journey / AI Journey RCS conversation.",
+    "file": "container-concept.html",
+    "image": "",
+    "badge": "Concept",
+    "tags": ["Container", "AI Journey", "ONE BONE", "RCS", "Strategy"]
+  },
+  {
     "name": "Flow Test — Welcome",
     "author": "Zhi",
     "date": "May 4",

@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AI Journey · Container Concept · ONE BONE</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #0A0A0A;
+  --card: #141414;
+  --card2: #181818;
+  --border: #242424;
+  --border2: #2E2E2E;
+  --text: #F0EBE3;
+  --muted: #606060;
+  --subtle: #2A2A2A;
+  --accent: #C9A96E;
+  --accent-dim: rgba(201,169,110,0.09);
+  --green: #5A9B72;
+  --green-dim: rgba(90,155,114,0.09);
+  --orange: #B87040;
+  --orange-dim: rgba(184,112,64,0.09);
+  --blue: #6878C0;
+  --blue-dim: rgba(104,120,192,0.09);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Nav ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0;
+  height: 48px;
+  background: rgba(10,10,10,0.94);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center;
+  padding: 0 36px; gap: 16px;
+  z-index: 100;
+}
+.nav-brand { font-size: 11px; font-weight: 700; letter-spacing: 0.16em; color: var(--accent); text-transform: uppercase; text-decoration: none; }
+.nav-pipe { color: var(--border2); }
+.nav-sub { font-size: 12px; color: var(--muted); }
+.nav-links { display: flex; gap: 20px; margin-left: auto; }
+.nav-links a { font-size: 12px; color: var(--muted); text-decoration: none; transition: color 0.15s; }
+.nav-links a:hover { color: #909090; }
+
+/* ── Page ── */
+.page { max-width: 1100px; margin: 0 auto; padding: 0 36px; }
+.narrow { max-width: 720px; }
+section { padding: 80px 0 0; }
+section:last-of-type { padding-bottom: 120px; }
+
+/* ── Type ── */
+.eyebrow { font-size: 11px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); margin-bottom: 14px; }
+h1 { font-size: 40px; font-weight: 300; line-height: 1.18; letter-spacing: -0.025em; }
+h2 { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; }
+.lead { font-size: 16px; line-height: 1.75; color: #9A9288; margin-top: 20px; }
+.lead + .lead { margin-top: 12px; }
+
+/* ── Hero ── */
+.hero { padding-top: 110px; }
+
+/* ── Container card ── */
+.container-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 12px; padding: 26px 30px; margin-top: 22px;
+}
+.c-label {
+  font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--accent); margin-bottom: 20px; padding-bottom: 14px; border-bottom: 1px solid var(--border);
+}
+.field-grid { display: flex; flex-direction: column; gap: 13px; }
+.field { display: grid; grid-template-columns: 108px 1fr; gap: 18px; align-items: start; }
+.fk { font-size: 12px; font-weight: 500; color: var(--muted); padding-top: 1px; }
+.fv { font-size: 14px; color: #C0B8B0; line-height: 1.5; }
+.tag { display: inline-flex; padding: 2px 9px; border-radius: 3px; font-size: 12px; font-weight: 500; background: var(--subtle); color: #8A8280; margin: 2px 3px 2px 0; }
+
+/* ── Compare ── */
+.compare-grid { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; margin-top: 22px; }
+.compare-col { background: var(--card); padding: 22px 24px; }
+.compare-col + .compare-col { border-left: 1px solid var(--border); }
+.ch { font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 16px; padding-bottom: 13px; border-bottom: 1px solid var(--border); }
+.compare-col:first-child .ch { color: var(--muted); }
+.compare-col:last-child .ch { color: var(--accent); }
+.cr { padding: 9px 0; border-bottom: 1px solid var(--border); font-size: 13px; line-height: 1.5; }
+.compare-col:first-child .cr { color: #585050; }
+.compare-col:last-child .cr { color: #B8B0A8; }
+.cr:last-child { border-bottom: none; }
+
+/* ── Scenario cards ── */
+.scenario-list { display: flex; flex-direction: column; gap: 10px; margin-top: 24px; }
+.sc { background: var(--card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; cursor: pointer; transition: border-color 0.15s; }
+.sc:hover { border-color: #333; }
+.sc.open { border-color: #333; cursor: default; }
+
+.sc-header { display: flex; align-items: center; gap: 14px; padding: 17px 22px; user-select: none; cursor: pointer; }
+.sc.open .sc-header { cursor: pointer; }
+.sc-num { width: 25px; height: 25px; border-radius: 50%; background: var(--subtle); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; color: var(--muted); flex-shrink: 0; }
+.sc-meta { flex: 1; min-width: 0; }
+.sc-name { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 2px; }
+.sc-sigs { font-size: 12px; color: var(--muted); }
+.badge { flex-shrink: 0; padding: 3px 11px; border-radius: 20px; font-size: 11px; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; }
+.b-engage { background: var(--green-dim); color: #7DBD94; }
+.b-merge  { background: var(--accent-dim); color: var(--accent); }
+.b-hold   { background: var(--orange-dim); color: #D09070; }
+.b-re     { background: var(--blue-dim); color: #8899D8; }
+.sc-chevron { color: var(--muted); font-size: 13px; transition: transform 0.2s; flex-shrink: 0; }
+.sc.open .sc-chevron { transform: rotate(180deg); }
+
+/* ── 3-column body ── */
+.sc-body { display: none; border-top: 1px solid var(--border); }
+.sc.open .sc-body { display: block; }
+
+.col-headers {
+  display: grid; grid-template-columns: 300px 240px 1fr;
+  border-bottom: 1px solid var(--border);
+}
+.col-head {
+  font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--muted); padding: 11px 22px;
+}
+.col-head + .col-head { border-left: 1px solid var(--border); }
+
+.sc-cols { display: grid; grid-template-columns: 300px 240px 1fr; }
+
+/* Column: Insight */
+.col-insight { padding: 22px; border-right: 1px solid var(--border); }
+.insight-hl { font-size: 14px; font-weight: 500; font-style: italic; color: var(--text); line-height: 1.45; margin-bottom: 12px; }
+.insight-body { font-size: 13px; color: #888078; line-height: 1.65; margin-bottom: 18px; }
+.dp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; border-top: 1px solid var(--border); padding-top: 16px; }
+.dp-k { font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 3px; }
+.dp-v { font-size: 15px; font-weight: 500; color: var(--text); }
+.dp-sub { font-size: 11px; color: var(--muted); margin-top: 1px; }
+
+/* Column: Journey */
+.col-journey { padding: 22px; border-right: 1px solid var(--border); }
+.timeline { display: flex; flex-direction: column; position: relative; padding-left: 20px; }
+.timeline::before { content: ''; position: absolute; left: 5px; top: 6px; bottom: 6px; width: 1px; background: var(--border2); }
+.t-evt { display: flex; flex-direction: column; gap: 2px; padding-bottom: 16px; position: relative; }
+.t-evt:last-child { padding-bottom: 0; }
+.t-dot { position: absolute; left: -17px; top: 4px; width: 11px; height: 11px; border-radius: 50%; background: var(--subtle); border: 1px solid var(--border2); z-index: 1; }
+.t-dot.decision { background: var(--accent-dim); border-color: var(--accent); }
+.t-dot.converted { background: var(--green-dim); border-color: var(--green); }
+.t-dot.held { background: var(--orange-dim); border-color: var(--orange); }
+.t-dot.re { background: var(--blue-dim); border-color: var(--blue); }
+.t-time { font-size: 10px; color: var(--muted); letter-spacing: 0.02em; }
+.t-lbl { font-size: 12px; font-weight: 600; color: var(--text); }
+.t-desc { font-size: 12px; color: #686058; line-height: 1.4; }
+.t-decision-box {
+  margin: 2px 0 2px -2px;
+  background: var(--accent-dim); border: 1px solid rgba(201,169,110,0.18);
+  border-radius: 6px; padding: 7px 10px; font-size: 12px; color: #C0A878; line-height: 1.4;
+}
+.t-decision-box.held { background: var(--orange-dim); border-color: rgba(184,112,64,0.18); color: #C09060; }
+.t-decision-box.re { background: var(--blue-dim); border-color: rgba(104,120,192,0.18); color: #8899C8; }
+.t-gap { border-top: 1px dashed var(--border2); margin: 8px 0; }
+
+/* Column: RCS */
+.col-rcs { padding: 22px; background: #0E0E0E; }
+.rcs-window { background: #0A0A0A; border-radius: 10px; border: 1px solid var(--border); overflow: hidden; }
+.rcs-bar {
+  background: #141414; padding: 10px 13px;
+  display: flex; align-items: center; gap: 9px;
+  border-bottom: 1px solid var(--border);
+}
+.rcs-avatar {
+  width: 30px; height: 30px; border-radius: 50%; background: var(--accent);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 9px; font-weight: 800; letter-spacing: 0.05em; color: #0A0A0A; flex-shrink: 0;
+}
+.rcs-bname { font-size: 12px; font-weight: 600; color: var(--text); flex: 1; }
+.rcs-verified { font-size: 9px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #5A9B72; background: rgba(90,155,114,0.1); padding: 2px 7px; border-radius: 3px; }
+.rcs-msgs { padding: 12px; display: flex; flex-direction: column; gap: 8px; }
+
+/* Rich card */
+.rcs-card { background: #181818; border-radius: 8px; overflow: hidden; border: 1px solid var(--border); max-width: 280px; }
+.rcs-card-img {
+  height: 130px;
+  background: linear-gradient(140deg, #221C18 0%, #161210 40%, #1E1810 70%, #2A2018 100%);
+  display: flex; align-items: center; justify-content: center;
+  position: relative; overflow: hidden;
+}
+.rcs-card-img::before {
+  content: ''; position: absolute; inset: 0;
+  background: repeating-linear-gradient(45deg, transparent, transparent 3px, rgba(255,255,255,0.012) 3px, rgba(255,255,255,0.012) 6px);
+}
+.rcs-card-img-label { font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #6A5040; z-index: 1; }
+.rcs-card-body { padding: 11px 12px 8px; }
+.rcs-card-prod { font-size: 13px; font-weight: 600; color: var(--text); }
+.rcs-card-price { font-size: 12px; color: var(--muted); margin-top: 1px; }
+.rcs-card-msg { font-size: 12px; color: #888078; line-height: 1.45; margin-top: 7px; }
+.rcs-card-actions { display: flex; gap: 5px; padding: 8px 12px 10px; flex-wrap: wrap; border-top: 1px solid var(--border); }
+.rcs-btn { padding: 5px 11px; border-radius: 14px; font-size: 11px; font-weight: 500; color: var(--accent); background: var(--accent-dim); border: 1px solid rgba(201,169,110,0.18); cursor: default; white-space: nowrap; }
+
+/* Text bubble */
+.rcs-row { display: flex; align-items: flex-end; gap: 6px; }
+.rcs-row.ob { flex-direction: row; }
+.rcs-row.sh { flex-direction: row-reverse; }
+.rcs-bub { padding: 7px 11px; border-radius: 12px; font-size: 12px; line-height: 1.5; max-width: 82%; white-space: pre-wrap; }
+.rcs-bub.ob { background: #1C1C1C; color: #C0B8B0; border-radius: 3px 12px 12px 12px; }
+.rcs-bub.sh { background: #1E2A1A; color: #98B890; border-radius: 12px 3px 12px 12px; }
+.rcs-ts { font-size: 10px; color: var(--muted); text-align: center; padding: 2px 0; }
+.rcs-held { background: rgba(184,112,64,0.08); border: 1px solid rgba(184,112,64,0.18); border-radius: 7px; padding: 8px 11px; font-size: 12px; color: #C09060; }
+
+/* ── Decision log ── */
+.log-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 22px; }
+.log-table th { text-align: left; font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); padding: 0 14px 11px; border-bottom: 1px solid var(--border); }
+.log-table th:first-child { padding-left: 0; }
+.log-table td { padding: 12px 14px; border-bottom: 1px solid var(--border); vertical-align: top; color: #807870; line-height: 1.5; }
+.log-table td:first-child { padding-left: 0; color: var(--text); font-weight: 500; }
+.log-table tr:last-child td { border-bottom: none; }
+
+/* ── Portfolio ── */
+.portfolio-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 26px 30px; margin-top: 22px; }
+.p-label { font-size: 11px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 22px; padding-bottom: 14px; border-bottom: 1px solid var(--border); }
+.metrics-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; }
+.m-val { font-size: 30px; font-weight: 300; letter-spacing: -0.03em; color: var(--text); line-height: 1; margin-bottom: 5px; }
+.m-key { font-size: 12px; color: var(--muted); }
+.m-sub { font-size: 12px; color: var(--accent); margin-top: 2px; }
+
+/* ── Footer ── */
+.footer { padding: 36px 0 80px; font-size: 12px; color: var(--muted); text-align: center; letter-spacing: 0.04em; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#hero" class="nav-brand">AI Journey</a>
+  <span class="nav-pipe">·</span>
+  <span class="nav-sub">Container Concept</span>
+  <div class="nav-links">
+    <a href="#setup">Setup</a>
+    <a href="#scenarios">Scenarios</a>
+    <a href="#log">Decision Log</a>
+    <a href="#portfolio">Portfolio</a>
+  </div>
+</nav>
+
+<div class="page">
+
+  <!-- Hero -->
+  <section class="hero" id="hero">
+    <div class="narrow">
+      <div class="eyebrow">Container Concept · ONE BONE</div>
+      <h1>From trigger logic<br>to goal-driven engagement</h1>
+      <p class="lead">Today, AI Journey runs flows and campaigns as separate pre-configured sequences. A marketer sets a trigger. A sequence fires. A message goes out.</p>
+      <p class="lead">The container model inverts this. A marketer describes the outcome they want. AI Journey evaluates every shopper, every incoming signal, and decides in real time — who to engage, when, and with what message.</p>
+      <p class="lead">Here's what that looks like for ONE BONE.</p>
+    </div>
+  </section>
+
+  <!-- Container Setup -->
+  <section id="setup">
+    <div class="narrow">
+      <div class="eyebrow">Container Setup</div>
+      <h2>What the marketer configured</h2>
+      <div class="container-card">
+        <div class="c-label">Container: First-Time Buyer Growth</div>
+        <div class="field-grid">
+          <div class="field">
+            <div class="fk">Goal</div>
+            <div class="fv">Maximize 90-day repeat purchase rate for first-time buyers.</div>
+          </div>
+          <div class="field">
+            <div class="fk">Audience</div>
+            <div class="fv">First-time buyers who purchased in the last 60 days and have not reordered.</div>
+          </div>
+          <div class="field">
+            <div class="fk">Signals</div>
+            <div class="fv">
+              <span class="tag">Cart abandon</span>
+              <span class="tag">Browse abandon</span>
+              <span class="tag">Repurchase window</span>
+              <span class="tag">Memorial Day promo</span>
+            </div>
+          </div>
+          <div class="field">
+            <div class="fk">Guardrails</div>
+            <div class="fv" style="color:#706860;">Max 2 messages/week &nbsp;·&nbsp; No discounts above 15% outside active sales &nbsp;·&nbsp; No messages 9pm–10am &nbsp;·&nbsp; Suppress if active conversation or open support ticket</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Today vs Container -->
+  <section id="compare">
+    <div class="narrow">
+      <div class="eyebrow">The Shift</div>
+      <h2>Today vs. container</h2>
+      <div class="compare-grid">
+        <div class="compare-col">
+          <div class="ch">Today</div>
+          <div class="cr">Cart abandon flow fires when a cart is abandoned — regardless of what else is happening with the shopper.</div>
+          <div class="cr">Campaign blasts everyone in the segment at the scheduled send time.</div>
+          <div class="cr">Flows and campaigns run independently — no logic for when they conflict on the same shopper.</div>
+          <div class="cr">Marketer configures a trigger and sequence for each flow type.</div>
+        </div>
+        <div class="compare-col">
+          <div class="ch">Container</div>
+          <div class="cr">Container evaluates all active signals for each shopper and decides which to pursue — or whether to wait.</div>
+          <div class="cr">Campaign becomes one available opportunity, weighed against behavioral signals per shopper.</div>
+          <div class="cr">Container resolves conflicts — merge, prioritize, or suppress — based on each shopper's full context.</div>
+          <div class="cr">Marketer states a goal once. AI handles execution per shopper, per signal.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Scenarios -->
+  <section id="scenarios">
+    <div class="eyebrow">Scenario Showcase</div>
+    <h2>Four shoppers. Four decisions.</h2>
+    <p style="font-size:13px;color:var(--muted);margin-top:8px;">Click any scenario to expand.</p>
+
+    <div class="scenario-list">
+
+      <!-- ─── Scenario 1: Blake ─── -->
+      <div class="sc open" id="s1">
+        <div class="sc-header" onclick="toggleCard(this.parentElement)">
+          <div class="sc-num">1</div>
+          <div class="sc-meta">
+            <div class="sc-name">Blake &mdash; Cart abandon</div>
+            <div class="sc-sigs">1 signal &nbsp;·&nbsp; Yacht Shirt added to cart 2.5 hours ago</div>
+          </div>
+          <div class="badge b-engage">Engage</div>
+          <div class="sc-chevron">↓</div>
+        </div>
+        <div class="sc-body">
+          <div class="col-headers">
+            <div class="col-head">Insight</div>
+            <div class="col-head">Shopper Journey</div>
+            <div class="col-head">AI Journey · RCS</div>
+          </div>
+          <div class="sc-cols">
+
+            <!-- Insight -->
+            <div class="col-insight">
+              <div class="insight-hl">"Cart recovery lands hardest when the shopper already owns the adjacent product."</div>
+              <div class="insight-body">The container identified Blake's cart as high-intent: he'd purchased the AirKnit Tee 5 days earlier and added the complementary Yacht Shirt before leaving. Rather than a generic recovery message, AI Journey connected both purchases — and resolved his sizing question in three exchanges without a second outbound message.</div>
+              <div class="dp-grid">
+                <div>
+                  <div class="dp-k">First order</div>
+                  <div class="dp-v">$70 CAD</div>
+                  <div class="dp-sub">AirKnit Tee (White)</div>
+                </div>
+                <div>
+                  <div class="dp-k">Signal lag</div>
+                  <div class="dp-v">2.5 hrs</div>
+                  <div class="dp-sub">Cart not completed</div>
+                </div>
+                <div>
+                  <div class="dp-k">Messages sent</div>
+                  <div class="dp-v">1</div>
+                  <div class="dp-sub">AI-initiated</div>
+                </div>
+                <div>
+                  <div class="dp-k">Exchanges</div>
+                  <div class="dp-v">3</div>
+                  <div class="dp-sub">To purchase</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Journey -->
+            <div class="col-journey">
+              <div class="timeline">
+                <div class="t-evt">
+                  <div class="t-dot"></div>
+                  <div class="t-time">Day 1</div>
+                  <div class="t-lbl">First purchase</div>
+                  <div class="t-desc">AirKnit Tee (White) · $70 CAD</div>
+                </div>
+                <div class="t-evt">
+                  <div class="t-dot"></div>
+                  <div class="t-time">Day 5</div>
+                  <div class="t-lbl">Browsed Yacht Shirt</div>
+                  <div class="t-desc">Product page view · 4 min</div>
+                </div>
+                <div class="t-evt">
+                  <div class="t-dot"></div>
+                  <div class="t-time">Day 5 · +2h</div>
+                  <div class="t-lbl">Added to cart</div>
+                  <div class="t-desc">Airflow Yacht Shirt (Black) · $80 CAD</div>
+                </div>
+                <div class="t-evt">
+                  <div class="t-dot decision"></div>
+                  <div class="t-time">Day 5 · +2.5h</div>
+                  <div class="t-lbl">Container evaluates</div>
+                  <div class="t-decision-box">Engage — high intent, complementary product, no suppression flags</div>
+                </div>
+                <div class="t-evt">
+                  <div class="t-dot"></div>
+                  <div class="t-time">Day 5 · +2.5h</div>
+                  <div class="t-lbl">RCS delivered</div>
+                  <div class="t-desc">Rich card · Yacht Shirt · 3 reply options</div>
+                </div>
+                <div class="t-evt">
+                  <div class="t-dot"></div>
+                  <div class="t-time">Day 5 · +3h</div>
+                  <div class="t-lbl">Sizing question</div>
+                  <div class="t-desc">"what's the sizing like compared to the AirKnit"</div>
+                </div>
+                <div class="t-evt">
+                  <div class="t-dot converted"></div>
+                  <div class="t-time">Day 5 · +3h</div>
+                  <div class="t-lbl">Converted</div>
+                  <div class="t-desc">Airflow Yacht Shirt (Black) purchased · $80 CAD</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- RCS -->
+            <div class="col-rcs">
+              <div class="rcs-window">
+                <div class="rcs-bar">
+                  <div class="rcs-avatar">OB</div>
+                  <div class="rcs-bname">ONE BONE</div>
+                  <div class="rcs-verified">Verified Business</div>
+                </div>
+                <div class="rcs-msgs">
+                  <div class="rcs-card">
+                    <div class="rcs-card-img"><span class="rcs-card-img-label">Airflow Yacht Shirt</span></div>
+                    <div class="rcs-card-body">
+                      <div class="rcs-card-prod">Airflow Yacht Shirt</div>
+                      <div class="rcs-card-price">$80 CAD &nbsp;·&nbsp; White &amp; Black</div>
+                      <div class="rcs-card-msg">Blake — you picked up the AirKnit Tee last week. The Yacht is built the same way, cut for summer. Which way are you leaning?</div>
+                    </div>
+                    <div class="rcs-card-actions">
+                      <div class="rcs-btn">1 · Grab it</div>
+                      <div class="rcs-btn">2 · Questions</div>
+                      <div class="rcs-btn">3 · Not now</div>
+                    </div>
+                  </div>
+                  <div class="rcs-row sh">
+                    <div class="rcs-bub sh">what's the sizing like compared to the AirKnit</div>
+                  </div>
+                  <div class="rcs-row ob">
+                    <div class="rcs-bub ob">Same build. If you're a size 1 on the AirKnit you'll be a 1 on the Yacht. Cuts relaxed through the chest and shoulders, doesn't pull at the midsection.</div>
+                  </div>
+                  <div class="rcs-row sh">
+                    <div class="rcs-bub sh">I'm a 1 on the AirKnit, going for black</div>
+                  </div>
+                  <div class="rcs-row ob">
+                    <div class="rcs-bub ob">onebonebrand.com/products/airflow-yacht-shirt-black</div>
+                  </div>
+                  <div class="rcs-ts">Delivered · Read</div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── Scenario 2: Marcus ─── -->
+      <div class="sc" id="s2">
+        <div class="sc-header" onclick="toggleCard(this.parentElement)">
+          <div class="sc-num">2</div>
+          <div class="sc-meta">
+            <div class="sc-name">Marcus &mdash; Cart abandon + Memorial Day promo</div>
+            <div class="sc-sigs">2 signals &nbsp;·&nbsp; AirKnit Tee cart (18 hrs) + Memorial Day campaign match</div>
+          </div>
+          <div class="badge b-merge">Merge</div>
+          <div class="sc-chevron">↓</div>
+        </div>
+        <div class="sc-body">
+          <div class="col-headers">
+            <div class="col-head">Insight</div>
+            <div class="col-head">Shopper Journey</div>
+            <div class="col-head">AI Journey · RCS</div>
+          </div>
+          <div class="sc-cols">
+
+            <div class="col-insight">
+              <div class="insight-hl">"Two signals pointing at different products don't require two messages."</div>
+              <div class="insight-body">Marcus had an abandoned cart and was in the Memorial Day segment — but for different products. Rather than firing two separate touchpoints, the container merged them: led with the cart item (higher intent), offered the sale as a second path. Marcus chose the sale and converted on a different product entirely.</div>
+              <div class="dp-grid">
+                <div>
+                  <div class="dp-k">First order</div>
+                  <div class="dp-v">$159 CAD</div>
+                  <div class="dp-sub">Canvas Pants</div>
+                </div>
+                <div>
+                  <div class="dp-k">Active signals</div>
+                  <div class="dp-v">2</div>
+                  <div class="dp-sub">Cart + campaign</div>
+                </div>
+                <div>
+                  <div class="dp-k">Messages sent</div>
+                  <div class="dp-v">1</div>
+                  <div class="dp-sub">Merged</div>
+                </div>
+                <div>
+                  <div class="dp-k">Path taken</div>
+                  <div class="dp-v">Sale</div>
+                  <div class="dp-sub">Not the cart item</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-journey">
+              <div class="timeline">
+                <div class="t-evt">
+                  <div class="t-dot"></div>
+                  <div class="t-time">Day 22</div>
+                  <div class="t-lbl">First purchase</div>
+                  <div class="t-desc">Canvas Pants · $159 CAD</div>
+                </div>
+                <div class="t-evt">
+                  <div class="t-dot"></div>
+                  <div class="t-time">Day 44</div>
+                  <div class="t-lbl">Added to cart</div>
+                  <div class="t-desc">AirKnit Tee (Black) · $70 CAD</div>
+                </div>
+                <div class="t-evt">
+                  <div class="t-dot"></div>
+                  <div class="t-time">Day 45 · +18h</div>
+                  <div class="t-lbl">Cart not completed</div>
+                  <div class="t-desc">+ Memorial Day campaign match confirmed</div>
+                </div>
+                <div class="t-evt">
+                  <div class="t-dot decision"></div>
+                  <div class="t-time">Day 45 · +18h</div>
+                  <div class="t-lbl">Container evaluates</div>
+                  <div class="t-decision-box">Merge — cart + campaign point to different products; one message, two paths offered</div>
+                </div>
+                <div class="t-evt">
+                  <div class="t-dot"></div>
+                  <div class="t-time">Day 45 · +18h</div>
+                  <div class="t-lbl">Merged RCS delivered</div>
+                  <div class="t-desc">Cart recovery + sale — reply 1 or 2</div>
+                </div>
+                <div class="t-evt">
+                  <div class="t-dot"></div>
+                  <div class="t-time">Day 45 · +19h</div>
+                  <div class="t-lbl">Replied "2"</div>
+                  <div class="t-desc">Chose sale path, not the cart item</div>
+                </div>
+                <div class="t-evt">
+                  <div class="t-dot converted"></div>
+                  <div class="t-time">Day 45 · +19h</div>
+                  <div class="t-lbl">Converted</div>
+                  <div class="t-desc">Canvas Pants (marked down) · sale price</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-rcs">
+              <div class="rcs-window">
+                <div class="rcs-bar">
+                  <div class="rcs-avatar">OB</div>
+                  <div class="rcs-bname">ONE BONE</div>
+                  <div class="rcs-verified">Verified Business</div>
+                </div>
+                <div class="rcs-msgs">
+                  <div class="rcs-row ob">
+                    <div class="rcs-bub ob">Marcus — you left the AirKnit Tee in your cart. Still $70 at onebonebrand.com/products/airknit-t-shirt-black
+
+Memorial Day sale is also live through Monday — up to 60% off on other styles.
+
+What are you after?</div>
+                  </div>
+                  <div style="display:flex;gap:5px;flex-wrap:wrap;padding-left:0;">
+                    <div class="rcs-btn" style="margin-top:4px;">1 · The tee</div>
+                    <div class="rcs-btn" style="margin-top:4px;">2 · The sale</div>
+                    <div class="rcs-btn" style="margin-top:4px;">3 · Not now</div>
+                  </div>
+                  <div class="rcs-row sh">
+                    <div class="rcs-bub sh">2</div>
+                  </div>
+                  <div class="rcs-row ob">
+                    <div class="rcs-bub ob">onebonebrand.com/collections/spring-clean — up to 60% off, applied at checkout, ends Monday. What are you shopping for?</div>
+                  </div>
+                  <div class="rcs-row sh">
+                    <div class="rcs-bub sh">pants, 6'1 240</div>
+                  </div>
+                  <div class="rcs-row ob">
+                    <div class="rcs-bub ob">Size 2. Canvas pant and athletic chino are both in the sale — canvas is more structured, athletic has more give. Which one?</div>
+                  </div>
+                  <div class="rcs-row sh">
+                    <div class="rcs-bub sh">canvas</div>
+                  </div>
+                  <div class="rcs-row ob">
+                    <div class="rcs-bub ob">onebonebrand.com/collections/spring-clean — filter to Canvas Pant, size 2. Discount applies automatically.</div>
+                  </div>
+                  <div class="rcs-ts">Delivered · Read</div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── Scenario 3: Tyler ─── -->
+      <div class="sc" id="s3">
+        <div class="sc-header" onclick="toggleCard(this.parentElement)">
+          <div class="sc-num">3</div>
+          <div class="sc-meta">
+            <div class="sc-name">Tyler &mdash; Memorial Day promo, active conversation</div>
+            <div class="sc-sigs">1 signal &nbsp;·&nbsp; Campaign match &nbsp;·&nbsp; Active sizing conversation flagged</div>
+          </div>
+          <div class="badge b-hold">Hold</div>
+          <div class="sc-chevron">↓</div>
+        </div>
+        <div class="sc-body">
+          <div class="col-headers">
+            <div class="col-head">Insight</div>
+            <div class="col-head">Shopper Journey</div>
+            <div class="col-head">AI Journey · RCS</div>
+          </div>
+          <div class="sc-cols">
+
+            <div class="col-insight">
+              <div class="insight-hl">"The best time to send a campaign is when the conversation is already over."</div>
+              <div class="insight-body">Tyler had an open sizing conversation when the Memorial Day campaign went out. Injecting a new message into an active thread signals the brand isn't paying attention. The container held the campaign, let the sizing question resolve, then re-surfaced the sale the next day — when Tyler was ready to receive it.</div>
+              <div class="dp-grid">
+                <div>
+                  <div class="dp-k">First order</div>
+                  <div class="dp-v">$70 CAD</div>
+                  <div class="dp-sub">AirKnit Tee</div>
+                </div>
+                <div>
+                  <div class="dp-k">Campaign</div>
+                  <div class="dp-v">Held</div>
+                  <div class="dp-sub">1 day</div>
+                </div>
+                <div>
+                  <div class="dp-k">Conversation</div>
+                  <div class="dp-v">Resolved</div>
+                  <div class="dp-sub">Sizing — May 27</div>
+                </div>
+                <div>
+                  <div class="dp-k">Re-engaged</div>
+                  <div class="dp-v">Yes</div>
+                  <div class="dp-sub">Same day</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-journey">
+              <div class="timeline">
+                <div class="t-evt">
+                  <div class="t-dot"></div>
+                  <div class="t-time">Day 15</div>
+                  <div class="t-lbl">First purchase</div>
+                  <div class="t-desc">AirKnit Tee · $70 CAD</div>
+                </div>
+                <div class="t-evt">
+                  <div class="t-dot"></div>
+                  <div class="t-time">Day 28</div>
+                  <div class="t-lbl">Browse + open conversation</div>
+                  <div class="t-desc">Yacht Shirt sizing question — still pending</div>
+                </div>
+                <div class="t-evt">
+                  <div class="t-dot held"></div>
+                  <div class="t-time">Day 29 · May 26</div>
+                  <div class="t-lbl">Container evaluates</div>
+                  <div class="t-decision-box held">Hold — active open conversation · campaign queued for re-evaluation May 27</div>
+                </div>
+                <div class="t-gap"></div>
+                <div class="t-evt">
+                  <div class="t-dot"></div>
+                  <div class="t-time">Day 30 · May 27</div>
+                  <div class="t-lbl">Conversation closed</div>
+                  <div class="t-desc">Sizing resolved · Tyler decided on size 1</div>
+                </div>
+                <div class="t-evt">
+                  <div class="t-dot re"></div>
+                  <div class="t-time">Day 30 · May 27</div>
+                  <div class="t-lbl">Container re-evaluates</div>
+                  <div class="t-decision-box re">Re-engage — conversation closed, promo still live (24h remaining)</div>
+                </div>
+                <div class="t-evt">
+                  <div class="t-dot"></div>
+                  <div class="t-time">Day 30 · May 27</div>
+                  <div class="t-lbl">Campaign re-fired</div>
+                  <div class="t-desc">Callback message — references resolved conversation</div>
+                </div>
+                <div class="t-evt">
+                  <div class="t-dot converted"></div>
+                  <div class="t-time">Day 30 · May 27</div>
+                  <div class="t-lbl">Re-engaged</div>
+                  <div class="t-desc">"yeah actually let me check it"</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-rcs">
+              <div class="rcs-window">
+                <div class="rcs-bar">
+                  <div class="rcs-avatar">OB</div>
+                  <div class="rcs-bname">ONE BONE</div>
+                  <div class="rcs-verified">Verified Business</div>
+                </div>
+                <div class="rcs-msgs">
+                  <div class="rcs-ts">May 26 — active conversation</div>
+                  <div class="rcs-row sh">
+                    <div class="rcs-bub sh">what size should I get in the Yacht shirt, I'm 5'11 215</div>
+                  </div>
+                  <div class="rcs-row ob">
+                    <div class="rcs-bub ob">Size 1. Relaxed through the chest, doesn't pull at the midsection. Same cut as the AirKnit — if that fit right, you're a 1 here too.</div>
+                  </div>
+                  <div class="rcs-row sh">
+                    <div class="rcs-bub sh">let me think about it</div>
+                  </div>
+                  <div class="rcs-held">
+                    <strong style="color:#D09060;">Campaign held</strong> — active conversation in progress.<br>
+                    Memorial Day campaign queued for May 27.
+                  </div>
+                  <div class="rcs-ts">May 27 — conversation closed, container re-fires</div>
+                  <div class="rcs-row ob">
+                    <div class="rcs-bub ob">Tyler — Memorial Day sale is still live through tonight if there's anything you want to grab: onebonebrand.com/collections/spring-clean</div>
+                  </div>
+                  <div class="rcs-row sh">
+                    <div class="rcs-bub sh">yeah actually let me check it</div>
+                  </div>
+                  <div class="rcs-ts">Delivered · Read</div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── Scenario 4: Jordan ─── -->
+      <div class="sc" id="s4">
+        <div class="sc-header" onclick="toggleCard(this.parentElement)">
+          <div class="sc-num">4</div>
+          <div class="sc-meta">
+            <div class="sc-name">Jordan &mdash; Lapsed shopper, three converging signals</div>
+            <div class="sc-sigs">3 signals &nbsp;·&nbsp; Re-browse + repurchase window + Memorial Day promo</div>
+          </div>
+          <div class="badge b-re">Re-engage</div>
+          <div class="sc-chevron">↓</div>
+        </div>
+        <div class="sc-body">
+          <div class="col-headers">
+            <div class="col-head">Insight</div>
+            <div class="col-head">Shopper Journey</div>
+            <div class="col-head">AI Journey · RCS</div>
+          </div>
+          <div class="sc-cols">
+
+            <div class="col-insight">
+              <div class="insight-hl">"A dormant shopper who re-browses is showing intent. Three signals at once make it unmistakable."</div>
+              <div class="insight-body">Jordan went quiet for 44 days after their first purchase. The moment they re-browsed — 7 minutes across New Arrivals and Best Sellers — three signals converged simultaneously: re-browse activity, repurchase timing window, and an active promo. The container read the convergence as a high-probability re-engagement moment and acted immediately.</div>
+              <div class="dp-grid">
+                <div>
+                  <div class="dp-k">First order</div>
+                  <div class="dp-v">$189 CAD</div>
+                  <div class="dp-sub">Summer Hoodie</div>
+                </div>
+                <div>
+                  <div class="dp-k">Days dormant</div>
+                  <div class="dp-v">44</div>
+                  <div class="dp-sub">No activity</div>
+                </div>
+                <div>
+                  <div class="dp-k">Signals</div>
+                  <div class="dp-v">3</div>
+                  <div class="dp-sub">Converged at once</div>
+                </div>
+                <div>
+                  <div class="dp-k">Dormancy broken</div>
+                  <div class="dp-v">Day 44</div>
+                  <div class="dp-sub">Converted same day</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-journey">
+              <div class="timeline">
+                <div class="t-evt">
+                  <div class="t-dot"></div>
+                  <div class="t-time">Day 1</div>
+                  <div class="t-lbl">First purchase</div>
+                  <div class="t-desc">Summer Hoodie · $189 CAD</div>
+                </div>
+                <div class="t-evt">
+                  <div class="t-dot" style="background:#1A1A1A;border-color:#222;"></div>
+                  <div class="t-time">Days 2–43</div>
+                  <div class="t-lbl">Dormant</div>
+                  <div class="t-desc">No browsing · No engagement · No replies</div>
+                </div>
+                <div class="t-evt">
+                  <div class="t-dot"></div>
+                  <div class="t-time">Day 44</div>
+                  <div class="t-lbl">Re-browse signal</div>
+                  <div class="t-desc">New Arrivals + Best Sellers · 7 min session</div>
+                </div>
+                <div class="t-evt">
+                  <div class="t-dot"></div>
+                  <div class="t-time">Day 44</div>
+                  <div class="t-lbl">Repurchase window active</div>
+                  <div class="t-desc">Day 44 — within 30–60d apparel reorder cycle</div>
+                </div>
+                <div class="t-evt">
+                  <div class="t-dot"></div>
+                  <div class="t-time">Day 44</div>
+                  <div class="t-lbl">Campaign match</div>
+                  <div class="t-desc">Memorial Day · segment confirmed</div>
+                </div>
+                <div class="t-evt">
+                  <div class="t-dot re"></div>
+                  <div class="t-time">Day 44</div>
+                  <div class="t-lbl">Container evaluates</div>
+                  <div class="t-decision-box re">Re-engage — 3 signals converging after 44-day dormancy; high re-engagement probability</div>
+                </div>
+                <div class="t-evt">
+                  <div class="t-dot"></div>
+                  <div class="t-time">Day 44</div>
+                  <div class="t-lbl">RCS delivered</div>
+                  <div class="t-desc">Memorial Day hook · hoodie purchase as context</div>
+                </div>
+                <div class="t-evt">
+                  <div class="t-dot converted"></div>
+                  <div class="t-time">Day 44</div>
+                  <div class="t-lbl">Converted</div>
+                  <div class="t-desc">Athletic Shorts purchased · LTV extended</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-rcs">
+              <div class="rcs-window">
+                <div class="rcs-bar">
+                  <div class="rcs-avatar">OB</div>
+                  <div class="rcs-bname">ONE BONE</div>
+                  <div class="rcs-verified">Verified Business</div>
+                </div>
+                <div class="rcs-msgs">
+                  <div class="rcs-card">
+                    <div class="rcs-card-img" style="background:linear-gradient(140deg,#1A1A22 0%,#121018 40%,#1C1820 70%,#222028 100%);">
+                      <span class="rcs-card-img-label">Memorial Day Sale</span>
+                    </div>
+                    <div class="rcs-card-body">
+                      <div class="rcs-card-prod">Up to 60% off</div>
+                      <div class="rcs-card-price">Through Monday · Discount auto-applied</div>
+                      <div class="rcs-card-msg">Jordan — you grabbed the hoodie last month. We're running up to 60% off through Monday if you're looking to add to it.</div>
+                    </div>
+                    <div class="rcs-card-actions">
+                      <div class="rcs-btn">1 · The sale</div>
+                      <div class="rcs-btn">2 · New arrivals</div>
+                      <div class="rcs-btn">3 · Just browsing</div>
+                    </div>
+                  </div>
+                  <div class="rcs-row sh">
+                    <div class="rcs-bub sh">1</div>
+                  </div>
+                  <div class="rcs-row ob">
+                    <div class="rcs-bub ob">Pants and shorts are where the deepest discounts are. What are you shopping for — and what's your height and weight?</div>
+                  </div>
+                  <div class="rcs-row sh">
+                    <div class="rcs-bub sh">shorts, 6'0 220</div>
+                  </div>
+                  <div class="rcs-row ob">
+                    <div class="rcs-bub ob">Size 1 on the shorts. Fits true through the waist, sits at the knee. Same fit family as the hoodie you have. onebonebrand.com/collections/spring-clean</div>
+                  </div>
+                  <div class="rcs-row sh">
+                    <div class="rcs-bub sh">perfect, ordering now</div>
+                  </div>
+                  <div class="rcs-ts">Delivered · Read</div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Decision Log -->
+  <section id="log">
+    <div class="narrow">
+      <div class="eyebrow">Decision Log</div>
+      <h2>Every decision, legible</h2>
+      <p style="font-size:13px;color:var(--muted);margin-top:8px;">The container's reasoning is visible and auditable — not a black box.</p>
+      <table class="log-table">
+        <thead>
+          <tr>
+            <th>Shopper</th>
+            <th>Signals</th>
+            <th>Decision</th>
+            <th>Rationale</th>
+            <th>Sent?</th>
+            <th>Outcome</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Blake</td>
+            <td>Cart abandon</td>
+            <td><span class="badge b-engage">Engage</span></td>
+            <td>High intent, complementary product, no conflicts</td>
+            <td>Yes</td>
+            <td>Converted</td>
+          </tr>
+          <tr>
+            <td>Marcus</td>
+            <td>Cart abandon + Memorial Day promo</td>
+            <td><span class="badge b-merge">Merge</span></td>
+            <td>Different products — one message, two paths</td>
+            <td>Yes (merged)</td>
+            <td>Converted via sale</td>
+          </tr>
+          <tr>
+            <td>Tyler</td>
+            <td>Memorial Day promo</td>
+            <td><span class="badge b-hold">Hold</span></td>
+            <td>Active open conversation — inject would disrupt</td>
+            <td>No — queued May 27</td>
+            <td>Re-engaged next day</td>
+          </tr>
+          <tr>
+            <td>Jordan</td>
+            <td>Re-browse + repurchase window + Memorial Day promo</td>
+            <td><span class="badge b-re">Re-engage</span></td>
+            <td>3 converging signals after 44-day dormancy</td>
+            <td>Yes</td>
+            <td>Converted</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Portfolio -->
+  <section id="portfolio">
+    <div class="narrow">
+      <div class="eyebrow">Portfolio View</div>
+      <h2>Container performance</h2>
+      <div class="portfolio-card">
+        <div class="p-label">Container: First-Time Buyer Growth &nbsp;·&nbsp; May 26–27, 2026</div>
+        <div class="metrics-grid">
+          <div>
+            <div class="m-val">4</div>
+            <div class="m-key">Active shoppers</div>
+          </div>
+          <div>
+            <div class="m-val">3</div>
+            <div class="m-key">Messages sent</div>
+            <div class="m-sub">1 suppressed, re-queued</div>
+          </div>
+          <div>
+            <div class="m-val">4 / 4</div>
+            <div class="m-key">Conversions</div>
+            <div class="m-sub">100% conversion rate</div>
+          </div>
+          <div>
+            <div class="m-val">1.3×</div>
+            <div class="m-key">Avg messages to conversion</div>
+          </div>
+          <div>
+            <div class="m-val">1</div>
+            <div class="m-key">Signals merged</div>
+            <div class="m-sub">Cart + campaign → 1 message</div>
+          </div>
+          <div>
+            <div class="m-val">0</div>
+            <div class="m-key">Opt-outs</div>
+            <div class="m-sub">0.0% opt-out rate</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="footer">AI Journey &nbsp;·&nbsp; Container Concept &nbsp;·&nbsp; ONE BONE &nbsp;·&nbsp; May 2026</div>
+
+</div>
+
+<script>
+  function toggleCard(el) {
+    el.classList.toggle('open');
+  }
+</script>
+</body>
+</html>
