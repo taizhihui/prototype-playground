@@ -25,6 +25,10 @@
   --orange-dim: rgba(184,112,64,0.09);
   --blue: #6878C0;
   --blue-dim: rgba(104,120,192,0.09);
+  --purple: #8868B8;
+  --purple-dim: rgba(136,104,184,0.09);
+  --teal: #4A9898;
+  --teal-dim: rgba(74,152,152,0.09);
 }
 
 html { scroll-behavior: smooth; }
@@ -116,6 +120,7 @@ h2 { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; }
 .b-merge  { background: var(--accent-dim); color: var(--accent); }
 .b-hold   { background: var(--orange-dim); color: #D09070; }
 .b-re     { background: var(--blue-dim); color: #8899D8; }
+.b-cross  { background: var(--purple-dim); color: #B090D8; }
 .sc-chevron { color: var(--muted); font-size: 13px; transition: transform 0.2s; flex-shrink: 0; }
 .sc.open .sc-chevron { transform: rotate(180deg); }
 
@@ -229,6 +234,23 @@ h2 { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; }
 .m-val { font-size: 30px; font-weight: 300; letter-spacing: -0.03em; color: var(--text); line-height: 1; margin-bottom: 5px; }
 .m-key { font-size: 12px; color: var(--muted); }
 .m-sub { font-size: 12px; color: var(--accent); margin-top: 2px; }
+
+/* ── Shopping Assistant context card ── */
+.sa-context { background: #0E1212; border: 1px solid rgba(74,152,152,0.22); border-radius: 8px; overflow: hidden; margin-bottom: 10px; }
+.sa-context-bar { background: #111818; padding: 8px 12px; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid rgba(74,152,152,0.18); }
+.sa-avatar { width: 22px; height: 22px; border-radius: 50%; background: rgba(74,152,152,0.18); display: flex; align-items: center; justify-content: center; font-size: 8px; font-weight: 700; color: var(--teal); flex-shrink: 0; }
+.sa-label { font-size: 11px; font-weight: 600; color: var(--teal); }
+.sa-sublabel { font-size: 10px; color: var(--muted); margin-left: auto; }
+.sa-msgs { padding: 10px 12px; display: flex; flex-direction: column; gap: 6px; }
+.sa-bub { padding: 6px 10px; border-radius: 10px; font-size: 11px; line-height: 1.45; max-width: 85%; }
+.sa-bub.shopper { background: #1A2218; color: #88A888; border-radius: 10px 3px 10px 10px; align-self: flex-end; }
+.sa-bub.ai { background: #141E1E; color: #6A9898; border-radius: 3px 10px 10px 10px; }
+.cross-bridge { display: flex; align-items: center; gap: 8px; padding: 6px 0 8px; font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #6060A0; }
+.cross-bridge::before, .cross-bridge::after { content: ''; flex: 1; height: 1px; background: rgba(104,104,180,0.2); }
+
+/* Timeline dot additions */
+.t-dot.sa { background: var(--teal-dim); border-color: var(--teal); }
+.t-dot.cross { background: var(--purple-dim); border-color: var(--purple); }
 
 /* ── Footer ── */
 .footer { padding: 36px 0 80px; font-size: 12px; color: var(--muted); text-align: center; letter-spacing: 0.04em; }
@@ -610,10 +632,10 @@ What are you after?</div>
         <div class="sc-header" onclick="toggleCard(this.parentElement)">
           <div class="sc-num">3</div>
           <div class="sc-meta">
-            <div class="sc-name">Tyler &mdash; Memorial Day promo, active conversation</div>
-            <div class="sc-sigs">1 signal &nbsp;·&nbsp; Campaign match &nbsp;·&nbsp; Active sizing conversation flagged</div>
+            <div class="sc-name">Tyler &mdash; Shopping Assistant &rarr; RCS continuity</div>
+            <div class="sc-sigs">2 signals &nbsp;·&nbsp; Shopping Assistant sizing session + Memorial Day campaign match</div>
           </div>
-          <div class="badge b-hold">Hold</div>
+          <div class="badge b-cross">Cross-channel</div>
           <div class="sc-chevron">↓</div>
         </div>
         <div class="sc-body">
@@ -625,8 +647,8 @@ What are you after?</div>
           <div class="sc-cols">
 
             <div class="col-insight">
-              <div class="insight-hl">"The best time to send a campaign is when the conversation is already over."</div>
-              <div class="insight-body">Tyler had an open sizing conversation when the Memorial Day campaign went out. Injecting a new message into an active thread signals the brand isn't paying attention. The container held the campaign, let the sizing question resolve, then re-surfaced the sale the next day — when Tyler was ready to receive it.</div>
+              <div class="insight-hl">"Context from a webstore conversation shouldn't disappear when the shopper moves to a different channel."</div>
+              <div class="insight-body">Tyler sorted out his Yacht Shirt sizing with the Shopping Assistant on onebonebrand.com — but left without purchasing. The container detected the closed session as a high-intent signal: purchase blocker resolved, shopper engaged, Memorial Day sale active. AI Journey reached out via RCS with the sizing answer already in hand — no need to start from scratch.</div>
               <div class="dp-grid">
                 <div>
                   <div class="dp-k">First order</div>
@@ -634,19 +656,19 @@ What are you after?</div>
                   <div class="dp-sub">AirKnit Tee</div>
                 </div>
                 <div>
-                  <div class="dp-k">Campaign</div>
-                  <div class="dp-v">Held</div>
-                  <div class="dp-sub">1 day</div>
-                </div>
-                <div>
-                  <div class="dp-k">Conversation</div>
+                  <div class="dp-k">SA session</div>
                   <div class="dp-v">Resolved</div>
-                  <div class="dp-sub">Sizing — May 27</div>
+                  <div class="dp-sub">Size 1 confirmed</div>
                 </div>
                 <div>
-                  <div class="dp-k">Re-engaged</div>
-                  <div class="dp-v">Yes</div>
-                  <div class="dp-sub">Same day</div>
+                  <div class="dp-k">Channel</div>
+                  <div class="dp-v">Web → RCS</div>
+                  <div class="dp-sub">Context carried over</div>
+                </div>
+                <div>
+                  <div class="dp-k">Messages sent</div>
+                  <div class="dp-v">1</div>
+                  <div class="dp-sub">To purchase</div>
                 </div>
               </div>
             </div>
@@ -660,46 +682,58 @@ What are you after?</div>
                   <div class="t-desc">AirKnit Tee · $70 CAD</div>
                 </div>
                 <div class="t-evt">
+                  <div class="t-dot sa"></div>
+                  <div class="t-time">Day 28</div>
+                  <div class="t-lbl">Shopping Assistant</div>
+                  <div class="t-desc">Chat opened on onebonebrand.com · Yacht Shirt sizing question</div>
+                </div>
+                <div class="t-evt">
+                  <div class="t-dot sa"></div>
+                  <div class="t-time">Day 28</div>
+                  <div class="t-lbl">Purchase blocker resolved</div>
+                  <div class="t-desc">Size 1 confirmed · Session closed without purchase</div>
+                </div>
+                <div class="t-evt">
                   <div class="t-dot"></div>
                   <div class="t-time">Day 28</div>
-                  <div class="t-lbl">Browse + open conversation</div>
-                  <div class="t-desc">Yacht Shirt sizing question — still pending</div>
+                  <div class="t-lbl">Memorial Day match</div>
+                  <div class="t-desc">Tyler in segment · sale active through Monday</div>
                 </div>
                 <div class="t-evt">
-                  <div class="t-dot held"></div>
-                  <div class="t-time">Day 29 · May 26</div>
+                  <div class="t-dot cross"></div>
+                  <div class="t-time">Day 28</div>
                   <div class="t-lbl">Container evaluates</div>
-                  <div class="t-decision-box held">Hold — active open conversation · campaign queued for re-evaluation May 27</div>
-                </div>
-                <div class="t-gap"></div>
-                <div class="t-evt">
-                  <div class="t-dot"></div>
-                  <div class="t-time">Day 30 · May 27</div>
-                  <div class="t-lbl">Conversation closed</div>
-                  <div class="t-desc">Sizing resolved · Tyler decided on size 1</div>
-                </div>
-                <div class="t-evt">
-                  <div class="t-dot re"></div>
-                  <div class="t-time">Day 30 · May 27</div>
-                  <div class="t-lbl">Container re-evaluates</div>
-                  <div class="t-decision-box re">Re-engage — conversation closed, promo still live (24h remaining)</div>
+                  <div class="t-decision-box" style="background:var(--purple-dim);border-color:rgba(136,104,184,0.2);color:#A888C8;">Cross-channel engage — SA context carries intent signal; sizing already resolved; Memorial Day adds urgency. Reach out via RCS.</div>
                 </div>
                 <div class="t-evt">
                   <div class="t-dot"></div>
-                  <div class="t-time">Day 30 · May 27</div>
-                  <div class="t-lbl">Campaign re-fired</div>
-                  <div class="t-desc">Callback message — references resolved conversation</div>
+                  <div class="t-time">Day 28</div>
+                  <div class="t-lbl">RCS delivered</div>
+                  <div class="t-desc">References SA session · size 1 already confirmed in message</div>
                 </div>
                 <div class="t-evt">
                   <div class="t-dot converted"></div>
-                  <div class="t-time">Day 30 · May 27</div>
-                  <div class="t-lbl">Re-engaged</div>
-                  <div class="t-desc">"yeah actually let me check it"</div>
+                  <div class="t-time">Day 28</div>
+                  <div class="t-lbl">Converted</div>
+                  <div class="t-desc">Airflow Yacht Shirt (Black) · $80 CAD</div>
                 </div>
               </div>
             </div>
 
             <div class="col-rcs">
+              <div class="sa-context">
+                <div class="sa-context-bar">
+                  <div class="sa-avatar">SA</div>
+                  <div class="sa-label">Shopping Assistant &nbsp;·&nbsp; onebonebrand.com</div>
+                  <div class="sa-sublabel">Day 28 · context carried</div>
+                </div>
+                <div class="sa-msgs">
+                  <div class="sa-bub shopper">what size should I get in the Yacht shirt, I'm 5'11 215</div>
+                  <div class="sa-bub ai">Size 1. Relaxed through the chest and shoulders, doesn't pull at the midsection. Same cut as the AirKnit Tee if you have that for reference.</div>
+                  <div class="sa-bub shopper">got it thanks</div>
+                </div>
+              </div>
+              <div class="cross-bridge">AI Journey picks up this context</div>
               <div class="rcs-window">
                 <div class="rcs-bar">
                   <div class="rcs-avatar">OB</div>
@@ -707,26 +741,30 @@ What are you after?</div>
                   <div class="rcs-verified">Verified Business</div>
                 </div>
                 <div class="rcs-msgs">
-                  <div class="rcs-ts">May 26 — active conversation</div>
+                  <div class="rcs-card">
+                    <div class="rcs-card-img"><span class="rcs-card-img-label">Airflow Yacht Shirt</span></div>
+                    <div class="rcs-card-body">
+                      <div class="rcs-card-prod">Airflow Yacht Shirt</div>
+                      <div class="rcs-card-price">$80 CAD &nbsp;·&nbsp; White &amp; Black</div>
+                      <div class="rcs-card-msg">Tyler — you worked out the sizing on the Yacht Shirt earlier. You're a size 1. Memorial Day sale is live through Monday if you want to go for it.</div>
+                    </div>
+                    <div class="rcs-card-actions">
+                      <div class="rcs-btn">1 · Grab it</div>
+                      <div class="rcs-btn">2 · Check the sale</div>
+                      <div class="rcs-btn">3 · Not now</div>
+                    </div>
+                  </div>
                   <div class="rcs-row sh">
-                    <div class="rcs-bub sh">what size should I get in the Yacht shirt, I'm 5'11 215</div>
+                    <div class="rcs-bub sh">1</div>
                   </div>
                   <div class="rcs-row ob">
-                    <div class="rcs-bub ob">Size 1. Relaxed through the chest, doesn't pull at the midsection. Same cut as the AirKnit — if that fit right, you're a 1 here too.</div>
+                    <div class="rcs-bub ob">Black or white?</div>
                   </div>
                   <div class="rcs-row sh">
-                    <div class="rcs-bub sh">let me think about it</div>
+                    <div class="rcs-bub sh">black</div>
                   </div>
-                  <div class="rcs-held">
-                    <strong style="color:#D09060;">Campaign held</strong> — active conversation in progress.<br>
-                    Memorial Day campaign queued for May 27.
-                  </div>
-                  <div class="rcs-ts">May 27 — conversation closed, container re-fires</div>
                   <div class="rcs-row ob">
-                    <div class="rcs-bub ob">Tyler — Memorial Day sale is still live through tonight if there's anything you want to grab: onebonebrand.com/collections/spring-clean</div>
-                  </div>
-                  <div class="rcs-row sh">
-                    <div class="rcs-bub sh">yeah actually let me check it</div>
+                    <div class="rcs-bub ob">onebonebrand.com/products/airflow-yacht-shirt-black</div>
                   </div>
                   <div class="rcs-ts">Delivered · Read</div>
                 </div>
@@ -922,11 +960,11 @@ What are you after?</div>
           </tr>
           <tr>
             <td>Tyler</td>
-            <td>Memorial Day promo</td>
-            <td><span class="badge b-hold">Hold</span></td>
-            <td>Active open conversation — inject would disrupt</td>
-            <td>No — queued May 27</td>
-            <td>Re-engaged next day</td>
+            <td>Shopping Assistant session + Memorial Day promo</td>
+            <td><span class="badge b-cross">Cross-channel</span></td>
+            <td>SA context carries intent; sizing blocker already resolved via webstore chat</td>
+            <td>Yes</td>
+            <td>Converted</td>
           </tr>
           <tr>
             <td>Jordan</td>
