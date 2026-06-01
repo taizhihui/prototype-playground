@@ -121,6 +121,7 @@ h2 { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; }
 .b-hold   { background: var(--orange-dim); color: #C03040; }
 .b-re     { background: var(--blue-dim); color: #3848A0; }
 .b-cross  { background: var(--purple-dim); color: #5838A0; }
+.b-camp   { background: var(--teal-dim); color: #1E6868; }
 .sc-chevron { color: var(--muted); font-size: 13px; transition: transform 0.2s; flex-shrink: 0; }
 .sc.open .sc-chevron { transform: rotate(180deg); }
 
@@ -375,7 +376,7 @@ h2 { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; }
       <div class="cl-card">
         <div class="cl-stage">Re-activation</div>
         <div class="cl-name">Dormant Re-activation</div>
-        <div class="cl-audience">Previously active. No engagement or purchase in 90d+.</div>
+        <div class="cl-audience">Previously active. No engagement or purchase in 180d+.</div>
         <div class="cl-goal">Re-activate lapsed subscribers using high-signal re-browse or promo convergence.</div>
         <div class="cl-status off">Draft</div>
       </div>
@@ -387,7 +388,7 @@ h2 { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; }
       <div class="config-strip">
         <div class="cs-item">
           <span class="cs-key">Goal</span>
-          <span class="cs-val">Maximize 90-day repeat purchase rate for first-time buyers.</span>
+          <span class="cs-val">Convert 35% of first-time buyers to a second purchase within 90 days.</span>
         </div>
         <div class="cs-item">
           <span class="cs-key">Audience</span>
@@ -420,9 +421,9 @@ h2 { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; }
       </div>
       <div class="si-card">
         <div class="si-eyebrow">Suppression Logic</div>
-        <div class="si-stat">4 conditions</div>
+        <div class="si-stat">5 conditions</div>
         <div class="si-label">When the container holds</div>
-        <div class="si-desc">Active conversation open · Support ticket unresolved · Message sent within 7 days · Shopper replied "not now" within 48h. Container holds and re-evaluates on the next signal — does not skip.</div>
+        <div class="si-desc">Active campaign window · Active conversation open · Support ticket unresolved · Message sent within 7 days · Shopper replied "not now" within 48h. Container holds and re-evaluates on the next signal — does not skip.</div>
       </div>
       <div class="si-card">
         <div class="si-eyebrow">Signal Hierarchy</div>
@@ -442,15 +443,15 @@ h2 { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; }
         <div class="compare-col">
           <div class="ch">Today</div>
           <div class="cr">Cart abandon flow fires when a cart is abandoned — regardless of what else is happening with the shopper.</div>
-          <div class="cr">Campaign blasts everyone in the segment at the scheduled send time.</div>
-          <div class="cr">Flows and campaigns run independently — no logic for when they conflict on the same shopper.</div>
+          <div class="cr">Campaign blasts everyone in the segment at the scheduled send time — with no awareness of what flows are already running for that shopper.</div>
+          <div class="cr">Flows and campaigns run independently — a shopper can get a cart recovery and a campaign blast in the same day for different products.</div>
           <div class="cr">Marketer configures a trigger and sequence for each flow type.</div>
         </div>
         <div class="compare-col">
           <div class="ch">Container</div>
           <div class="cr">Container evaluates all active signals for each shopper and decides which to pursue — or whether to wait.</div>
-          <div class="cr">Campaign becomes one available opportunity, weighed against behavioral signals per shopper.</div>
-          <div class="cr">Container resolves conflicts — merge, prioritize, or suppress — based on each shopper's full context.</div>
+          <div class="cr">Campaign always reaches the full eligible segment. Container personalizes each message and suppresses conflicting flows during the campaign window.</div>
+          <div class="cr">Campaign always wins during its window. Flows hold and re-evaluate after. No shopper gets a flow message while a campaign is active.</div>
           <div class="cr">Marketer states a goal once. AI handles execution per shopper, per signal.</div>
         </div>
       </div>
@@ -608,10 +609,10 @@ h2 { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; }
         <div class="sc-header" onclick="toggleCard(this.parentElement)">
           <div class="sc-num">2</div>
           <div class="sc-meta">
-            <div class="sc-name">Marcus &mdash; Cart abandon + Memorial Day promo</div>
-            <div class="sc-sigs">2 signals &nbsp;·&nbsp; AirKnit Tee cart (18 hrs) + Memorial Day campaign match</div>
+            <div class="sc-name">Marcus &mdash; Cart abandon during active campaign window</div>
+            <div class="sc-sigs">2 signals &nbsp;·&nbsp; AirKnit Tee cart (18 hrs) + Memorial Day campaign window open</div>
           </div>
-          <div class="badge b-merge">Merge</div>
+          <div class="badge b-camp">Campaign first</div>
           <div class="sc-chevron">↓</div>
         </div>
         <div class="sc-body">
@@ -623,8 +624,8 @@ h2 { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; }
           <div class="sc-cols">
 
             <div class="col-insight">
-              <div class="insight-hl">"Two signals pointing at different products don't require two messages."</div>
-              <div class="insight-body">Marcus had an abandoned cart and was in the Memorial Day segment — but for different products. Rather than firing two separate touchpoints, the container merged them: led with the cart item (higher intent), offered the sale as a second path. Marcus chose the sale and converted on a different product entirely.</div>
+              <div class="insight-hl">"When a campaign is live, it reaches everyone in the segment — the agent's job is personalization, not arbitration."</div>
+              <div class="insight-body">Marcus had an abandoned cart when the Memorial Day window opened. The container didn't weigh the two signals against each other — campaign goes to everyone eligible, full stop. The agent personalized the campaign message with awareness of Marcus's cart, acknowledging it as a secondary note. Marcus chose the sale and converted. The cart signal was held during the campaign window, then cleared after he purchased.</div>
               <div class="dp-grid">
                 <div>
                   <div class="dp-k">First order</div>
@@ -639,12 +640,12 @@ h2 { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; }
                 <div>
                   <div class="dp-k">Messages sent</div>
                   <div class="dp-v">1</div>
-                  <div class="dp-sub">Merged</div>
+                  <div class="dp-sub">Campaign (personalized)</div>
                 </div>
                 <div>
-                  <div class="dp-k">Path taken</div>
-                  <div class="dp-v">Sale</div>
-                  <div class="dp-sub">Not the cart item</div>
+                  <div class="dp-k">Cart signal</div>
+                  <div class="dp-v">Held</div>
+                  <div class="dp-sub">Cleared post-purchase</div>
                 </div>
               </div>
             </div>
@@ -667,31 +668,31 @@ h2 { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; }
                   <div class="t-dot"></div>
                   <div class="t-time">Day 45 · +18h</div>
                   <div class="t-lbl">Cart not completed</div>
-                  <div class="t-desc">+ Memorial Day campaign match confirmed</div>
+                  <div class="t-desc">Memorial Day campaign window opens — Marcus in segment</div>
                 </div>
                 <div class="t-evt">
                   <div class="t-dot decision"></div>
                   <div class="t-time">Day 45 · +18h</div>
                   <div class="t-lbl">Container evaluates</div>
-                  <div class="t-decision-box">Merge — cart + campaign point to different products; one message, two paths offered</div>
+                  <div class="t-decision-box">Campaign priority — Memorial Day window active; campaign sent to full segment. Cart acknowledged in message context. Cart flow held through Monday.</div>
                 </div>
                 <div class="t-evt">
                   <div class="t-dot"></div>
                   <div class="t-time">Day 45 · +18h</div>
-                  <div class="t-lbl">Merged RCS delivered</div>
-                  <div class="t-desc">Cart recovery + sale — reply 1 or 2</div>
+                  <div class="t-lbl">Campaign RCS delivered</div>
+                  <div class="t-desc">Memorial Day — leads with sale, acknowledges cart</div>
                 </div>
                 <div class="t-evt">
                   <div class="t-dot"></div>
                   <div class="t-time">Day 45 · +19h</div>
-                  <div class="t-lbl">Replied "2"</div>
-                  <div class="t-desc">Chose sale path, not the cart item</div>
+                  <div class="t-lbl">Replied "1"</div>
+                  <div class="t-desc">Chose sale path</div>
                 </div>
                 <div class="t-evt">
                   <div class="t-dot converted"></div>
                   <div class="t-time">Day 45 · +19h</div>
                   <div class="t-lbl">Converted</div>
-                  <div class="t-desc">Canvas Pants (marked down) · sale price</div>
+                  <div class="t-desc">Canvas Pants (sale price) · cart signal cleared</div>
                 </div>
               </div>
             </div>
@@ -705,19 +706,19 @@ h2 { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; }
                 </div>
                 <div class="rcs-msgs">
                   <div class="rcs-row ob">
-                    <div class="rcs-bub ob">Marcus — you left the AirKnit Tee in your cart. Still $70 at onebonebrand.com/products/airknit-t-shirt-black
+                    <div class="rcs-bub ob">Marcus — Memorial Day sale is live through Monday. Up to 60% off at onebonebrand.com/collections/spring-clean — discount auto-applies at checkout.
 
-Memorial Day sale is also live through Monday — up to 60% off on other styles.
+You've also got the AirKnit Tee in your cart at $70 if you want to grab that separately.
 
 What are you after?</div>
                   </div>
                   <div style="display:flex;gap:5px;flex-wrap:wrap;padding-left:0;">
-                    <div class="rcs-btn" style="margin-top:4px;">1 · The tee</div>
-                    <div class="rcs-btn" style="margin-top:4px;">2 · The sale</div>
+                    <div class="rcs-btn" style="margin-top:4px;">1 · The sale</div>
+                    <div class="rcs-btn" style="margin-top:4px;">2 · The tee</div>
                     <div class="rcs-btn" style="margin-top:4px;">3 · Not now</div>
                   </div>
                   <div class="rcs-row sh">
-                    <div class="rcs-bub sh">2</div>
+                    <div class="rcs-bub sh">1</div>
                   </div>
                   <div class="rcs-row ob">
                     <div class="rcs-bub ob">onebonebrand.com/collections/spring-clean — up to 60% off, applied at checkout, ends Monday. What are you shopping for?</div>
@@ -897,7 +898,7 @@ What are you after?</div>
           <div class="sc-num">4</div>
           <div class="sc-meta">
             <div class="sc-name">Jordan &mdash; Lapsed shopper, three converging signals</div>
-            <div class="sc-sigs">3 signals &nbsp;·&nbsp; Re-browse + repurchase window + Memorial Day promo</div>
+            <div class="sc-sigs">3 signals &nbsp;·&nbsp; Re-browse after 180d + dormancy break + Memorial Day promo</div>
           </div>
           <div class="badge b-re">Re-engage</div>
           <div class="sc-chevron">↓</div>
@@ -911,8 +912,8 @@ What are you after?</div>
           <div class="sc-cols">
 
             <div class="col-insight">
-              <div class="insight-hl">"A dormant shopper who re-browses is showing intent. Three signals at once make it unmistakable."</div>
-              <div class="insight-body">Jordan went quiet for 44 days after their first purchase. The moment they re-browsed — 7 minutes across New Arrivals and Best Sellers — three signals converged simultaneously: re-browse activity, repurchase timing window, and an active promo. The container read the convergence as a high-probability re-engagement moment and acted immediately.</div>
+              <div class="insight-hl">"A truly lapsed shopper who comes back to the site is showing intent. Three signals at once make it unmistakable."</div>
+              <div class="insight-body">Jordan went silent for 180 days after their first purchase — well past the repurchase window, no emails opened, no site visits. The moment they re-browsed — 7 minutes across New Arrivals and Best Sellers — three signals converged simultaneously: re-browse activity, the dormancy break itself, and an active Memorial Day promo. The container read the convergence as a high-probability re-engagement moment and acted immediately.</div>
               <div class="dp-grid">
                 <div>
                   <div class="dp-k">First order</div>
@@ -921,7 +922,7 @@ What are you after?</div>
                 </div>
                 <div>
                   <div class="dp-k">Days dormant</div>
-                  <div class="dp-v">44</div>
+                  <div class="dp-v">180</div>
                   <div class="dp-sub">No activity</div>
                 </div>
                 <div>
@@ -931,7 +932,7 @@ What are you after?</div>
                 </div>
                 <div>
                   <div class="dp-k">Dormancy broken</div>
-                  <div class="dp-v">Day 44</div>
+                  <div class="dp-v">Day 180</div>
                   <div class="dp-sub">Converted same day</div>
                 </div>
               </div>
@@ -947,43 +948,43 @@ What are you after?</div>
                 </div>
                 <div class="t-evt">
                   <div class="t-dot" style="background:#E0D8D0;border-color:#C8C0B8;"></div>
-                  <div class="t-time">Days 2–43</div>
+                  <div class="t-time">Days 2–179</div>
                   <div class="t-lbl">Dormant</div>
-                  <div class="t-desc">No browsing · No engagement · No replies</div>
+                  <div class="t-desc">No browsing · No email opens · No replies</div>
                 </div>
                 <div class="t-evt">
                   <div class="t-dot"></div>
-                  <div class="t-time">Day 44</div>
+                  <div class="t-time">Day 180</div>
                   <div class="t-lbl">Re-browse signal</div>
                   <div class="t-desc">New Arrivals + Best Sellers · 7 min session</div>
                 </div>
                 <div class="t-evt">
                   <div class="t-dot"></div>
-                  <div class="t-time">Day 44</div>
-                  <div class="t-lbl">Repurchase window active</div>
-                  <div class="t-desc">Day 44 — within 30–60d apparel reorder cycle</div>
+                  <div class="t-time">Day 180</div>
+                  <div class="t-lbl">Dormancy break</div>
+                  <div class="t-desc">First site activity in 180 days — re-activation container flags signal</div>
                 </div>
                 <div class="t-evt">
                   <div class="t-dot"></div>
-                  <div class="t-time">Day 44</div>
+                  <div class="t-time">Day 180</div>
                   <div class="t-lbl">Campaign match</div>
                   <div class="t-desc">Memorial Day · segment confirmed</div>
                 </div>
                 <div class="t-evt">
                   <div class="t-dot re"></div>
-                  <div class="t-time">Day 44</div>
+                  <div class="t-time">Day 180</div>
                   <div class="t-lbl">Container evaluates</div>
-                  <div class="t-decision-box re">Re-engage — 3 signals converging after 44-day dormancy; high re-engagement probability</div>
+                  <div class="t-decision-box re">Re-engage — 3 signals converging after 180-day dormancy; re-browse + dormancy break + active promo</div>
                 </div>
                 <div class="t-evt">
                   <div class="t-dot"></div>
-                  <div class="t-time">Day 44</div>
+                  <div class="t-time">Day 180</div>
                   <div class="t-lbl">RCS delivered</div>
                   <div class="t-desc">Memorial Day hook · hoodie purchase as context</div>
                 </div>
                 <div class="t-evt">
                   <div class="t-dot converted"></div>
-                  <div class="t-time">Day 44</div>
+                  <div class="t-time">Day 180</div>
                   <div class="t-lbl">Converted</div>
                   <div class="t-desc">Athletic Shorts purchased · LTV extended</div>
                 </div>
@@ -1005,7 +1006,7 @@ What are you after?</div>
                     <div class="rcs-card-body">
                       <div class="rcs-card-prod">Up to 60% off</div>
                       <div class="rcs-card-price">Through Monday · Discount auto-applied</div>
-                      <div class="rcs-card-msg">Jordan — you grabbed the hoodie last month. We're running up to 60% off through Monday if you're looking to add to it.</div>
+                      <div class="rcs-card-msg">Jordan — you picked up the Summer Hoodie earlier this year. We're running up to 60% off through Monday if you're looking to add to it.</div>
                     </div>
                     <div class="rcs-card-actions">
                       <div class="rcs-btn">1 · The sale</div>
@@ -1068,10 +1069,10 @@ What are you after?</div>
           </tr>
           <tr>
             <td>Marcus</td>
-            <td>Cart abandon + Memorial Day promo</td>
-            <td><span class="badge b-merge">Merge</span></td>
-            <td>Different products — one message, two paths</td>
-            <td>Yes (merged)</td>
+            <td>Cart abandon + Memorial Day campaign window</td>
+            <td><span class="badge b-camp">Campaign first</span></td>
+            <td>Campaign window active — campaign sent to full segment; cart held and acknowledged in message context</td>
+            <td>Yes (campaign)</td>
             <td>Converted via sale</td>
           </tr>
           <tr>
@@ -1084,9 +1085,9 @@ What are you after?</div>
           </tr>
           <tr>
             <td>Jordan</td>
-            <td>Re-browse + repurchase window + Memorial Day promo</td>
+            <td>Re-browse + dormancy break (180d) + Memorial Day promo</td>
             <td><span class="badge b-re">Re-engage</span></td>
-            <td>3 converging signals after 44-day dormancy</td>
+            <td>3 converging signals after 180-day dormancy</td>
             <td>Yes</td>
             <td>Converted</td>
           </tr>
@@ -1136,7 +1137,7 @@ What are you after?</div>
     </div>
   </section>
 
-  <div class="footer">AI Journey &nbsp;·&nbsp; Container Concept &nbsp;·&nbsp; ONE BONE &nbsp;·&nbsp; May 2026</div>
+  <div class="footer">AI Journey &nbsp;·&nbsp; Container Concept &nbsp;·&nbsp; ONE BONE &nbsp;·&nbsp; June 2026</div>
 
 </div>
 
