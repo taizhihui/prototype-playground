@@ -219,6 +219,13 @@ h2 { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; }
 .os-constraint { display: grid; grid-template-columns: 130px 1fr; gap: 16px; font-size: 13px; align-items: start; }
 .os-ck { font-weight: 500; color: var(--muted); padding-top: 1px; }
 .os-cv { color: #5A5248; line-height: 1.5; }
+
+/* Signal context card */
+.signal-context { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 18px 22px; margin-top: 16px; }
+.sc-container-ref { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+.sc-cr-label { font-size: 11px; font-weight: 600; color: var(--muted); }
+.sc-cr-val { font-size: 13px; font-weight: 500; color: var(--accent); }
+.sc-signal-desc { font-size: 13px; color: #6A6258; line-height: 1.6; }
 .cl-status { font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
 .cl-status.on { color: var(--green); }
 .cl-status.off { color: var(--muted); }
@@ -383,23 +390,15 @@ h2 { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; }
       </div>
     </div>
 
-    <div class="zoom-sep">Flow 1 — Cart Recovery</div>
+    <div class="zoom-sep">Signal Example · Cart Abandon</div>
 
     <div class="narrow">
-      <div style="font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-bottom:12px;">Merchant configures</div>
-      <div class="config-strip">
-        <div class="cs-item">
-          <span class="cs-key">Goal</span>
-          <span class="cs-val">Convert first-time buyers who abandoned a cart to a second purchase within 90 days.</span>
+      <div class="signal-context">
+        <div class="sc-container-ref">
+          <span class="sc-cr-label">Container</span>
+          <span class="sc-cr-val">Acquisition · Cold Browser Conversion</span>
         </div>
-        <div class="cs-item">
-          <span class="cs-key">Audience</span>
-          <span class="cs-val">First-time Angelos Direct buyers who purchased in the last 90 days and abandoned a cart without completing.</span>
-        </div>
-        <div class="cs-item">
-          <span class="cs-key">Guardrails</span>
-          <span class="cs-val" style="color:#8A8278;">Max 2 messages/week &nbsp;·&nbsp; Discount ceiling: 15% &nbsp;·&nbsp; No messages 8pm–9am &nbsp;·&nbsp; Suppress if active conversation or open support ticket</span>
-        </div>
+        <div class="sc-signal-desc">A cold browser added a product to cart but left without checking out. The AI detected this as a high-intent signal within the Acquisition container — and determined autonomously whether to engage, what to say, and whether the merchant's configured offer ceiling applies.</div>
       </div>
     </div>
 
@@ -434,24 +433,16 @@ h2 { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; }
       </div>
     </div>
 
-    <!-- Zoom 2: Post-Purchase Education -->
-    <div class="zoom-sep">Flow 2 — Post-Purchase Education</div>
+    <!-- Signal Example 2: First Purchase -->
+    <div class="zoom-sep">Signal Example · First Purchase</div>
 
     <div class="narrow">
-      <div style="font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-bottom:12px;">Merchant configures</div>
-      <div class="config-strip">
-        <div class="cs-item">
-          <span class="cs-key">Goal</span>
-          <span class="cs-val">Build product confidence in first-time buyers to drive the first repeat purchase within 30–90 days.</span>
+      <div class="signal-context">
+        <div class="sc-container-ref">
+          <span class="sc-cr-label">Container</span>
+          <span class="sc-cr-val">Conversion · First-Time Buyer Growth</span>
         </div>
-        <div class="cs-item">
-          <span class="cs-key">Audience</span>
-          <span class="cs-val">First-time Angelos Direct buyers within 24 hours of their first completed order.</span>
-        </div>
-        <div class="cs-item">
-          <span class="cs-key">Guardrails</span>
-          <span class="cs-val" style="color:#8A8278;">1 message per purchase &nbsp;·&nbsp; No discounts — education only &nbsp;·&nbsp; Always end with open-door CTA &nbsp;·&nbsp; Escalate to human team if question exceeds AI knowledge</span>
-        </div>
+        <div class="sc-signal-desc">A new customer completed their first order. The AI detected this lifecycle event within the Conversion container — and determined what to send, when to send it, and how to frame it based on what they bought and the merchant's configured guardrails.</div>
       </div>
     </div>
 
@@ -489,9 +480,9 @@ h2 { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; }
 
   <!-- Scenarios -->
   <section id="scenarios">
-    <div class="eyebrow">Scenario Showcase</div>
-    <h2>Two shoppers. Two different entry points.</h2>
-    <p style="font-size:13px;color:var(--muted);margin-top:8px;">Click any scenario to expand.</p>
+    <div class="eyebrow">AI in Action</div>
+    <h2>Two signals. Two AI decisions.</h2>
+    <p style="font-size:13px;color:var(--muted);margin-top:8px;">Each scenario shows the AI detecting a signal within an active container and deciding how to act. Click to expand.</p>
 
     <div class="scenario-list">
 
