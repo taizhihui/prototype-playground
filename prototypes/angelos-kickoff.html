@@ -207,6 +207,18 @@ h2 { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; }
 .cl-goal { font-size: 11px; color: #7A7268; line-height: 1.45; margin-bottom: 12px; }
 .cl-metric-head { font-size: 9px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #9A9290; margin-top: 10px; margin-bottom: 3px; }
 .cl-metric { font-size: 11px; color: #6A6258; line-height: 1.45; margin-bottom: 10px; }
+.cl-offer-head { font-size: 9px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); opacity: 0.75; margin-top: 10px; margin-bottom: 3px; }
+.cl-offer { font-size: 11px; color: #5A5248; line-height: 1.45; margin-bottom: 10px; }
+
+/* Brand offer strategy card */
+.offer-strategy-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 24px 28px; margin-top: 22px; }
+.os-header { font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 12px; }
+.os-scope { font-size: 10px; font-weight: 500; color: var(--muted); text-transform: none; letter-spacing: 0.02em; }
+.os-philosophy { font-size: 14px; font-style: italic; color: #4A4640; line-height: 1.65; margin-bottom: 18px; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
+.os-constraints { display: flex; flex-direction: column; gap: 9px; }
+.os-constraint { display: grid; grid-template-columns: 130px 1fr; gap: 16px; font-size: 13px; align-items: start; }
+.os-ck { font-weight: 500; color: var(--muted); padding-top: 1px; }
+.os-cv { color: #5A5248; line-height: 1.5; }
 .cl-status { font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
 .cl-status.on { color: var(--green); }
 .cl-status.off { color: var(--muted); }
@@ -303,6 +315,8 @@ h2 { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; }
         <div class="cl-audience">First-time site visitors. No prior purchase.</div>
         <div class="cl-metric-head">Success metric</div>
         <div class="cl-metric">% of cold browsers who make a first purchase within 7 days of first site visit</div>
+        <div class="cl-offer-head">Offer rule</div>
+        <div class="cl-offer">No offer. Lead with product promise and use case clarity. Price is not the barrier — education is.</div>
         <div class="cl-status off">Draft</div>
       </div>
       <div class="cl-card active">
@@ -311,6 +325,8 @@ h2 { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; }
         <div class="cl-audience">First-time buyers, purchased in last 90 days, have not reordered.</div>
         <div class="cl-metric-head">Success metric</div>
         <div class="cl-metric">% of first-time buyers who make a second purchase within 90 days</div>
+        <div class="cl-offer-head">Offer rule</div>
+        <div class="cl-offer">Reminder only on message 1. 15% on message 2 if no conversion within 48h.</div>
         <div class="cl-status on">Active</div>
       </div>
       <div class="cl-card">
@@ -319,6 +335,8 @@ h2 { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; }
         <div class="cl-audience">2+ purchases. Purchased within last 90 days.</div>
         <div class="cl-metric-head">Success metric</div>
         <div class="cl-metric">% of repeat buyers who reorder within 90 days of their last order</div>
+        <div class="cl-offer-head">Offer rule</div>
+        <div class="cl-offer">Modest offer (10–15%) only when tied to a new drop or catalog addition. No unprompted discounts.</div>
         <div class="cl-status off">Draft</div>
       </div>
       <div class="cl-card">
@@ -327,6 +345,8 @@ h2 { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; }
         <div class="cl-audience">Top 10% LTV. 3+ purchases. High engagement score.</div>
         <div class="cl-metric-head">Success metric</div>
         <div class="cl-metric">Average order value (AOV) for VIP segment</div>
+        <div class="cl-offer-head">Offer rule</div>
+        <div class="cl-offer">Dynamic codes only — exclusive discounts not available publicly. Resolves MAP pricing constraint for loyal buyers.</div>
         <div class="cl-status off">Draft</div>
       </div>
       <div class="cl-card">
@@ -335,11 +355,34 @@ h2 { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; }
         <div class="cl-audience">Previously active. No engagement or purchase in 90d+.</div>
         <div class="cl-metric-head">Success metric</div>
         <div class="cl-metric">% of 90d+ dormant customers who place an order within 30 days of a win-back touchpoint</div>
+        <div class="cl-offer-head">Offer rule</div>
+        <div class="cl-offer">Time-limited offer up to 20% at promo convergence. Higher ceiling justified by re-activation value vs. permanent churn.</div>
         <div class="cl-status off">Draft</div>
       </div>
     </div>
 
     <!-- Zoom 1: Cart Recovery -->
+    <div class="narrow" style="margin-top:32px;">
+      <div class="offer-strategy-card">
+        <div class="os-header">Brand Offer Strategy <span class="os-scope">Global &nbsp;·&nbsp; Inherited by all containers</span></div>
+        <div class="os-philosophy">"Discounts break friction — they don't create desire. Earn conversions through product quality and education first. Introduce an offer only when a shopper signals genuine price resistance."</div>
+        <div class="os-constraints">
+          <div class="os-constraint">
+            <span class="os-ck">Max discount</span>
+            <span class="os-cv">25% — reserved for major promotions only (e.g. Black Friday). Never a default offer.</span>
+          </div>
+          <div class="os-constraint">
+            <span class="os-ck">MAP floor</span>
+            <span class="os-cv">No public discounts below distribution pricing floor. Dynamic codes are the approved workaround for loyalty and VIP tiers.</span>
+          </div>
+          <div class="os-constraint">
+            <span class="os-ck">Default</span>
+            <span class="os-cv">No discount unless explicitly configured per container. Offer is a last resort, not a default.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="zoom-sep">Flow 1 — Cart Recovery</div>
 
     <div class="narrow">
