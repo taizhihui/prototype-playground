@@ -220,12 +220,47 @@ h2 { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; }
 .os-ck { font-weight: 500; color: var(--muted); padding-top: 1px; }
 .os-cv { color: #5A5248; line-height: 1.5; }
 
-/* Signal context card */
-.signal-context { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 18px 22px; margin-top: 16px; }
-.sc-container-ref { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
-.sc-cr-label { font-size: 11px; font-weight: 600; color: var(--muted); }
-.sc-cr-val { font-size: 13px; font-weight: 500; color: var(--accent); }
-.sc-signal-desc { font-size: 13px; color: #6A6258; line-height: 1.6; }
+/* Container detail view */
+.container-detail { display: grid; grid-template-columns: 300px 1fr; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; margin-top: 24px; }
+.cd-merchant { background: var(--card2); padding: 24px 26px; border-right: 1px solid var(--border); }
+.cd-ai { background: var(--card); padding: 24px 26px; }
+.cd-col-label { font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+.cd-col-label.merchant { color: var(--muted); }
+.cd-col-label.ai { color: var(--teal); }
+.cd-field { padding: 10px 0; border-bottom: 1px solid var(--border); }
+.cd-field:last-child { border-bottom: none; padding-bottom: 0; }
+.cd-fk { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+.cd-fv { font-size: 12px; color: #5A5248; line-height: 1.5; }
+
+/* Decision log */
+.dl-count { font-size: 12px; color: var(--muted); margin-bottom: 12px; }
+.dl-entries { display: flex; flex-direction: column; gap: 8px; }
+.dl-entry { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; transition: border-color 0.15s; }
+.dl-entry.open { border-color: #C4BFBA; }
+.dl-header { display: flex; align-items: center; gap: 10px; padding: 12px 16px; cursor: pointer; user-select: none; }
+.dl-signal-tag { font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 2px 8px; border-radius: 3px; flex-shrink: 0; }
+.dl-signal-tag.cart { background: var(--accent-dim); color: #8A6818; }
+.dl-signal-tag.browse { background: var(--blue-dim); color: #3848A0; }
+.dl-signal-tag.purchase { background: var(--green-dim); color: #1E7848; }
+.dl-meta { flex: 1; min-width: 0; }
+.dl-shopper-name { font-size: 13px; font-weight: 600; color: var(--text); }
+.dl-shopper-sub { font-size: 11px; color: var(--muted); }
+.dl-decision-badge { flex-shrink: 0; padding: 2px 10px; border-radius: 12px; font-size: 10px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; }
+.dl-decision-badge.engage { background: var(--green-dim); color: #1E7848; }
+.dl-decision-badge.hold { background: var(--orange-dim); color: #C03040; }
+.dl-outcome { font-size: 11px; color: var(--muted); flex-shrink: 0; }
+.dl-outcome.converted { color: var(--green); font-weight: 500; }
+.dl-outcome.replied { color: var(--accent); font-weight: 500; }
+.dl-chevron { color: var(--muted); font-size: 11px; transition: transform 0.2s; flex-shrink: 0; }
+.dl-entry.open .dl-chevron { transform: rotate(180deg); }
+.dl-body { display: none; border-top: 1px solid var(--border); }
+.dl-entry.open .dl-body { display: block; }
+.dl-reasoning { padding: 12px 16px; font-size: 12px; color: #6A6258; line-height: 1.6; background: rgba(40,120,120,0.05); border-bottom: 1px solid var(--border); }
+.dl-reasoning strong { color: var(--text); }
+.dl-detail { padding: 16px; }
+.dl-dp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
+.dl-dp-grid:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+.dl-convo .rcs-window { max-width: 380px; }
 .cl-status { font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
 .cl-status.on { color: var(--green); }
 .cl-status.off { color: var(--muted); }
@@ -290,8 +325,8 @@ h2 { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; }
   <span class="nav-pipe">·</span>
   <span class="nav-sub">Kickoff &nbsp;·&nbsp; ANGELOS DIRECT</span>
   <div class="nav-links">
-    <a href="#setup">Flows</a>
-    <a href="#scenarios">Scenarios</a>
+    <a href="#setup">Containers</a>
+    <a href="#decisions">AI Decisions</a>
     <a href="#kickoff">60-Day Plan</a>
   </div>
 </nav>
@@ -390,99 +425,159 @@ h2 { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; }
       </div>
     </div>
 
-    <div class="zoom-sep">Signal Example · Cart Abandon</div>
-
-    <div class="narrow">
-      <div class="signal-context">
-        <div class="sc-container-ref">
-          <span class="sc-cr-label">Container</span>
-          <span class="sc-cr-val">Acquisition · Cold Browser Conversion</span>
-        </div>
-        <div class="sc-signal-desc">A cold browser added a product to cart but left without checking out. The AI detected this as a high-intent signal within the Acquisition container — and determined autonomously whether to engage, what to say, and whether the merchant's configured offer ceiling applies.</div>
-      </div>
-    </div>
-
-    <div style="margin-top:24px; margin-bottom:10px;">
-      <div class="eyebrow" style="margin-bottom:0;color:var(--teal);">AI decides</div>
-      <div style="font-size:12px;color:var(--muted);margin-top:4px;">How the system determines who to engage, when, and with what</div>
-    </div>
-    <div class="si-grid">
-      <div class="si-card">
-        <div class="si-eyebrow">Use-Case Questions</div>
-        <div class="si-stat">Question first</div>
-        <div class="si-label">Cart abandons are rarely about price</div>
-        <div class="si-desc">For paint and hobby brands, the most common cart abandon is a use-case question: will this work for my specific project? The flow leads with the product promise — answering before the shopper has to ask, and never opening with a discount.</div>
-      </div>
-      <div class="si-card">
-        <div class="si-eyebrow">Purchase Context</div>
-        <div class="si-stat">Always on</div>
-        <div class="si-label">What they own informs what they need next</div>
-        <div class="si-desc">AI Journey carries what they already bought. When Alex reaches back out about individual paint colors, the AI already knows he started with the Bestsellers Kit — so it can surface the right complementary colors and accessories without starting from scratch.</div>
-      </div>
-      <div class="si-card">
-        <div class="si-eyebrow">Compliance Guardrails</div>
-        <div class="si-stat">Built in</div>
-        <div class="si-label">Opt-out protection, not an afterthought</div>
-        <div class="si-desc">Quiet hours enforced automatically. 7-day same-type cooldown. Opt-out processed instantly — no gray area. The opt-out rate is front-page data for you every week, not a metric that hides in a report.</div>
-      </div>
-      <div class="si-card">
-        <div class="si-eyebrow">Timing Window</div>
-        <div class="si-stat">1.5–3h</div>
-        <div class="si-label">Optimal outreach after cart abandon</div>
-        <div class="si-desc">Shopper is still warm, not asleep. Container holds overnight sends until 9am local. If the abandon happens after 7pm, message goes out at 9am the next morning — not at 2am.</div>
-      </div>
-    </div>
-
-    <!-- Signal Example 2: First Purchase -->
-    <div class="zoom-sep">Signal Example · First Purchase</div>
-
-    <div class="narrow">
-      <div class="signal-context">
-        <div class="sc-container-ref">
-          <span class="sc-cr-label">Container</span>
-          <span class="sc-cr-val">Conversion · First-Time Buyer Growth</span>
-        </div>
-        <div class="sc-signal-desc">A new customer completed their first order. The AI detected this lifecycle event within the Conversion container — and determined what to send, when to send it, and how to frame it based on what they bought and the merchant's configured guardrails.</div>
-      </div>
-    </div>
-
-    <div style="margin-top:24px; margin-bottom:10px;">
-      <div class="eyebrow" style="margin-bottom:0;color:var(--teal);">AI decides</div>
-      <div style="font-size:12px;color:var(--muted);margin-top:4px;">How the system determines what to send and when</div>
-    </div>
-    <div class="si-grid">
-      <div class="si-card">
-        <div class="si-eyebrow">Education as Retention</div>
-        <div class="si-stat">1–3 mo</div>
-        <div class="si-label">Natural repeat purchase cycle</div>
-        <div class="si-desc">If they feel like their hands are held and the product works as expected, they'll spend $60 instead of $30 on the next order. This flow exists for that transition — not to push the next sale, but to make the first one work.</div>
-      </div>
-      <div class="si-card">
-        <div class="si-eyebrow">Product-Context Aware</div>
-        <div class="si-stat">Item-level</div>
-        <div class="si-label">Tips match what they actually bought</div>
-        <div class="si-desc">A Starter Kit gets starter tips. A Bestsellers Kit gets different guidance. The AI knows what's in the order and sends advice specific to it — not a generic "thanks for your purchase" message with a link to the help center.</div>
-      </div>
-      <div class="si-card">
-        <div class="si-eyebrow">Open-Door Positioning</div>
-        <div class="si-stat">Always on</div>
-        <div class="si-label">"We're here if you need anything"</div>
-        <div class="si-desc">Every post-purchase message ends with an open invitation to ask questions. This is the brand Tyler described: family-owned since 1907, accessible, expert. The CTA isn't a link — it's a standing offer to help with the project.</div>
-      </div>
-      <div class="si-card">
-        <div class="si-eyebrow">Human Escalation</div>
-        <div class="si-stat">Seamless</div>
-        <div class="si-label">Complex questions hand off to the team</div>
-        <div class="si-desc">If a shopper asks something the AI can't confidently answer — unusual substrates, specific product interactions, edge cases — it escalates to the Angelos team without friction. The shopper never hits a dead end.</div>
-      </div>
-    </div>
   </section>
 
-  <!-- Scenarios -->
-  <section id="scenarios">
-    <div class="eyebrow">AI in Action</div>
-    <h2>Two signals. Two AI decisions.</h2>
-    <p style="font-size:13px;color:var(--muted);margin-top:8px;">Each scenario shows the AI detecting a signal within an active container and deciding how to act. Click to expand.</p>
+  <!-- Container Detail -->
+  <section id="decisions">
+    <div class="narrow">
+      <div class="eyebrow">Container in View</div>
+      <h2>First-Time Buyer Growth &nbsp;<span style="font-size:14px;font-weight:400;color:var(--green);">&#9679; Active</span></h2>
+      <p style="font-size:13px;color:var(--muted);margin-top:8px;">Left: what you configured. Right: what the AI is doing with it — every signal detected and every decision made.</p>
+    </div>
+
+    <div class="container-detail">
+
+      <div class="cd-merchant">
+        <div class="cd-col-label merchant">Merchant configures</div>
+        <div class="cd-field">
+          <div class="cd-fk">Goal</div>
+          <div class="cd-fv">% of first-time buyers who make a second purchase within 90 days</div>
+        </div>
+        <div class="cd-field">
+          <div class="cd-fk">Audience</div>
+          <div class="cd-fv">First-time buyers, purchased in last 90 days, have not reordered.</div>
+        </div>
+        <div class="cd-field">
+          <div class="cd-fk">Offer ceiling</div>
+          <div class="cd-fv">No discount unless tied to a new drop or catalog addition, in which case willing to offer 10–15%.</div>
+        </div>
+        <div class="cd-field">
+          <div class="cd-fk">Guardrails</div>
+          <div class="cd-fv" style="color:#8A8278;">Max 2 messages/week &nbsp;·&nbsp; No messages 8pm–9am &nbsp;·&nbsp; Suppress if active conversation or open support ticket</div>
+        </div>
+      </div>
+
+      <div class="cd-ai">
+        <div class="cd-col-label ai">AI decision log</div>
+        <div class="dl-count">3 shoppers evaluated &nbsp;·&nbsp; Today</div>
+        <div class="dl-entries">
+
+          <!-- Entry 1: Alex — Cart Abandon — Engaged — Converted -->
+          <div class="dl-entry open" id="dl1">
+            <div class="dl-header" onclick="toggleCard(this.parentElement)">
+              <div class="dl-signal-tag cart">Cart Abandon</div>
+              <div class="dl-meta">
+                <div class="dl-shopper-name">Alex</div>
+                <div class="dl-shopper-sub">Bestsellers Kit &nbsp;·&nbsp; $29.99 in cart &nbsp;·&nbsp; 2h ago</div>
+              </div>
+              <div class="dl-decision-badge engage">Engaged</div>
+              <div class="dl-outcome converted">Converted ✓</div>
+              <div class="dl-chevron">↓</div>
+            </div>
+            <div class="dl-body">
+              <div class="dl-reasoning"><strong>Why the AI engaged:</strong> High-intent signal — shopper added to cart but did not check out. First-time buyer within 90-day window. No suppression flags. Offer ceiling applies (up to 15%) but AI led with product promise first — offer held unless price resistance surfaces.</div>
+              <div class="dl-detail">
+                <div class="dl-dp-grid">
+                  <div><div class="dp-k">Signal</div><div class="dp-v">Cart abandon · 2h</div></div>
+                  <div><div class="dp-k">Prior purchase</div><div class="dp-v">None</div></div>
+                  <div><div class="dp-k">Offer deployed</div><div class="dp-v">None</div></div>
+                  <div><div class="dp-k">Exchanges</div><div class="dp-v">2 → Converted</div></div>
+                </div>
+                <div class="dl-convo">
+                  <div class="rcs-window">
+                    <div class="rcs-bar"><div class="rcs-avatar">AD</div><div class="rcs-bname">Angelos Direct</div><div class="rcs-verified">Verified Business</div></div>
+                    <div class="rcs-msgs">
+                      <div class="rcs-card">
+                        <div class="rcs-card-img"><span class="rcs-card-img-label">Bestsellers Kit</span></div>
+                        <div class="rcs-card-body">
+                          <div class="rcs-card-prod">Bestsellers Paint Kit</div>
+                          <div class="rcs-card-price">$29.99 &nbsp;·&nbsp; 12 colors</div>
+                          <div class="rcs-card-msg">Alex — you've got the Bestsellers Kit in your cart. 12 of our most-used colors, everything you need to start. What's the project?</div>
+                        </div>
+                        <div class="rcs-card-actions">
+                          <div class="rcs-btn">1 · Grab the kit</div>
+                          <div class="rcs-btn">2 · Got a question</div>
+                          <div class="rcs-btn">3 · Not yet</div>
+                        </div>
+                      </div>
+                      <div class="rcs-row sh"><div class="rcs-bub sh">will these work on vinyl seats</div></div>
+                      <div class="rcs-row ob"><div class="rcs-bub ob">Yes — bonds to vinyl, leather, and canvas. For seats, prep with the leather cleaner first, then paint. Finish with the matte or glossy finisher and it'll hold up to daily use.</div></div>
+                      <div class="rcs-row sh"><div class="rcs-bub sh">perfect, checking out now</div></div>
+                      <div class="rcs-ts">Delivered · Read</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Entry 2: Morgan — First Purchase — Engaged — Replied -->
+          <div class="dl-entry" id="dl2">
+            <div class="dl-header" onclick="toggleCard(this.parentElement)">
+              <div class="dl-signal-tag purchase">First Purchase</div>
+              <div class="dl-meta">
+                <div class="dl-shopper-name">Morgan</div>
+                <div class="dl-shopper-sub">Starter Kit &nbsp;·&nbsp; $32 &nbsp;·&nbsp; Purchased yesterday</div>
+              </div>
+              <div class="dl-decision-badge engage">Engaged</div>
+              <div class="dl-outcome replied">Replied</div>
+              <div class="dl-chevron">↓</div>
+            </div>
+            <div class="dl-body">
+              <div class="dl-reasoning"><strong>Why the AI engaged:</strong> First purchase lifecycle event — post-purchase education window open (24h after order). Guardrails: no offer for this signal, education only. AI sent product-specific usage tips and open-door CTA based on what was ordered.</div>
+              <div class="dl-detail">
+                <div class="dl-dp-grid">
+                  <div><div class="dp-k">Signal</div><div class="dp-v">First purchase · 24h</div></div>
+                  <div><div class="dp-k">Product</div><div class="dp-v">Starter Kit</div></div>
+                  <div><div class="dp-k">Offer deployed</div><div class="dp-v">None (education only)</div></div>
+                  <div><div class="dp-k">Outcome</div><div class="dp-v">Replied · building relationship</div></div>
+                </div>
+                <div class="dl-convo">
+                  <div class="rcs-window">
+                    <div class="rcs-bar"><div class="rcs-avatar">AD</div><div class="rcs-bname">Angelos Direct</div><div class="rcs-verified">Verified Business</div></div>
+                    <div class="rcs-msgs">
+                      <div class="rcs-row ob"><div class="rcs-bub ob">Morgan — your Starter Kit is on its way 🎨 Quick tip before you dive in: prep the surface with the leather preparer first — it helps the paint bond a lot better. And if you run into anything on your project, just reply here. We've been helping people with this stuff since 1907.</div></div>
+                      <div class="rcs-row sh"><div class="rcs-bub sh">how do I keep paint from cracking on shoes I wear a lot</div></div>
+                      <div class="rcs-row ob"><div class="rcs-bub ob">Use the acrylic finisher after the paint fully dries — two coats, let it cure 24h. That seals the flex without the paint stiffening up. angelos.com/products/acrylic-finisher</div></div>
+                      <div class="rcs-row sh"><div class="rcs-bub sh">this is so helpful thank you</div></div>
+                      <div class="rcs-ts">Delivered · Read</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Entry 3: Jamie — Browse Abandon — Held -->
+          <div class="dl-entry" id="dl3">
+            <div class="dl-header" onclick="toggleCard(this.parentElement)">
+              <div class="dl-signal-tag browse">Browse Abandon</div>
+              <div class="dl-meta">
+                <div class="dl-shopper-name">Jamie</div>
+                <div class="dl-shopper-sub">3 product pages &nbsp;·&nbsp; 4-min session &nbsp;·&nbsp; no cart</div>
+              </div>
+              <div class="dl-decision-badge hold">Held</div>
+              <div class="dl-outcome">Re-evaluating on next signal</div>
+              <div class="dl-chevron">↓</div>
+            </div>
+            <div class="dl-body">
+              <div class="dl-reasoning"><strong>Why the AI held:</strong> Browse session detected but intent signal too weak — 4-minute session with no cart addition does not meet engagement threshold. Sending now risks an irrelevant message that burns opt-in goodwill. AI is monitoring for a stronger signal: return visit, cart addition, or a session longer than 8 minutes. No message sent.</div>
+              <div class="dl-detail">
+                <div class="dl-dp-grid">
+                  <div><div class="dp-k">Signal</div><div class="dp-v">Browse abandon · 4 min</div></div>
+                  <div><div class="dp-k">Pages viewed</div><div class="dp-v">3 products</div></div>
+                  <div><div class="dp-k">Cart</div><div class="dp-v">None</div></div>
+                  <div><div class="dp-k">Action</div><div class="dp-v">No message · monitoring</div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="scenario-list" style="display:none;">
 
     <div class="scenario-list">
 
