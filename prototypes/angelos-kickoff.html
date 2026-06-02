@@ -316,7 +316,7 @@ h2 { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; }
         <div class="cl-metric-head">Success metric</div>
         <div class="cl-metric">% of cold browsers who make a first purchase within 7 days of first site visit</div>
         <div class="cl-offer-head">Offer rule</div>
-        <div class="cl-offer">No offer. Lead with product promise and use case clarity. Price is not the barrier — education is.</div>
+        <div class="cl-offer">No discount. Product quality and education are the conversion lever — not price.</div>
         <div class="cl-status off">Draft</div>
       </div>
       <div class="cl-card active">
@@ -326,7 +326,7 @@ h2 { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; }
         <div class="cl-metric-head">Success metric</div>
         <div class="cl-metric">% of first-time buyers who make a second purchase within 90 days</div>
         <div class="cl-offer-head">Offer rule</div>
-        <div class="cl-offer">No discount. Repurchase is driven by product quality and staying present — not price. 15% applies to cart abandon only (see flow config).</div>
+        <div class="cl-offer">Willing to offer up to 15% when a first-time shopper signals buying intent (e.g. cart abandon).</div>
         <div class="cl-status on">Active</div>
       </div>
       <div class="cl-card">
@@ -336,7 +336,7 @@ h2 { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; }
         <div class="cl-metric-head">Success metric</div>
         <div class="cl-metric">% of repeat buyers who reorder within 90 days of their last order</div>
         <div class="cl-offer-head">Offer rule</div>
-        <div class="cl-offer">Modest offer (10–15%) only when tied to a new drop or catalog addition. No unprompted discounts.</div>
+        <div class="cl-offer">Willing to offer 10–15% only when tied to a new drop or catalog addition.</div>
         <div class="cl-status off">Draft</div>
       </div>
       <div class="cl-card">
@@ -346,7 +346,7 @@ h2 { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; }
         <div class="cl-metric-head">Success metric</div>
         <div class="cl-metric">Average order value (AOV) for VIP segment</div>
         <div class="cl-offer-head">Offer rule</div>
-        <div class="cl-offer">Dynamic codes only — exclusive discounts not available publicly. Resolves MAP pricing constraint for loyal buyers.</div>
+        <div class="cl-offer">Dynamic codes only — exclusive discounts not advertised publicly.</div>
         <div class="cl-status off">Draft</div>
       </div>
       <div class="cl-card">
@@ -356,7 +356,7 @@ h2 { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; }
         <div class="cl-metric-head">Success metric</div>
         <div class="cl-metric">% of 90d+ dormant customers who place an order within 30 days of a win-back touchpoint</div>
         <div class="cl-offer-head">Offer rule</div>
-        <div class="cl-offer">Time-limited offer up to 20% at promo convergence. Higher ceiling justified by re-activation value vs. permanent churn.</div>
+        <div class="cl-offer">Willing to offer up to 20% to break re-activation friction.</div>
         <div class="cl-status off">Draft</div>
       </div>
     </div>
@@ -386,6 +386,7 @@ h2 { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; }
     <div class="zoom-sep">Flow 1 — Cart Recovery</div>
 
     <div class="narrow">
+      <div style="font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-bottom:12px;">Merchant configures</div>
       <div class="config-strip">
         <div class="cs-item">
           <span class="cs-key">Goal</span>
@@ -397,14 +398,14 @@ h2 { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; }
         </div>
         <div class="cs-item">
           <span class="cs-key">Guardrails</span>
-          <span class="cs-val" style="color:#8A8278;">Max 2 messages/week &nbsp;·&nbsp; Message 1 is a reminder (no discount) &nbsp;·&nbsp; Message 2 adds 15% if no conversion &nbsp;·&nbsp; No messages 8pm–9am &nbsp;·&nbsp; Suppress if active conversation or open support ticket</span>
+          <span class="cs-val" style="color:#8A8278;">Max 2 messages/week &nbsp;·&nbsp; Discount ceiling: 15% &nbsp;·&nbsp; No messages 8pm–9am &nbsp;·&nbsp; Suppress if active conversation or open support ticket</span>
         </div>
       </div>
     </div>
 
     <div style="margin-top:24px; margin-bottom:10px;">
-      <div class="eyebrow" style="margin-bottom:0;">Flow Intelligence</div>
-      <div style="font-size:12px;color:var(--muted);margin-top:4px;">Behavioral inputs that drive this flow's decisions</div>
+      <div class="eyebrow" style="margin-bottom:0;color:var(--teal);">AI decides</div>
+      <div style="font-size:12px;color:var(--muted);margin-top:4px;">How the system determines who to engage, when, and with what</div>
     </div>
     <div class="si-grid">
       <div class="si-card">
@@ -437,6 +438,7 @@ h2 { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; }
     <div class="zoom-sep">Flow 2 — Post-Purchase Education</div>
 
     <div class="narrow">
+      <div style="font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-bottom:12px;">Merchant configures</div>
       <div class="config-strip">
         <div class="cs-item">
           <span class="cs-key">Goal</span>
@@ -454,8 +456,8 @@ h2 { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; }
     </div>
 
     <div style="margin-top:24px; margin-bottom:10px;">
-      <div class="eyebrow" style="margin-bottom:0;">Flow Intelligence</div>
-      <div style="font-size:12px;color:var(--muted);margin-top:4px;">The signals and structure behind the post-purchase education flow</div>
+      <div class="eyebrow" style="margin-bottom:0;color:var(--teal);">AI decides</div>
+      <div style="font-size:12px;color:var(--muted);margin-top:4px;">How the system determines what to send and when</div>
     </div>
     <div class="si-grid">
       <div class="si-card">
@@ -793,7 +795,7 @@ h2 { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; }
         <div class="fc-opt recommended">
           <div class="fc-opt-tag">Week 1–2</div>
           <div class="fc-opt-name">Cart Abandonment</div>
-          <div class="fc-opt-when">Reminder first · 15% discount on message 2 if no conversion</div>
+          <div class="fc-opt-when">Discount ceiling: 15% when cart intent is confirmed</div>
           <div class="fc-opt-body">Cart abandon is the clearest intent signal — the shopper already chose a product. Message 1 is a reminder with no discount, leading with the product promise and an open question. If no conversion, message 2 adds 15%. Tyler's existing Klaviyo cart flow uses 15% — matching that pattern on SMS ensures consistency while we establish the new channel.</div>
         </div>
         <div class="fc-opt">
