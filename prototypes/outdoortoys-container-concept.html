@@ -76,6 +76,39 @@ h2 { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; }
 /* ── Hero ── */
 .hero { padding-top: 110px; }
 
+/* ── Shape of demand ── */
+.demand-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 30px; }
+.dm-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 22px 24px; display: flex; flex-direction: column; }
+.dm-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); margin-bottom: 6px; }
+.dm-title { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 14px; line-height: 1.35; }
+.dm-body { font-size: 12px; color: #6A6258; line-height: 1.55; margin-top: 14px; }
+.dm-chips { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 12px; }
+.dm-chip { font-size: 10px; font-weight: 500; color: #6A6258; background: var(--subtle); border-radius: 3px; padding: 2px 8px; }
+
+/* funnel rows */
+.fn-row { display: grid; grid-template-columns: 86px 1fr 34px; gap: 10px; align-items: center; padding: 5px 0; }
+.fn-k { font-size: 11px; color: var(--muted); }
+.fn-bar { height: 10px; border-radius: 2px; background: var(--subtle); position: relative; overflow: hidden; }
+.fn-fill { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 2px; }
+.fn-v { font-size: 12px; font-weight: 600; color: var(--text); text-align: right; }
+.fn-note { font-size: 10px; color: var(--muted); margin-top: 8px; padding-top: 10px; border-top: 1px solid var(--border); }
+
+/* attach timeline */
+.at-scale { position: relative; height: 56px; margin: 8px 0 2px; }
+.at-track { position: absolute; left: 0; right: 0; top: 26px; height: 10px; background: var(--subtle); border-radius: 2px; }
+.at-window { position: absolute; left: 0; width: 42%; top: 26px; height: 10px; background: var(--accent-dim); border: 1px solid rgba(201,169,110,0.35); border-radius: 2px; }
+.at-median { position: absolute; left: 21%; top: 18px; width: 2px; height: 26px; background: var(--accent); }
+.at-median-lbl { position: absolute; left: 21%; top: 0; transform: translateX(-50%); font-size: 9px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); white-space: nowrap; }
+.at-tick { position: absolute; top: 42px; font-size: 9px; color: var(--muted); transform: translateX(-50%); }
+.at-gone { position: absolute; left: 46%; right: 0; top: 26px; height: 10px; display: flex; align-items: center; justify-content: center; }
+
+/* long arc steps */
+.arc-steps { display: flex; align-items: flex-end; gap: 6px; margin-top: 4px; }
+.arc-step { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.arc-bar { width: 100%; border-radius: 3px 3px 0 0; background: var(--accent-dim); border: 1px solid rgba(201,169,110,0.30); }
+.arc-lbl { font-size: 9.5px; color: #6A6258; text-align: center; line-height: 1.3; }
+@media (max-width: 900px) { .demand-grid { grid-template-columns: 1fr; } }
+
 /* ── Agent card ── */
 .container-card {
   background: var(--card); border: 1px solid var(--border);
@@ -331,9 +364,88 @@ h2 { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; }
     <div class="narrow">
       <div class="eyebrow">Agent Concept · OUTDOOR TOYS</div>
       <h1>One big purchase.<br>A 30-day window. Then silence.</h1>
-      <p class="lead">Outdoor Toys sells the centerpiece of a family's garden: climbing frames, swing sets, trampolines and playhouses, most of them £250 and up. It is a high-consideration purchase made by a parent, qualified on the child's age first and the garden second, and for most families it happens once. Only 4.7% of first-time buyers ever place a second order, and 41% of the shopper base is dormant.</p>
-      <p class="lead">But the buying behaviour has a clear rhythm. When a second purchase does happen, it happens fast: the median gap is 15 days, 70% land within 30 days of the first order, and the basket is almost always an add-on to the big item they just bought, like swing anchor kits, baby swing seats, trapeze bars and ride-on chargers. After day 30, the moment is gone. The longer arc of the relationship follows the child: kids age up, siblings arrive, and the garden grows in stages around occasions like spring and Christmas.</p>
-      <p class="lead">The front of the funnel has the same deliberate shape. Fewer than 1% of browsers become buyers, and of those who do, 63% buy the same day they first land. Everyone else leaves to think it over for days or weeks, and what they think about shows up in the support inbox: will it fit the garden, what's included, how does it anchor, can I assemble it myself, when would it arrive. That consideration window at the front, and the short attach window after every big first purchase, are what the agent model is built for. Here is what that looks like for Outdoor Toys.</p>
+      <p class="lead">Outdoor Toys sells the centerpiece of a family's garden: climbing frames, swing sets, trampolines and playhouses, most of them £250 and up. It is a high-consideration purchase made by a parent, qualified on the child's age first and the garden second — and for most families it happens once. The buying behaviour has a clear shape:</p>
+    </div>
+
+    <div class="demand-grid">
+
+      <div class="dm-card">
+        <div class="dm-eyebrow">1 · Before the first purchase</div>
+        <div class="dm-title">Buy the same day — or leave and deliberate</div>
+        <div class="fn-row">
+          <div class="fn-k">Browsers</div>
+          <div class="fn-bar"><div class="fn-fill" style="width:100%;background:#D8D2C6;"></div></div>
+          <div class="fn-v">1,000</div>
+        </div>
+        <div class="fn-row">
+          <div class="fn-k">Buy same day</div>
+          <div class="fn-bar"><div class="fn-fill" style="width:62%;background:var(--accent);"></div></div>
+          <div class="fn-v">5</div>
+        </div>
+        <div class="fn-row">
+          <div class="fn-k">Buy in days 1–7</div>
+          <div class="fn-bar"><div class="fn-fill" style="width:25%;background:rgba(201,169,110,0.55);"></div></div>
+          <div class="fn-v">2</div>
+        </div>
+        <div class="fn-row">
+          <div class="fn-k">Buy later</div>
+          <div class="fn-bar"><div class="fn-fill" style="width:12%;background:rgba(201,169,110,0.30);"></div></div>
+          <div class="fn-v">1</div>
+        </div>
+        <div class="fn-note">Buyer bars not to scale against browsers — 992 of 1,000 never buy.</div>
+        <div class="dm-body">The deliberators leave with questions, and those questions are sitting in the support inbox:</div>
+        <div class="dm-chips">
+          <span class="dm-chip">Will it fit the garden?</span>
+          <span class="dm-chip">What's included?</span>
+          <span class="dm-chip">How does it anchor?</span>
+          <span class="dm-chip">Can I assemble it?</span>
+          <span class="dm-chip">When would it arrive?</span>
+        </div>
+      </div>
+
+      <div class="dm-card">
+        <div class="dm-eyebrow">2 · After the first purchase</div>
+        <div class="dm-title">A 30-day add-on window, then silence</div>
+        <div class="at-scale">
+          <div class="at-median-lbl">Median · day 15</div>
+          <div class="at-track"></div>
+          <div class="at-window"></div>
+          <div class="at-median"></div>
+          <div class="at-tick" style="left:0%;">Day 0</div>
+          <div class="at-tick" style="left:42%;">Day 30</div>
+          <div class="at-tick" style="left:96%;">Day 90+</div>
+        </div>
+        <div class="dm-body">Only 4.7% of first-time buyers ever order again — but when they do, 70% of those second orders land inside 30 days, and the basket is an add-on to the big item they just bought. After day 30, the moment is gone.</div>
+        <div class="dm-chips">
+          <span class="dm-chip">Swing anchor kits</span>
+          <span class="dm-chip">Baby swing seats</span>
+          <span class="dm-chip">Trapeze bars</span>
+          <span class="dm-chip">Ride-on chargers</span>
+        </div>
+      </div>
+
+      <div class="dm-card">
+        <div class="dm-eyebrow">3 · The long arc</div>
+        <div class="dm-title">The garden grows with the child</div>
+        <div class="arc-steps">
+          <div class="arc-step"><div class="arc-bar" style="height:22px;"></div><div class="arc-lbl">Sandpits &amp; ride-ons<br>ages 1–3</div></div>
+          <div class="arc-step"><div class="arc-bar" style="height:38px;"></div><div class="arc-lbl">Playhouses<br>ages 2–5</div></div>
+          <div class="arc-step"><div class="arc-bar" style="height:56px;"></div><div class="arc-lbl">Climbing frames<br>ages 3–12</div></div>
+          <div class="arc-step"><div class="arc-bar" style="height:74px;"></div><div class="arc-lbl">Trampolines &amp; go-karts<br>ages 6+</div></div>
+        </div>
+        <div class="dm-body">Kids age up, siblings arrive, and the garden grows in stages — with demand spiking around spring and Christmas. 41% of the shopper base is dormant today, most having bought exactly once.</div>
+        <div class="dm-chips">
+          <span class="dm-chip">Kids age up</span>
+          <span class="dm-chip">Siblings arrive</span>
+          <span class="dm-chip">Spring</span>
+          <span class="dm-chip">Christmas</span>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="narrow">
+      <p class="lead">The consideration window at the front, and the short add-on window after every big first purchase, are what the agent model is built for. Here is what that looks like for Outdoor Toys.</p>
     </div>
   </section>
 
