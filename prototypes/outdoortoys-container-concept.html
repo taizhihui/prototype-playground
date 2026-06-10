@@ -391,11 +391,40 @@ h2 { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; }
 
 <div class="page">
 
-  <!-- Hero -->
+  <!-- The Shift (opener) -->
   <section class="hero" id="hero">
     <div class="narrow">
-      <div class="eyebrow">Agent Concept · OUTDOOR TOYS</div>
-      <h1>One big purchase.<br>A 30-day window. Then silence.</h1>
+      <div class="eyebrow">Agent Concept</div>
+      <h1>From trigger logic<br>to goal-driven engagement</h1>
+      <p class="lead">Today, AI Journey runs flows and campaigns as separate pre-configured sequences. A marketer sets a trigger. A sequence fires. A message goes out.</p>
+      <p class="lead">The agent model inverts this. A marketer confirms targets and guardrails. The agent evaluates every shopper, every incoming signal, and decides in real time — who to engage, when, and with what message.</p>
+      <div class="compare-grid">
+        <div class="compare-col">
+          <div class="ch">Today</div>
+          <div class="cr">Cart abandon flow fires when a cart is abandoned — regardless of what else is happening with the shopper.</div>
+          <div class="cr">Campaign blasts everyone in the segment at the scheduled send time — with no awareness of what flows are already running for that shopper.</div>
+          <div class="cr">Flows and campaigns run independently — a shopper can get a cart recovery and a campaign blast in the same day for different products.</div>
+          <div class="cr">Marketer configures a trigger and sequence for each flow type.</div>
+          <div class="cr">Lifecycle programs ship as separate flows you set up and switch on — a stage without a flow gets nothing.</div>
+        </div>
+        <div class="compare-col">
+          <div class="ch">Agent</div>
+          <div class="cr">Agent evaluates all active signals for each shopper and decides which to pursue — or whether to wait.</div>
+          <div class="cr">Campaign always reaches the full eligible segment. Agent personalizes each message and suppresses conflicting flows during the campaign window.</div>
+          <div class="cr">Campaign always wins during its window. Flows hold and re-evaluate after. No shopper gets a flow message while a campaign is active.</div>
+          <div class="cr">Marketer states a goal once. AI handles execution per shopper, per signal.</div>
+          <div class="cr">Every shopper is always in exactly one lifecycle state, and every state is covered. The merchant confirms a target per state; the agent never misses a window.</div>
+        </div>
+      </div>
+      <p class="lead">Here's what that looks like in practice — Outdoor Toys as the worked example.</p>
+    </div>
+  </section>
+
+  <!-- The example: Outdoor Toys -->
+  <section id="example">
+    <div class="narrow">
+      <div class="eyebrow">The Example · OUTDOOR TOYS</div>
+      <h1 style="font-size:32px;">One big purchase.<br>A 30-day window. Then silence.</h1>
       <p class="lead">Outdoor Toys sells the centerpiece of a family's garden: climbing frames, swing sets, trampolines and playhouses, most of them £250 and up. It is a high-consideration purchase made by a parent, qualified on the child's age first and the garden second — and for most families it happens once. The buying behaviour has a clear shape:</p>
     </div>
 
@@ -638,36 +667,11 @@ h2 { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; }
     </div>
   </section>
 
-  <!-- Today vs Agent -->
-  <section id="compare">
-    <div class="narrow">
-      <div class="eyebrow">The Shift</div>
-      <h2>Today vs. agent</h2>
-      <div class="compare-grid">
-        <div class="compare-col">
-          <div class="ch">Today</div>
-          <div class="cr">Cart abandon flow fires when a cart is abandoned — regardless of what else is happening with the shopper.</div>
-          <div class="cr">Campaign blasts everyone in the segment at the scheduled send time — with no awareness of what flows are already running for that shopper.</div>
-          <div class="cr">Flows and campaigns run independently — a shopper can get a cart recovery and a campaign blast in the same day for different products.</div>
-          <div class="cr">Marketer configures a trigger and sequence for each flow type.</div>
-          <div class="cr">Lifecycle programs ship as separate flows you set up and switch on — a stage without a flow gets nothing.</div>
-        </div>
-        <div class="compare-col">
-          <div class="ch">Agent</div>
-          <div class="cr">Agent evaluates all active signals for each shopper and decides which to pursue — or whether to wait.</div>
-          <div class="cr">Campaign always reaches the full eligible segment. Agent personalizes each message and suppresses conflicting flows during the campaign window.</div>
-          <div class="cr">Campaign always wins during its window. Flows hold and re-evaluate after. No shopper gets a flow message while a campaign is active.</div>
-          <div class="cr">Marketer states a goal once. AI handles execution per shopper, per signal.</div>
-          <div class="cr">Every shopper is always in exactly one lifecycle state, and every state is covered. The merchant confirms a target per state; the agent never misses a window.</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- Scenarios -->
   <section id="scenarios">
     <div class="eyebrow">Scenario Showcase</div>
-    <h2>Four shoppers. Four decisions.</h2>
+    <h2>Four browsers. Four decisions. One playbook.</h2>
+    <p style="font-size:13px;color:var(--muted);margin-top:8px;">Each shopper below runs through the Browsing playbook: classified in-market or deliberating, then handled accordingly.</p>
     <p style="font-size:13px;color:var(--muted);margin-top:8px;">Click any scenario to expand.</p>
 
     <div class="scenario-list">
@@ -678,7 +682,7 @@ h2 { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; }
           <div class="sc-num">1</div>
           <div class="sc-meta">
             <div class="sc-name">Sophie &mdash; Repeat browse, garden-fit blocker</div>
-            <div class="sc-sigs">2 signals &nbsp;·&nbsp; Wildwood Hideaway viewed 3&times; in 48 hrs + opted in, no purchase</div>
+            <div class="sc-sigs">Wildwood Hideaway viewed 3&times; in 48 hrs, no cart &nbsp;·&nbsp; classified: <strong>Deliberating</strong></div>
           </div>
           <div class="badge b-engage">Engage</div>
           <div class="sc-chevron">↓</div>
@@ -738,7 +742,7 @@ h2 { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; }
                   <div class="t-dot decision"></div>
                   <div class="t-time">Day 2 · +3h</div>
                   <div class="t-lbl">Agent evaluates</div>
-                  <div class="t-decision-box">Engage — high-intent repeat browse, left in-session. Likely blocker for this product: garden fit. Lead with the answer, not a discount.</div>
+                  <div class="t-decision-box">Deliberating branch — browsed and left, no cart, visits spread over two days. Playbook step 1: open with the garden-fit answer, never a discount.</div>
                 </div>
                 <div class="t-evt">
                   <div class="t-dot"></div>
@@ -810,7 +814,7 @@ h2 { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; }
           <div class="sc-num">2</div>
           <div class="sc-meta">
             <div class="sc-name">James &mdash; Cart abandon during active campaign window</div>
-            <div class="sc-sigs">2 signals &nbsp;·&nbsp; Renegade ride-on in cart (18 hrs) + May Day Sale campaign window open</div>
+            <div class="sc-sigs">Renegade ride-on in cart (18 hrs) + May Day Sale window open &nbsp;·&nbsp; classified: <strong>In-market</strong></div>
           </div>
           <div class="badge b-camp">Campaign first</div>
           <div class="sc-chevron">↓</div>
@@ -874,7 +878,7 @@ h2 { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; }
                   <div class="t-dot decision"></div>
                   <div class="t-time">Day 2 · +18h</div>
                   <div class="t-lbl">Agent evaluates</div>
-                  <div class="t-decision-box">Campaign priority — May Day window active; campaign sent to full segment. Cart acknowledged in message context. Cart flow held through Sunday.</div>
+                  <div class="t-decision-box">In-market via cart — but the May Day window is active, and campaign wins during its window. Campaign message personalized with the cart; direct path preserved per the in-market play.</div>
                 </div>
                 <div class="t-evt">
                   <div class="t-dot"></div>
@@ -944,7 +948,7 @@ What would you like to do?</div>
           <div class="sc-num">3</div>
           <div class="sc-meta">
             <div class="sc-name">Priya &mdash; Shopping Assistant &rarr; RCS continuity</div>
-            <div class="sc-sigs">2 signals &nbsp;·&nbsp; Shopping Assistant age-fit session + May Day Sale campaign match</div>
+            <div class="sc-sigs">Shopping Assistant age-fit session + May Day Sale match &nbsp;·&nbsp; classified: <strong>In-market</strong></div>
           </div>
           <div class="badge b-cross">Cross-channel</div>
           <div class="sc-chevron">↓</div>
@@ -1014,7 +1018,7 @@ What would you like to do?</div>
                   <div class="t-dot cross"></div>
                   <div class="t-time">Day 28</div>
                   <div class="t-lbl">Agent evaluates</div>
-                  <div class="t-decision-box" style="background:var(--purple-dim);border-color:rgba(104,72,160,0.25);color:#5838A0;">Cross-channel engage — SA context carries intent signal; right model already identified; May Day Sale adds urgency. Reach out via RCS.</div>
+                  <div class="t-decision-box" style="background:var(--purple-dim);border-color:rgba(104,72,160,0.25);color:#5838A0;">In-market — a Shopping Assistant session is the highest-heat signal, and the blocker is already resolved. Same-day outreach, direct path: the model, the price, the link.</div>
                 </div>
                 <div class="t-evt">
                   <div class="t-dot"></div>
@@ -1092,7 +1096,7 @@ What would you like to do?</div>
           <div class="sc-num">4</div>
           <div class="sc-meta">
             <div class="sc-name">Emma &mdash; Quiet lead, nurture + promotional window</div>
-            <div class="sc-sigs">2 signals &nbsp;·&nbsp; 30 days quiet since browsing, never purchased + May Day Sale campaign match</div>
+            <div class="sc-sigs">30 days quiet since browsing, never purchased &nbsp;·&nbsp; in <strong>nurture</strong> — campaign reopens the window</div>
           </div>
           <div class="badge b-re">Re-engage</div>
           <div class="sc-chevron">↓</div>
@@ -1162,7 +1166,7 @@ What would you like to do?</div>
                   <div class="t-dot re"></div>
                   <div class="t-time">Day 30</div>
                   <div class="t-lbl">Agent evaluates</div>
-                  <div class="t-decision-box re">Re-engage — quiet lead + active campaign = right moment; use sale as the hook, the playhouse she browsed as the context; reach out proactively</div>
+                  <div class="t-decision-box re">Nurture play — her 7-day window closed three weeks ago; the agent waited instead of pestering. The campaign is the reopening moment: sale as the hook, the playhouse she browsed as the context.</div>
                 </div>
                 <div class="t-evt">
                   <div class="t-dot"></div>
@@ -1248,7 +1252,7 @@ What would you like to do?</div>
             <td>Sophie</td>
             <td>Repeat browse (3 views, 48 hrs) + opted in, no purchase</td>
             <td><span class="badge b-engage">Engage</span></td>
-            <td>High-intent browse, left in-session; led with the garden-fit answer — the top pre-sales blocker for this product</td>
+            <td>Deliberating branch — no cart, visits spread over days; opened with the garden-fit answer, no discount</td>
             <td>Yes</td>
             <td>Converted — first purchase, £749.95</td>
           </tr>
@@ -1256,7 +1260,7 @@ What would you like to do?</div>
             <td>James</td>
             <td>First-visit cart abandon + May Day Sale campaign window</td>
             <td><span class="badge b-camp">Campaign first</span></td>
-            <td>Campaign window active — campaign sent to full segment; cart held and acknowledged in message context</td>
+            <td>In-market via cart; campaign wins during its window — message personalized with the cart, direct path preserved</td>
             <td>Yes (campaign)</td>
             <td>Converted — first purchase via sale</td>
           </tr>
@@ -1264,7 +1268,7 @@ What would you like to do?</div>
             <td>Priya</td>
             <td>Shopping Assistant session + May Day Sale promo</td>
             <td><span class="badge b-cross">Cross-channel</span></td>
-            <td>SA context carries intent; right model already identified via webstore chat</td>
+            <td>In-market via SA session — blocker already resolved; same-day outreach with the direct path</td>
             <td>Yes</td>
             <td>Converted — first purchase, £899.95</td>
           </tr>
@@ -1272,7 +1276,7 @@ What would you like to do?</div>
             <td>Emma</td>
             <td>30 days quiet since browsing, never purchased + May Day Sale campaign match</td>
             <td><span class="badge b-re">Re-engage</span></td>
-            <td>Quiet lead + active promo = right nurture moment; browsed playhouse as context, sale as the hook; assembly question answered in-thread</td>
+            <td>Nurture play — window closed weeks ago, agent held; campaign reopened it with the browsed playhouse as context</td>
             <td>Yes (campaign)</td>
             <td>Converted — first purchase</td>
           </tr>
