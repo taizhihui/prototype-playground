@@ -307,6 +307,19 @@ h2 { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; }
 .ls-badge.orange { color: #E06870; background: var(--orange-dim); }
 .ls-badge.green { color: var(--green); background: var(--green-dim); }
 
+/* ── Per-state targets ── */
+.ls-target { margin-top: 12px; padding: 9px 11px; background: var(--card2); border: 1px solid var(--border); border-radius: 7px; }
+.lt-label { font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+.lt-line { font-size: 12px; color: #4A4640; }
+.lt-base { color: var(--muted); }
+.lt-goal { font-weight: 700; color: var(--text); }
+.lt-status { display: inline-block; margin-top: 6px; font-size: 9px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 2px 7px; border-radius: 3px; }
+.lt-status.confirmed { color: var(--green); background: var(--green-dim); }
+.lt-status.proposed { color: #9A7838; background: var(--accent-dim); }
+.lt-actions { display: flex; gap: 4px; margin-top: 7px; }
+.lt-btn { font-size: 10px; font-weight: 500; padding: 3px 10px; border-radius: 11px; border: 1px solid var(--border2); color: #6A6258; background: var(--card); cursor: default; }
+.lt-btn.primary { border-color: rgba(201,169,110,0.45); color: #9A7838; background: var(--accent-dim); }
+
 /* ── Signal intelligence grid ── */
 .si-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 10px; }
 .si-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 18px 20px; }
@@ -426,100 +439,119 @@ h2 { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; }
     </div>
   </section>
 
-  <!-- Agent Setup -->
+  <!-- Shopper Lifecycle Map -->
   <section id="setup">
     <div class="narrow">
-      <div class="eyebrow">Agent Library</div>
-      <h2>ONE BONE's full lifecycle coverage</h2>
-      <p style="font-size:12px;color:var(--muted);margin-top:6px;">Audience sizes and stage conversion baselines from ONE BONE's Shopify order history, November 2021 to June 2026.</p>
+      <div class="eyebrow">The Shopper Lifecycle Map</div>
+      <h2>One journey. Always covered.</h2>
+      <p style="font-size:12px;color:var(--muted);margin-top:6px;">Windows, plays and targets from ONE BONE's Shopify order history, November 2021 to June 2026.</p>
     </div>
 
-    <div class="container-library">
-      <div class="cl-card">
-        <div class="cl-stage">Acquisition</div>
-        <div class="cl-name">Cold Browser Conversion</div>
-        <div class="cl-audience">SMS subscribers who haven't purchased yet.</div>
-        <div class="cl-goal"><strong>2.8%</strong> of browsers convert into first-time buyers — 59% of them the same day. The rest deliberate on fit and sizing, half converting within 21 days. The agent engages while the browse signal is fresh, then nurtures.</div>
-        <div class="cl-status off">Draft</div>
-      </div>
-      <div class="cl-card active">
-        <div class="cl-stage">Conversion</div>
-        <div class="cl-name">First-Time Buyer Growth</div>
-        <div class="cl-audience">First-time buyers, purchased in last 60 days, have not reordered. <strong>2,164 shoppers today.</strong></div>
-        <div class="cl-goal">First → second purchase within 90 days: <strong>22.7% baseline, 35% goal</strong>. Repeats are front-loaded — 81% land by day 60. Recover carts, capture browse, leverage promos.</div>
-        <div class="cl-status on">Active</div>
-      </div>
-      <div class="cl-card">
-        <div class="cl-stage">Retention</div>
-        <div class="cl-name">Repeat Buyer Retention</div>
-        <div class="cl-audience">2+ purchases. Active within last 180 days. <strong>2,662 shoppers · $393 avg LTV.</strong></div>
-        <div class="cl-goal">Second → third purchase: <strong>48%</strong> — loyalty compounds once the second order lands. Prioritize new drops and complementary catalog picks.</div>
-        <div class="cl-status off">Draft</div>
-      </div>
-      <div class="cl-card">
-        <div class="cl-stage">Loyalty</div>
-        <div class="cl-name">VIP Loyalty</div>
-        <div class="cl-audience">Top 10% LTV. 3+ purchases. <strong>1,107 shoppers · $1,323 avg LTV · 5.4 avg orders.</strong></div>
-        <div class="cl-goal">Third → fourth purchase: <strong>53%</strong>. Exclusive early access, advocacy, and high-value reorder. Protect retention above all else.</div>
-        <div class="cl-status off">Draft</div>
-      </div>
-      <div class="cl-card">
-        <div class="cl-stage">Re-activation</div>
-        <div class="cl-name">Dormant Re-activation</div>
-        <div class="cl-audience">Previously active. No purchase in 180d+. <strong>8,421 shoppers — 49% of the base · $1.9M lifetime spend.</strong></div>
-        <div class="cl-goal">Re-activate around re-browse signals and promo windows. <strong>39%</strong> of past repeat buyers have lapsed — winnable, since they already cleared the second-purchase gate once.</div>
-        <div class="cl-status off">Draft</div>
-      </div>
-    </div>
+    <div class="lifecycle-card">
+      <div class="lc-eyebrow">ONE BONE · every shopper, one of four states</div>
+      <div class="lc-sub">A shopper moves through these states over months or years. The same agent follows them the whole way.</div>
+      <div class="lifecycle-stages" style="grid-template-columns:1fr 18px 1fr 18px 1fr 18px 1fr;">
 
-    <div class="zoom-sep">Zooming into: First-Time Buyer Growth</div>
-
-    <div class="narrow">
-      <div class="config-strip">
-        <div class="cs-item">
-          <span class="cs-key">Goal</span>
-          <span class="cs-val">Convert 35% of first-time buyers to a second purchase within 90 days. Baseline today: 22.7%.</span>
+        <div class="ls">
+          <div class="ls-bar accent"></div>
+          <div class="ls-name">Browsing</div>
+          <div class="ls-range">Deliberation runs up to ~3 weeks</div>
+          <div class="ls-action">2.8% of browsers buy — 59% the same day. The rest weigh fit and sizing across visits; the agent answers the fit question they left with, then nurtures until a re-browse warms the signal again.</div>
+          <div class="ls-signals-row">Signals: browse depth · repeat views · cart · Shopping Assistant session</div>
+          <div class="ls-target">
+            <div class="lt-label">Target · proposed by agent</div>
+            <div class="lt-line"><span class="lt-base">2.8% browse → first today</span> → <span class="lt-goal">3.5%</span></div>
+            <div class="lt-status proposed">Awaiting confirmation</div>
+            <div class="lt-actions"><span class="lt-btn primary">Confirm</span><span class="lt-btn">Adjust</span></div>
+          </div>
         </div>
-        <div class="cs-item">
-          <span class="cs-key">Audience</span>
-          <span class="cs-val">First-time buyers who purchased in the last 60 days and have not reordered.</span>
+
+        <div class="ls-connector">→</div>
+
+        <div class="ls">
+          <div class="ls-bar green"></div>
+          <div class="ls-name">First purchase</div>
+          <div class="ls-range">Window: 90 days · 81% of repeats land by day 60 · median day 57</div>
+          <div class="ls-action">22.7% come back for a second order. The agent leads with the proven next step — more of what worked (tees → tees, 49%), bottoms as the cross-sell (15%) — recovering carts, capturing browse, and riding promo windows along the way.</div>
+          <div class="ls-signals-row">2,164 shoppers in this window today</div>
+          <div class="ls-target">
+            <div class="lt-label">Target · proposed by agent</div>
+            <div class="lt-line"><span class="lt-base">22.7% second purchase in 90d today</span> → <span class="lt-goal">35%</span></div>
+            <div class="lt-status confirmed">Confirmed</div>
+          </div>
         </div>
-        <div class="cs-item">
-          <span class="cs-key">Guardrails</span>
-          <span class="cs-val" style="color:#8A8278;">Max 2 messages/week &nbsp;·&nbsp; No discounts above 15% outside active sales &nbsp;·&nbsp; No messages 9pm–10am &nbsp;·&nbsp; Suppress if active conversation or open support ticket</span>
+
+        <div class="ls-connector">→</div>
+
+        <div class="ls">
+          <div class="ls-bar default"></div>
+          <div class="ls-name">Active repeat</div>
+          <div class="ls-range">Ongoing · loyalty compounds: 48% make a third order, 53% a fourth</div>
+          <div class="ls-action">The agent keeps momentum with new drops and complementary picks. Top-LTV shoppers (1,107 at $1,323 avg) get early access and first pick — protected, never discounted into.</div>
+          <div class="ls-signals-row">2,662 active repeat shoppers · $393 avg LTV</div>
+          <div class="ls-target">
+            <div class="lt-label">Target · proposed by agent</div>
+            <div class="lt-line"><span class="lt-base">48% second → third today</span> → <span class="lt-goal">55%</span></div>
+            <div class="lt-status proposed">Awaiting confirmation</div>
+            <div class="lt-actions"><span class="lt-btn primary">Confirm</span><span class="lt-btn">Adjust</span></div>
+          </div>
         </div>
+
+        <div class="ls-connector">→</div>
+
+        <div class="ls">
+          <div class="ls-bar orange"></div>
+          <div class="ls-name">Lapsed</div>
+          <div class="ls-range">Quiet for 180+ days</div>
+          <div class="ls-action">The agent waits for convergence — a re-browse, a promo window, a new drop in their size — and re-engages with what they bought as the hook. 39% of past repeat buyers sit here: they cleared the second-purchase gate once and can again.</div>
+          <div class="ls-signals-row">8,421 shoppers — 49% of the base · $1.9M lifetime spend</div>
+          <div class="ls-target">
+            <div class="lt-label">Target · proposed by agent</div>
+            <div class="lt-line"><span class="lt-base">Baseline near zero today</span> → <span class="lt-goal">2% won back per quarter</span></div>
+            <div class="lt-status proposed">Awaiting confirmation</div>
+            <div class="lt-actions"><span class="lt-btn primary">Confirm</span><span class="lt-btn">Adjust</span></div>
+          </div>
+        </div>
+
       </div>
     </div>
 
-    <!-- Agent intelligence grid — full page width -->
-    <div style="margin-top:24px; margin-bottom:10px;">
-      <div class="eyebrow" style="margin-bottom:0;">Agent Intelligence</div>
-      <div style="font-size:12px;color:var(--muted);margin-top:4px;">Behavioral inputs that drive this agent's decisions</div>
-    </div>
-    <div class="si-grid">
-      <div class="si-card">
-        <div class="si-eyebrow">Repurchase Window</div>
-        <div class="si-stat">0–60d</div>
-        <div class="si-label">81% of 90-day repeats land by day 60</div>
-        <div class="si-desc">Of ONE BONE first-time buyers who reorder within 90 days, 54% do so in the first 30 days and 81% by day 60. Median time to second order is 57 days. Agent weights all signals higher inside this window — cart, browse, campaign, and SA sessions.</div>
-      </div>
-      <div class="si-card">
-        <div class="si-eyebrow">Purchase Progression</div>
-        <div class="si-stat">Tees → Tees</div>
-        <div class="si-label">Most common 1st→2nd order path</div>
-        <div class="si-desc">First-time tee buyers repeat in tees and shirts 49% of the time; pants and shorts follow at 15%. Agent leads with the proven same-category reorder and uses bottoms as the cross-sell hook.</div>
-      </div>
+    <!-- Cross-state rules -->
+    <div class="si-grid" style="grid-template-columns:repeat(2,1fr);margin-top:10px;">
       <div class="si-card">
         <div class="si-eyebrow">Suppression Logic</div>
         <div class="si-stat">5 conditions</div>
-        <div class="si-label">When the agent holds</div>
-        <div class="si-desc">Active campaign window · Active conversation open · Support ticket unresolved · Message sent within 7 days · Shopper replied "not now" within 48h. Agent holds and re-evaluates on the next signal — does not skip.</div>
+        <div class="si-label">When the agent holds — in any state</div>
+        <div class="si-desc">Active campaign window · Active conversation open · Support ticket unresolved · Message sent within 7 days · Shopper replied "not now" within 48h. The agent holds and re-evaluates on the next signal — it does not skip.</div>
       </div>
       <div class="si-card">
         <div class="si-eyebrow">Signal Hierarchy</div>
         <div class="si-stat">SA › Cart › Browse</div>
-        <div class="si-label">Intent ranking</div>
-        <div class="si-desc">Agent leads with the highest-intent signal when multiple are active. Shopping Assistant session outranks cart abandon — purchase blocker is already resolved, context is already in hand.</div>
+        <div class="si-label">Intent ranking — in any state</div>
+        <div class="si-desc">When multiple signals are active, the agent leads with the highest-intent one. A Shopping Assistant session outranks a cart abandon — the purchase blocker is already resolved and the context is in hand.</div>
+      </div>
+    </div>
+
+    <!-- Guardrails -->
+    <div class="zoom-sep">Guardrails · set by ONE BONE</div>
+    <div class="narrow">
+      <div class="config-strip">
+        <div class="cs-item">
+          <span class="cs-key">Frequency</span>
+          <span class="cs-val">Max 2 messages per shopper per week</span>
+        </div>
+        <div class="cs-item">
+          <span class="cs-key">Discounts</span>
+          <span class="cs-val">Up to 15% outside active sales · sale pricing during campaign windows</span>
+        </div>
+        <div class="cs-item">
+          <span class="cs-key">Quiet hours</span>
+          <span class="cs-val">No messages 9pm–10am</span>
+        </div>
+        <div class="cs-item">
+          <span class="cs-key">Suppression</span>
+          <span class="cs-val">5 rules · apply in every state</span>
+        </div>
       </div>
     </div>
   </section>
@@ -536,6 +568,7 @@ h2 { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; }
           <div class="cr">Campaign blasts everyone in the segment at the scheduled send time — with no awareness of what flows are already running for that shopper.</div>
           <div class="cr">Flows and campaigns run independently — a shopper can get a cart recovery and a campaign blast in the same day for different products.</div>
           <div class="cr">Marketer configures a trigger and sequence for each flow type.</div>
+          <div class="cr">Lifecycle programs ship as separate flows you set up and switch on — a stage without a flow gets nothing.</div>
         </div>
         <div class="compare-col">
           <div class="ch">Agent</div>
@@ -543,6 +576,7 @@ h2 { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; }
           <div class="cr">Campaign always reaches the full eligible segment. Agent personalizes each message and suppresses conflicting flows during the campaign window.</div>
           <div class="cr">Campaign always wins during its window. Flows hold and re-evaluate after. No shopper gets a flow message while a campaign is active.</div>
           <div class="cr">Marketer states a goal once. AI handles execution per shopper, per signal.</div>
+          <div class="cr">Every shopper is always in exactly one lifecycle state, and every state is covered. The merchant confirms a target per state; the agent never misses a window.</div>
         </div>
       </div>
     </div>
@@ -578,7 +612,7 @@ h2 { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; }
             <!-- Insight -->
             <div class="col-insight">
               <div class="insight-hl">"Cart recovery lands hardest when the shopper already owns the adjacent product."</div>
-              <div class="insight-body">The agent identified Blake's cart as high-intent: he'd purchased the AirKnit Tee 5 days earlier and added the complementary Yacht Shirt before leaving. Rather than a generic recovery message, AI Journey connected both purchases — and resolved his sizing question in three exchanges without a second outbound message.</div>
+              <div class="insight-body">The agent identified Blake's cart as high-intent: he'd purchased the AirKnit Tee 5 days earlier and added the complementary Yacht Shirt before leaving. Rather than a generic recovery message, AI Journey connected both purchases — and resolved his sizing question in three exchanges without a second outbound message. The cart signal arrived inside Blake's 90-day second-purchase window — the same agent that watched his first order handled the recovery.</div>
               <div class="dp-grid">
                 <div>
                   <div class="dp-k">First order</div>
@@ -1186,7 +1220,7 @@ What are you after?</div>
       <div class="eyebrow">Portfolio View</div>
       <h2>Agent performance</h2>
       <div class="portfolio-card">
-        <div class="p-label">Agent: First-Time Buyer Growth &nbsp;·&nbsp; May 26–27, 2026</div>
+        <div class="p-label">Agent · ONE BONE · all lifecycle states &nbsp;·&nbsp; May 26–27, 2026</div>
         <div class="metrics-grid">
           <div>
             <div class="m-val">4</div>
