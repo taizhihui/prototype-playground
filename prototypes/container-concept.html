@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>AI Journey · Container Concept · ONE BONE</title>
+<title>AI Journey · Agent Concept · ONE BONE</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -76,7 +76,33 @@ h2 { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; }
 /* ── Hero ── */
 .hero { padding-top: 110px; }
 
-/* ── Container card ── */
+/* ── Shape of demand ── */
+.demand-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 30px; }
+.dm-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 22px 24px; display: flex; flex-direction: column; }
+.dm-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); margin-bottom: 6px; }
+.dm-title { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 14px; line-height: 1.35; }
+.dm-body { font-size: 12px; color: #6A6258; line-height: 1.55; margin-top: 14px; }
+.dm-chips { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 12px; }
+.dm-chip { font-size: 10px; font-weight: 500; color: #6A6258; background: var(--subtle); border-radius: 3px; padding: 2px 8px; }
+.fn-row { display: grid; grid-template-columns: 106px 1fr 40px; gap: 10px; align-items: center; padding: 5px 0; }
+.fn-k { font-size: 11px; color: var(--muted); }
+.fn-bar { height: 10px; border-radius: 2px; background: var(--subtle); position: relative; overflow: hidden; }
+.fn-fill { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 2px; }
+.fn-v { font-size: 12px; font-weight: 600; color: var(--text); text-align: right; }
+.fn-note { font-size: 10px; color: var(--muted); margin-top: 8px; padding-top: 10px; border-top: 1px solid var(--border); }
+.at-scale { position: relative; height: 56px; margin: 8px 0 2px; }
+.at-track { position: absolute; left: 0; right: 0; top: 26px; height: 10px; background: var(--subtle); border-radius: 2px; }
+.at-window { position: absolute; left: 0; width: 62%; top: 26px; height: 10px; background: var(--accent-dim); border: 1px solid rgba(201,169,110,0.35); border-radius: 2px; }
+.at-median { position: absolute; left: 59%; top: 18px; width: 2px; height: 26px; background: var(--accent); }
+.at-median-lbl { position: absolute; left: 59%; top: 0; transform: translateX(-50%); font-size: 9px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); white-space: nowrap; }
+.at-tick { position: absolute; top: 42px; font-size: 9px; color: var(--muted); transform: translateX(-50%); }
+.arc-steps { display: flex; align-items: flex-end; gap: 6px; margin-top: 4px; }
+.arc-step { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.arc-bar { width: 100%; border-radius: 3px 3px 0 0; background: var(--accent-dim); border: 1px solid rgba(201,169,110,0.30); display: flex; align-items: flex-start; justify-content: center; font-size: 10px; font-weight: 600; color: #9A7838; padding-top: 3px; }
+.arc-lbl { font-size: 9.5px; color: #6A6258; text-align: center; line-height: 1.3; }
+@media (max-width: 900px) { .demand-grid { grid-template-columns: 1fr; } }
+
+/* ── Agent card ── */
 .container-card {
   background: var(--card); border: 1px solid var(--border);
   border-radius: 12px; padding: 26px 30px; margin-top: 22px;
@@ -236,7 +262,7 @@ h2 { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; }
 .m-key { font-size: 12px; color: var(--muted); }
 .m-sub { font-size: 12px; color: var(--accent); margin-top: 2px; }
 
-/* ── Container library ── */
+/* ── Agent library ── */
 .container-library { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-top: 20px; }
 .cl-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 16px 18px; opacity: 0.70; transition: opacity 0.15s; }
 .cl-card:hover { opacity: 0.88; }
@@ -315,7 +341,7 @@ h2 { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; }
 <nav>
   <a href="#hero" class="nav-brand">AI Journey</a>
   <span class="nav-pipe">·</span>
-  <span class="nav-sub">Container Concept</span>
+  <span class="nav-sub">Agent Concept</span>
   <div class="nav-links">
     <a href="#setup">Setup</a>
     <a href="#scenarios">Scenarios</a>
@@ -329,56 +355,119 @@ h2 { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; }
   <!-- Hero -->
   <section class="hero" id="hero">
     <div class="narrow">
-      <div class="eyebrow">Container Concept · ONE BONE</div>
-      <h1>From trigger logic<br>to goal-driven engagement</h1>
-      <p class="lead">Today, AI Journey runs flows and campaigns as separate pre-configured sequences. A marketer sets a trigger. A sequence fires. A message goes out.</p>
-      <p class="lead">The container model inverts this. A marketer describes the outcome they want. AI Journey evaluates every shopper, every incoming signal, and decides in real time — who to engage, when, and with what message.</p>
-      <p class="lead">Here's what that looks like for ONE BONE.</p>
+      <div class="eyebrow">Agent Concept · ONE BONE</div>
+      <h1>The second purchase<br>decides everything.</h1>
+      <p class="lead">ONE BONE sells premium basics for big and tall men — tees, pants, shorts, hoodies, with a $186 average order. It's a repeat-purchase business: a shopper who finds a fit that works comes back for the next category. The buying behaviour has a clear shape:</p>
+    </div>
+
+    <div class="demand-grid">
+
+      <div class="dm-card">
+        <div class="dm-eyebrow">1 · Before the first purchase</div>
+        <div class="dm-title">A strong storefront — and a long deliberation tail</div>
+        <div class="fn-row">
+          <div class="fn-k">Browsers who buy</div>
+          <div class="fn-bar"><div class="fn-fill" style="width:8%;background:#B8B0A4;"></div></div>
+          <div class="fn-v">2.8%</div>
+        </div>
+        <div class="fn-row">
+          <div class="fn-k" style="padding-left:10px;">↳ same day</div>
+          <div class="fn-bar"><div class="fn-fill" style="width:59%;background:var(--accent);"></div></div>
+          <div class="fn-v">59%</div>
+        </div>
+        <div class="fn-row">
+          <div class="fn-k" style="padding-left:10px;">↳ later</div>
+          <div class="fn-bar"><div class="fn-fill" style="width:41%;background:rgba(201,169,110,0.45);"></div></div>
+          <div class="fn-v">41%</div>
+        </div>
+        <div class="fn-note">The later converters take a median of 21 days — sizing and fit get weighed up across multiple visits before the first order lands.</div>
+        <div class="dm-body">First purchases are won, not assumed. But for ONE BONE, the bigger prize sits one step later.</div>
+      </div>
+
+      <div class="dm-card" style="border-color:var(--accent);">
+        <div class="dm-eyebrow">2 · The second-purchase gate</div>
+        <div class="dm-title">22.7% return within 90 days — the goal is 35%</div>
+        <div class="at-scale">
+          <div class="at-median-lbl">Median · day 57</div>
+          <div class="at-track"></div>
+          <div class="at-window"></div>
+          <div class="at-median"></div>
+          <div class="at-tick" style="left:0%;">Day 0</div>
+          <div class="at-tick" style="left:62%;">Day 60</div>
+          <div class="at-tick" style="left:94%;">Day 90</div>
+        </div>
+        <div class="dm-body">Of first-time buyers who do come back within 90 days, 54% reorder in the first 30 days and 81% by day 60. The most common second order is more of what worked — tees buyers buy tees again 49% of the time, with bottoms the next step at 15%.</div>
+        <div class="dm-chips">
+          <span class="dm-chip">Tees → Tees · 49%</span>
+          <span class="dm-chip">Tees → Bottoms · 15%</span>
+          <span class="dm-chip">81% of repeats by day 60</span>
+        </div>
+      </div>
+
+      <div class="dm-card">
+        <div class="dm-eyebrow">3 · Loyalty compounds</div>
+        <div class="dm-title">Clear the gate once, and the odds keep climbing</div>
+        <div class="arc-steps">
+          <div class="arc-step"><div class="arc-bar" style="height:42px;">39%</div><div class="arc-lbl">1st → 2nd<br>purchase</div></div>
+          <div class="arc-step"><div class="arc-bar" style="height:54px;">48%</div><div class="arc-lbl">2nd → 3rd<br>purchase</div></div>
+          <div class="arc-step"><div class="arc-bar" style="height:62px;">53%</div><div class="arc-lbl">3rd → 4th<br>purchase</div></div>
+        </div>
+        <div class="dm-body">Every order makes the next one more likely — the hardest step is the first repeat. The cost of losing it: 49% of the base is dormant today, and most of them bought exactly once.</div>
+        <div class="dm-chips">
+          <span class="dm-chip">8,421 dormant shoppers</span>
+          <span class="dm-chip">$1.9M lifetime spend</span>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="narrow">
+      <p class="lead">The business hinges on the second-purchase gate. That gate — getting the right next product in front of a first-time buyer inside their 90-day window — is what the agent is built for. Here is what that looks like for ONE BONE.</p>
     </div>
   </section>
 
-  <!-- Container Setup -->
+  <!-- Agent Setup -->
   <section id="setup">
     <div class="narrow">
-      <div class="eyebrow">Container Library</div>
+      <div class="eyebrow">Agent Library</div>
       <h2>ONE BONE's full lifecycle coverage</h2>
-      <p style="font-size:12px;color:var(--muted);margin-top:6px;">Audience sizes and baselines from ONE BONE's Shopify order history (Nov 2021 – Jun 2026, 17,277 identified shoppers).</p>
+      <p style="font-size:12px;color:var(--muted);margin-top:6px;">Audience sizes and stage conversion baselines from ONE BONE's Shopify order history, November 2021 to June 2026.</p>
     </div>
 
     <div class="container-library">
       <div class="cl-card">
         <div class="cl-stage">Acquisition</div>
         <div class="cl-name">Cold Browser Conversion</div>
-        <div class="cl-audience">First-time site visitors. No prior purchase. Opted in via pop-up or keyword.</div>
-        <div class="cl-goal">Convert cold browse into a first purchase. Lead with fit promise and product discovery.</div>
+        <div class="cl-audience">SMS subscribers who haven't purchased yet.</div>
+        <div class="cl-goal"><strong>2.8%</strong> of browsers convert into first-time buyers — 59% of them the same day. The rest deliberate on fit and sizing, half converting within 21 days. The agent engages while the browse signal is fresh, then nurtures.</div>
         <div class="cl-status off">Draft</div>
       </div>
       <div class="cl-card active">
         <div class="cl-stage">Conversion</div>
         <div class="cl-name">First-Time Buyer Growth</div>
         <div class="cl-audience">First-time buyers, purchased in last 60 days, have not reordered. <strong>2,164 shoppers today.</strong></div>
-        <div class="cl-goal">Maximize 90-day repeat purchase rate. Baseline: 22.7%. Recover carts, capture browse, leverage promos.</div>
+        <div class="cl-goal">First → second purchase within 90 days: <strong>22.7% baseline, 35% goal</strong>. Repeats are front-loaded — 81% land by day 60. Recover carts, capture browse, leverage promos.</div>
         <div class="cl-status on">Active</div>
       </div>
       <div class="cl-card">
         <div class="cl-stage">Retention</div>
         <div class="cl-name">Repeat Buyer Retention</div>
         <div class="cl-audience">2+ purchases. Active within last 180 days. <strong>2,662 shoppers · $393 avg LTV.</strong></div>
-        <div class="cl-goal">Increase purchase frequency. Prioritize new drops and complementary catalog picks.</div>
+        <div class="cl-goal">Second → third purchase: <strong>48%</strong> — loyalty compounds once the second order lands. Prioritize new drops and complementary catalog picks.</div>
         <div class="cl-status off">Draft</div>
       </div>
       <div class="cl-card">
         <div class="cl-stage">Loyalty</div>
         <div class="cl-name">VIP Loyalty</div>
         <div class="cl-audience">Top 10% LTV. 3+ purchases. <strong>1,107 shoppers · $1,323 avg LTV · 5.4 avg orders.</strong></div>
-        <div class="cl-goal">Exclusive early access, advocacy, and high-value reorder. Protect retention above all else.</div>
+        <div class="cl-goal">Third → fourth purchase: <strong>53%</strong>. Exclusive early access, advocacy, and high-value reorder. Protect retention above all else.</div>
         <div class="cl-status off">Draft</div>
       </div>
       <div class="cl-card">
         <div class="cl-stage">Re-activation</div>
         <div class="cl-name">Dormant Re-activation</div>
         <div class="cl-audience">Previously active. No purchase in 180d+. <strong>8,421 shoppers — 49% of the base · $1.9M lifetime spend.</strong></div>
-        <div class="cl-goal">Re-activate lapsed subscribers using high-signal re-browse or promo convergence.</div>
+        <div class="cl-goal">Re-activate around re-browse signals and promo windows. <strong>39%</strong> of past repeat buyers have lapsed — winnable, since they already cleared the second-purchase gate once.</div>
         <div class="cl-status off">Draft</div>
       </div>
     </div>
@@ -402,44 +491,44 @@ h2 { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; }
       </div>
     </div>
 
-    <!-- Container intelligence grid — full page width -->
+    <!-- Agent intelligence grid — full page width -->
     <div style="margin-top:24px; margin-bottom:10px;">
-      <div class="eyebrow" style="margin-bottom:0;">Container Intelligence</div>
-      <div style="font-size:12px;color:var(--muted);margin-top:4px;">Behavioral inputs that drive this container's decisions</div>
+      <div class="eyebrow" style="margin-bottom:0;">Agent Intelligence</div>
+      <div style="font-size:12px;color:var(--muted);margin-top:4px;">Behavioral inputs that drive this agent's decisions</div>
     </div>
     <div class="si-grid">
       <div class="si-card">
         <div class="si-eyebrow">Repurchase Window</div>
         <div class="si-stat">0–60d</div>
         <div class="si-label">81% of 90-day repeats land by day 60</div>
-        <div class="si-desc">Of ONE BONE first-time buyers who reorder within 90 days, 54% do so in the first 30 days and 81% by day 60. Median time to second order is 57 days. Container weights all signals higher inside this window — cart, browse, campaign, and SA sessions.</div>
+        <div class="si-desc">Of ONE BONE first-time buyers who reorder within 90 days, 54% do so in the first 30 days and 81% by day 60. Median time to second order is 57 days. Agent weights all signals higher inside this window — cart, browse, campaign, and SA sessions.</div>
       </div>
       <div class="si-card">
         <div class="si-eyebrow">Purchase Progression</div>
         <div class="si-stat">Tees → Tees</div>
         <div class="si-label">Most common 1st→2nd order path</div>
-        <div class="si-desc">First-time tee buyers repeat in tees and shirts 49% of the time; pants and shorts follow at 15%. Container leads with the proven same-category reorder and uses bottoms as the cross-sell hook.</div>
+        <div class="si-desc">First-time tee buyers repeat in tees and shirts 49% of the time; pants and shorts follow at 15%. Agent leads with the proven same-category reorder and uses bottoms as the cross-sell hook.</div>
       </div>
       <div class="si-card">
         <div class="si-eyebrow">Suppression Logic</div>
         <div class="si-stat">5 conditions</div>
-        <div class="si-label">When the container holds</div>
-        <div class="si-desc">Active campaign window · Active conversation open · Support ticket unresolved · Message sent within 7 days · Shopper replied "not now" within 48h. Container holds and re-evaluates on the next signal — does not skip.</div>
+        <div class="si-label">When the agent holds</div>
+        <div class="si-desc">Active campaign window · Active conversation open · Support ticket unresolved · Message sent within 7 days · Shopper replied "not now" within 48h. Agent holds and re-evaluates on the next signal — does not skip.</div>
       </div>
       <div class="si-card">
         <div class="si-eyebrow">Signal Hierarchy</div>
         <div class="si-stat">SA › Cart › Browse</div>
         <div class="si-label">Intent ranking</div>
-        <div class="si-desc">Container leads with the highest-intent signal when multiple are active. Shopping Assistant session outranks cart abandon — purchase blocker is already resolved, context is already in hand.</div>
+        <div class="si-desc">Agent leads with the highest-intent signal when multiple are active. Shopping Assistant session outranks cart abandon — purchase blocker is already resolved, context is already in hand.</div>
       </div>
     </div>
   </section>
 
-  <!-- Today vs Container -->
+  <!-- Today vs Agent -->
   <section id="compare">
     <div class="narrow">
       <div class="eyebrow">The Shift</div>
-      <h2>Today vs. container</h2>
+      <h2>Today vs. agent</h2>
       <div class="compare-grid">
         <div class="compare-col">
           <div class="ch">Today</div>
@@ -449,9 +538,9 @@ h2 { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; }
           <div class="cr">Marketer configures a trigger and sequence for each flow type.</div>
         </div>
         <div class="compare-col">
-          <div class="ch">Container</div>
-          <div class="cr">Container evaluates all active signals for each shopper and decides which to pursue — or whether to wait.</div>
-          <div class="cr">Campaign always reaches the full eligible segment. Container personalizes each message and suppresses conflicting flows during the campaign window.</div>
+          <div class="ch">Agent</div>
+          <div class="cr">Agent evaluates all active signals for each shopper and decides which to pursue — or whether to wait.</div>
+          <div class="cr">Campaign always reaches the full eligible segment. Agent personalizes each message and suppresses conflicting flows during the campaign window.</div>
           <div class="cr">Campaign always wins during its window. Flows hold and re-evaluate after. No shopper gets a flow message while a campaign is active.</div>
           <div class="cr">Marketer states a goal once. AI handles execution per shopper, per signal.</div>
         </div>
@@ -489,7 +578,7 @@ h2 { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; }
             <!-- Insight -->
             <div class="col-insight">
               <div class="insight-hl">"Cart recovery lands hardest when the shopper already owns the adjacent product."</div>
-              <div class="insight-body">The container identified Blake's cart as high-intent: he'd purchased the AirKnit Tee 5 days earlier and added the complementary Yacht Shirt before leaving. Rather than a generic recovery message, AI Journey connected both purchases — and resolved his sizing question in three exchanges without a second outbound message.</div>
+              <div class="insight-body">The agent identified Blake's cart as high-intent: he'd purchased the AirKnit Tee 5 days earlier and added the complementary Yacht Shirt before leaving. Rather than a generic recovery message, AI Journey connected both purchases — and resolved his sizing question in three exchanges without a second outbound message.</div>
               <div class="dp-grid">
                 <div>
                   <div class="dp-k">First order</div>
@@ -538,7 +627,7 @@ h2 { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; }
                 <div class="t-evt">
                   <div class="t-dot decision"></div>
                   <div class="t-time">Day 5 · +2.5h</div>
-                  <div class="t-lbl">Container evaluates</div>
+                  <div class="t-lbl">Agent evaluates</div>
                   <div class="t-decision-box">Engage — high intent, complementary product, no suppression flags</div>
                 </div>
                 <div class="t-evt">
@@ -626,7 +715,7 @@ h2 { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; }
 
             <div class="col-insight">
               <div class="insight-hl">"When a campaign is live, it reaches everyone in the segment — the agent's job is personalization, not arbitration."</div>
-              <div class="insight-body">Marcus had an abandoned cart when the Memorial Day window opened. The container didn't weigh the two signals against each other — campaign goes to everyone eligible, full stop. The agent personalized the campaign message with awareness of Marcus's cart, acknowledging it as a secondary note. Marcus chose the sale and converted. The cart signal was held during the campaign window, then cleared after he purchased.</div>
+              <div class="insight-body">Marcus had an abandoned cart when the Memorial Day window opened. The agent didn't weigh the two signals against each other — campaign goes to everyone eligible, full stop. The agent personalized the campaign message with awareness of Marcus's cart, acknowledging it as a secondary note. Marcus chose the sale and converted. The cart signal was held during the campaign window, then cleared after he purchased.</div>
               <div class="dp-grid">
                 <div>
                   <div class="dp-k">First order</div>
@@ -674,7 +763,7 @@ h2 { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; }
                 <div class="t-evt">
                   <div class="t-dot decision"></div>
                   <div class="t-time">Day 45 · +18h</div>
-                  <div class="t-lbl">Container evaluates</div>
+                  <div class="t-lbl">Agent evaluates</div>
                   <div class="t-decision-box">Campaign priority — Memorial Day window active; campaign sent to full segment. Cart acknowledged in message context. Cart flow held through Monday.</div>
                 </div>
                 <div class="t-evt">
@@ -766,7 +855,7 @@ What are you after?</div>
 
             <div class="col-insight">
               <div class="insight-hl">"Context from a webstore conversation shouldn't disappear when the shopper moves to a different channel."</div>
-              <div class="insight-body">Tyler sorted out his Yacht Shirt sizing with the Shopping Assistant on onebonebrand.com — but left without purchasing. The container detected the closed session as a high-intent signal: purchase blocker resolved, shopper engaged, Memorial Day sale active. AI Journey reached out via RCS with the sizing answer already in hand — no need to start from scratch.</div>
+              <div class="insight-body">Tyler sorted out his Yacht Shirt sizing with the Shopping Assistant on onebonebrand.com — but left without purchasing. The agent detected the closed session as a high-intent signal: purchase blocker resolved, shopper engaged, Memorial Day sale active. AI Journey reached out via RCS with the sizing answer already in hand — no need to start from scratch.</div>
               <div class="dp-grid">
                 <div>
                   <div class="dp-k">First order</div>
@@ -820,7 +909,7 @@ What are you after?</div>
                 <div class="t-evt">
                   <div class="t-dot cross"></div>
                   <div class="t-time">Day 28</div>
-                  <div class="t-lbl">Container evaluates</div>
+                  <div class="t-lbl">Agent evaluates</div>
                   <div class="t-decision-box" style="background:var(--purple-dim);border-color:rgba(104,72,160,0.25);color:#5838A0;">Cross-channel engage — SA context carries intent signal; sizing already resolved; Memorial Day adds urgency. Reach out via RCS.</div>
                 </div>
                 <div class="t-evt">
@@ -914,7 +1003,7 @@ What are you after?</div>
 
             <div class="col-insight">
               <div class="insight-hl">"Lapsed shoppers don't come back on their own. A win-back needs a hook — and the best hook is a live promotion, not a 'we miss you' message."</div>
-              <div class="insight-body">Jordan went silent for 180 days. The container didn't wait for them to re-browse organically. When the dormancy threshold hit and a Memorial Day campaign window opened simultaneously, the container identified the convergence as the right moment to reach out proactively — using the sale as the re-engagement hook rather than a generic win-back nudge. Jordan converted same day.</div>
+              <div class="insight-body">Jordan went silent for 180 days. The agent didn't wait for them to re-browse organically. When the dormancy threshold hit and a Memorial Day campaign window opened simultaneously, the agent identified the convergence as the right moment to reach out proactively — using the sale as the re-engagement hook rather than a generic win-back nudge. Jordan converted same day.</div>
               <div class="dp-grid">
                 <div>
                   <div class="dp-k">First order</div>
@@ -934,7 +1023,7 @@ What are you after?</div>
                 <div>
                   <div class="dp-k">Outreach type</div>
                   <div class="dp-v">Proactive</div>
-                  <div class="dp-sub">Container initiated</div>
+                  <div class="dp-sub">Agent initiated</div>
                 </div>
               </div>
             </div>
@@ -957,7 +1046,7 @@ What are you after?</div>
                   <div class="t-dot"></div>
                   <div class="t-time">Day 180</div>
                   <div class="t-lbl">Dormancy threshold crossed</div>
-                  <div class="t-desc">Re-activation container flags Jordan — 180d win-back window opens</div>
+                  <div class="t-desc">Re-activation agent flags Jordan — 180d win-back window opens</div>
                 </div>
                 <div class="t-evt">
                   <div class="t-dot"></div>
@@ -968,7 +1057,7 @@ What are you after?</div>
                 <div class="t-evt">
                   <div class="t-dot re"></div>
                   <div class="t-time">Day 180</div>
-                  <div class="t-lbl">Container evaluates</div>
+                  <div class="t-lbl">Agent evaluates</div>
                   <div class="t-decision-box re">Re-engage — dormancy threshold + active campaign = right moment; use campaign as win-back hook; reach out proactively</div>
                 </div>
                 <div class="t-evt">
@@ -1041,7 +1130,7 @@ What are you after?</div>
     <div class="narrow">
       <div class="eyebrow">Decision Log</div>
       <h2>Every decision, legible</h2>
-      <p style="font-size:13px;color:var(--muted);margin-top:8px;">The container's reasoning is visible and auditable — not a black box.</p>
+      <p style="font-size:13px;color:var(--muted);margin-top:8px;">The agent's reasoning is visible and auditable — not a black box.</p>
       <table class="log-table">
         <thead>
           <tr>
@@ -1082,7 +1171,7 @@ What are you after?</div>
             <td>Jordan</td>
             <td>180d dormancy threshold + Memorial Day campaign match</td>
             <td><span class="badge b-re">Re-engage</span></td>
-            <td>Dormancy threshold + active promo = optimal win-back window; container reaches out proactively</td>
+            <td>Dormancy threshold + active promo = optimal win-back window; agent reaches out proactively</td>
             <td>Yes (campaign)</td>
             <td>Converted</td>
           </tr>
@@ -1095,9 +1184,9 @@ What are you after?</div>
   <section id="portfolio">
     <div class="narrow">
       <div class="eyebrow">Portfolio View</div>
-      <h2>Container performance</h2>
+      <h2>Agent performance</h2>
       <div class="portfolio-card">
-        <div class="p-label">Container: First-Time Buyer Growth &nbsp;·&nbsp; May 26–27, 2026</div>
+        <div class="p-label">Agent: First-Time Buyer Growth &nbsp;·&nbsp; May 26–27, 2026</div>
         <div class="metrics-grid">
           <div>
             <div class="m-val">4</div>
@@ -1132,7 +1221,7 @@ What are you after?</div>
     </div>
   </section>
 
-  <div class="footer">AI Journey &nbsp;·&nbsp; Container Concept &nbsp;·&nbsp; ONE BONE &nbsp;·&nbsp; June 2026</div>
+  <div class="footer">AI Journey &nbsp;·&nbsp; Agent Concept &nbsp;·&nbsp; ONE BONE &nbsp;·&nbsp; June 2026</div>
 
 </div>
 
