@@ -327,6 +327,25 @@ h2 { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; }
 .lt-btn { font-size: 10px; font-weight: 500; padding: 3px 10px; border-radius: 11px; border: 1px solid var(--border2); color: #6A6258; background: var(--card); cursor: default; }
 .lt-btn.primary { border-color: rgba(201,169,110,0.45); color: #9A7838; background: var(--accent-dim); }
 
+/* ── Playbook panel ── */
+.pb-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 24px 28px; margin-top: 10px; }
+.pb-head { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; margin-bottom: 4px; }
+.pb-title { font-size: 14px; font-weight: 600; color: var(--text); }
+.pb-sub { font-size: 12px; color: #7A7268; margin-bottom: 18px; }
+.pb-entry { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); text-align: center; padding: 8px 0 14px; }
+.pb-branches { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.pb-branch { background: var(--card2); border: 1px solid var(--border); border-radius: 10px; padding: 16px 18px; }
+.pb-tag { display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 3px 9px; border-radius: 3px; margin-bottom: 10px; }
+.pb-tag.hot { color: var(--green); background: var(--green-dim); }
+.pb-tag.slow { color: #9A7838; background: var(--accent-dim); }
+.pb-crit { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 12px; }
+.pb-step { display: grid; grid-template-columns: 16px 1fr; gap: 8px; font-size: 12px; color: #5A5248; line-height: 1.5; padding: 4px 0; }
+.pb-step-n { width: 16px; height: 16px; border-radius: 50%; background: var(--subtle); font-size: 9px; font-weight: 700; color: var(--muted); display: flex; align-items: center; justify-content: center; margin-top: 2px; }
+.pb-rule { margin-top: 12px; padding: 10px 14px; background: var(--bg); border: 1px dashed var(--border2); border-radius: 7px; font-size: 11px; color: #6A6258; line-height: 1.5; }
+.pb-rule strong { color: #4A4640; }
+.pb-foot { display: flex; align-items: center; gap: 8px; margin-top: 14px; }
+@media (max-width: 800px) { .pb-branches { grid-template-columns: 1fr; } }
+
 /* ── Signal intelligence grid ── */
 .si-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 10px; }
 .si-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 18px 20px; }
@@ -530,6 +549,52 @@ h2 { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; }
           </div>
         </div>
 
+      </div>
+    </div>
+
+    <!-- Exemplar playbook: Browsing -->
+    <div class="pb-card">
+      <div class="pb-head">
+        <span class="lt-label" style="margin-bottom:0;">Playbook · proposed by agent</span>
+        <span class="pb-title">Browsing → first purchase</span>
+        <span style="font-size:12px;color:var(--muted);">target: 0.8% → 1.0%</span>
+      </div>
+      <div class="pb-sub">Not every browser is the same shopper. The agent reads the signal heat and splits the state in two.</div>
+
+      <div class="pb-entry">New browse signal → the agent classifies ↓</div>
+
+      <div class="pb-branches">
+        <div class="pb-branch">
+          <div class="pb-tag hot">In-market · deciding now</div>
+          <div class="pb-crit">
+            <span class="dm-chip">Added to cart</span>
+            <span class="dm-chip">Shopping Assistant session</span>
+            <span class="dm-chip">3+ views of one product in hours</span>
+          </div>
+          <div class="pb-step"><div class="pb-step-n">1</div><div>Act the same evening — the decision is live tonight, not next week.</div></div>
+          <div class="pb-step"><div class="pb-step-n">2</div><div>Lead with the product and the direct path: the link, the answer, the sale price if one is running. No consultation detour.</div></div>
+          <div class="pb-step"><div class="pb-step-n">3</div><div>If they reply with a question, answer it and re-offer the link — nothing else.</div></div>
+        </div>
+
+        <div class="pb-branch">
+          <div class="pb-tag slow">Deliberating · thinking it over</div>
+          <div class="pb-crit">
+            <span class="dm-chip">Browsed and left, no cart</span>
+            <span class="dm-chip">Visits spread over days</span>
+            <span class="dm-chip">One category, several products</span>
+          </div>
+          <div class="pb-step"><div class="pb-step-n">1</div><div>Open with the answer to the question they most likely left with — garden fit first for frames, age fit for ride-ons. Never a discount.</div></div>
+          <div class="pb-step"><div class="pb-step-n">2</div><div>One paced follow-up inside the 7-day window, on the next signal or a live promo — whichever comes first.</div></div>
+          <div class="pb-step"><div class="pb-step-n">3</div><div>No conversion by day 7 → drop to nurture. No pestering between moments.</div></div>
+        </div>
+      </div>
+
+      <div class="pb-rule"><strong>Movement between branches:</strong> a deliberator who re-browses the same product twice in a day is promoted to in-market. A re-browse after nurture reopens the 7-day window. An open support ticket pauses everything.</div>
+
+      <div class="pb-foot">
+        <span class="lt-status proposed" style="margin-top:0;">Awaiting confirmation</span>
+        <span class="lt-btn primary">Confirm</span>
+        <span class="lt-btn">Adjust</span>
       </div>
     </div>
 
