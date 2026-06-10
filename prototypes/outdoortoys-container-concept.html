@@ -410,7 +410,7 @@ h2 { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; }
           <div class="at-tick" style="left:42%;">Day 30</div>
           <div class="at-tick" style="left:96%;">Day 90+</div>
         </div>
-        <div class="dm-body">Only 4.7% of first-time buyers ever order again — but when they do, 70% of those second orders land inside 30 days, and the basket is an add-on to the big item they just bought. After day 30, the moment is gone.</div>
+        <div class="dm-body">Only 4.7% of first-time buyers ever order again — but when they do, 70% of those second orders land inside 30 days, and the basket is an add-on to the big item they just bought. After day 30, the moment is gone — so the agent works this window automatically for every first-time buyer.</div>
         <div class="dm-chips">
           <span class="dm-chip">Swing anchor kits</span>
           <span class="dm-chip">Baby swing seats</span>
@@ -444,100 +444,95 @@ h2 { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; }
     </div>
   </section>
 
-  <!-- Agent Setup -->
+  <!-- Shopper Lifecycle Map -->
   <section id="setup">
     <div class="narrow">
-      <div class="eyebrow">Agent Library</div>
-      <h2>Outdoor Toys' full lifecycle coverage</h2>
-      <p style="font-size:12px;color:var(--muted);margin-top:6px;">Audience sizes and stage conversion baselines from Outdoor Toys' Shopify order history, March 2024 to June 2026.</p>
+      <div class="eyebrow">The Shopper Lifecycle Map</div>
+      <h2>One journey. Always covered.</h2>
+      <p style="font-size:12px;color:var(--muted);margin-top:6px;">Every shopper sits in one of four states. The windows and plays below come from Outdoor Toys' own Shopify and support data — nothing is switched on or off. The agent covers every state, all the time, and never misses a window.</p>
     </div>
 
-    <div class="container-library">
-      <div class="cl-card active">
-        <div class="cl-stage">Acquisition</div>
-        <div class="cl-name">Cold Browser Conversion</div>
-        <div class="cl-audience">SMS subscribers who haven't purchased yet.</div>
-        <div class="cl-goal"><strong>0.8%</strong> of browsers convert into first-time buyers — 63% of them the same day they land. The rest deliberate, half converting within 8 days. The agent engages while the browse signal is fresh, then nurtures until the shopper browses again.</div>
-        <div class="cl-status on">Active</div>
-      </div>
-      <div class="cl-card">
-        <div class="cl-stage">Conversion</div>
-        <div class="cl-name">Add-On Attach</div>
-        <div class="cl-audience">Shoppers whose first order was a climbing frame, swing set or trampoline in the last 30 days and who haven't ordered again. <strong>2,395 shoppers today.</strong></div>
-        <div class="cl-goal">First → second purchase: <strong>4.7% baseline</strong>. Target 15% via add-on attach inside the 30-day window.</div>
-        <div class="cl-status off">Draft</div>
-      </div>
-      <div class="cl-card">
-        <div class="cl-stage">Retention</div>
-        <div class="cl-name">Repeat Buyer Retention</div>
-        <div class="cl-audience">2+ purchases. Active within last 180 days. <strong>757 shoppers · £455 avg LTV.</strong></div>
-        <div class="cl-goal">Second → third purchase: <strong>9.0%</strong> — repeaters are 2× as likely to buy again. Age-progression picks and seasonal refresh.</div>
-        <div class="cl-status off">Draft</div>
-      </div>
-      <div class="cl-card">
-        <div class="cl-stage">Loyalty</div>
-        <div class="cl-name">VIP Loyalty</div>
-        <div class="cl-audience">Top 10% LTV. 3+ purchases. <strong>34 shoppers · £1,110 avg LTV.</strong></div>
-        <div class="cl-goal">Third → fourth purchase: <strong>9.8%</strong>. A tier still being built — it grows as the agents upstream do their work.</div>
-        <div class="cl-status off">Draft</div>
-      </div>
-      <div class="cl-card">
-        <div class="cl-stage">Re-activation</div>
-        <div class="cl-name">Dormant Re-activation</div>
-        <div class="cl-audience">No purchase in 180d+. <strong>11,771 shoppers — 41% of the base · £2.8M lifetime spend · 1.03 avg orders.</strong></div>
-        <div class="cl-goal">Re-activate around the levers that fit the category: kids aging up, spring season, promo windows.</div>
-        <div class="cl-status off">Draft</div>
-      </div>
-    </div>
+    <div class="lifecycle-card">
+      <div class="lc-eyebrow">Outdoor Toys · every shopper, one of four states</div>
+      <div class="lc-sub">A shopper moves through these states over months or years. The same agent follows them the whole way.</div>
+      <div class="lifecycle-stages" style="grid-template-columns:1.5fr 18px 1.2fr 18px 1fr 18px 1fr;">
 
-    <div class="zoom-sep">Zooming into: Cold Browser Conversion</div>
-
-    <div class="narrow">
-      <div class="config-strip">
-        <div class="cs-item">
-          <span class="cs-key">Goal</span>
-          <span class="cs-val">Lift the 0.8% browse → first-buyer conversion rate by working the deliberators — the 37% of conversions that don't happen same-day and take a median of 8 days to land.</span>
+        <div class="ls focal">
+          <div class="ls-bar accent"></div>
+          <div class="ls-name">Browsing</div>
+          <div class="ls-range">Window: ~7 days while the signal is hot</div>
+          <div class="ls-action">0.8% of browsers buy — 63% the same day. For the rest, the agent answers the question they left with (garden fit · what's included · anchoring · assembly · delivery), then nurtures until a new browse reopens the window.</div>
+          <div class="ls-signals-row">Signals: browse depth · repeat views · cart · Shopping Assistant session</div>
+          <div class="ls-badge accent">Goal emphasis · lift first-purchase conversion</div>
         </div>
-        <div class="cs-item">
-          <span class="cs-key">Audience</span>
-          <span class="cs-val">SMS subscribers with no purchase who browsed in the last 7 days and didn't buy in-session.</span>
+
+        <div class="ls-connector">→</div>
+
+        <div class="ls">
+          <div class="ls-bar green"></div>
+          <div class="ls-name">First purchase</div>
+          <div class="ls-range">Window: 30 days from delivery · median repeat day 15</div>
+          <div class="ls-action">4.7% ever order again, and 70% of those second orders land inside 30 days — almost always an add-on to the big item just bought. The agent works this window automatically: anchor kit, swing seat, trapeze bar, matched to the frame and the kids' ages.</div>
+          <div class="ls-signals-row">2,395 shoppers in this window today</div>
+          <div class="ls-badge green">Acted on, not just observed</div>
         </div>
-        <div class="cs-item">
-          <span class="cs-key">Guardrails</span>
-          <span class="cs-val" style="color:#8A8278;">Max 2 messages/week &nbsp;·&nbsp; No discounts above 10% outside active sales &nbsp;·&nbsp; No messages 9pm–9am UK &nbsp;·&nbsp; Suppress if active conversation or open support ticket</span>
+
+        <div class="ls-connector">→</div>
+
+        <div class="ls">
+          <div class="ls-bar default"></div>
+          <div class="ls-name">Active repeat</div>
+          <div class="ls-range">Ongoing · 9% go on to a third order</div>
+          <div class="ls-action">The agent keeps the relationship warm with age-appropriate picks and occasion windows — birthdays, spring, Christmas. No pestering between moments.</div>
+          <div class="ls-signals-row">757 shoppers · £455 avg LTV</div>
         </div>
+
+        <div class="ls-connector">→</div>
+
+        <div class="ls">
+          <div class="ls-bar orange"></div>
+          <div class="ls-name">Lapsed</div>
+          <div class="ls-range">Quiet for 180+ days</div>
+          <div class="ls-action">The agent waits for convergence — a promo window, a re-browse, a new season — and re-engages with the kids' ages as the frame. A re-browse moves them straight back to the top of the map.</div>
+          <div class="ls-signals-row">11,771 shoppers · £2.8M lifetime spend</div>
+          <div class="ls-badge orange">Re-entry, not exit</div>
+        </div>
+
       </div>
     </div>
 
-    <!-- Agent intelligence grid — full page width -->
-    <div style="margin-top:24px; margin-bottom:10px;">
-      <div class="eyebrow" style="margin-bottom:0;">Agent Intelligence</div>
-      <div style="font-size:12px;color:var(--muted);margin-top:4px;">Behavioral inputs that drive this agent's decisions</div>
-    </div>
-    <div class="si-grid">
-      <div class="si-card">
-        <div class="si-eyebrow">Intent Window</div>
-        <div class="si-stat">~7 days</div>
-        <div class="si-label">How long a browse signal stays hot</div>
-        <div class="si-desc">63% of buyers convert the same day they land. Deliberators who come back do it with a median of 8 days from first browse. The agent treats a browse signal as high intent for a week and engages inside it — then returns the shopper to nurture until a new browse reopens the window.</div>
-      </div>
-      <div class="si-card">
-        <div class="si-eyebrow">Pre-Sales Questions</div>
-        <div class="si-stat">5 themes</div>
-        <div class="si-label">What stalls a first purchase</div>
-        <div class="si-desc">From Outdoor Toys' own support inbox: garden fit and dimensions · what's included and accessory compatibility · anchoring and installation · self-assembly · stock and delivery timing. The agent answers the likely blocker proactively instead of waiting for the question.</div>
-      </div>
+    <!-- Cross-state rules -->
+    <div class="si-grid" style="grid-template-columns:repeat(2,1fr);margin-top:10px;">
       <div class="si-card">
         <div class="si-eyebrow">Suppression Logic</div>
         <div class="si-stat">5 conditions</div>
-        <div class="si-label">When the agent holds</div>
-        <div class="si-desc">Active campaign window · Active conversation open · Support ticket unresolved · Message sent within 7 days · Shopper replied "not now" within 48h. Agent holds and re-evaluates on the next signal — does not skip.</div>
+        <div class="si-label">When the agent holds — in any state</div>
+        <div class="si-desc">Active campaign window · Active conversation open · Support ticket unresolved · Message sent within 7 days · Shopper replied "not now" within 48h. The agent holds and re-evaluates on the next signal — it does not skip.</div>
       </div>
       <div class="si-card">
         <div class="si-eyebrow">Signal Hierarchy</div>
         <div class="si-stat">SA › Cart › Browse</div>
-        <div class="si-label">Intent ranking</div>
-        <div class="si-desc">Agent leads with the highest-intent signal when multiple are active. Shopping Assistant session outranks cart abandon — purchase blocker is already resolved, context is already in hand.</div>
+        <div class="si-label">Intent ranking — in any state</div>
+        <div class="si-desc">When multiple signals are active, the agent leads with the highest-intent one. A Shopping Assistant session outranks a cart abandon — the purchase blocker is already resolved and the context is in hand.</div>
+      </div>
+    </div>
+
+    <!-- Where the agent concentrates -->
+    <div class="zoom-sep">Where the agent concentrates</div>
+    <div class="narrow">
+      <div class="config-strip">
+        <div class="cs-item">
+          <span class="cs-key">Priority</span>
+          <span class="cs-val">Confirmed by Outdoor Toys: browse → first purchase. The agent covers the whole map, but concentrates effort and reporting on the deliberators — the 37% of conversions that don't happen same-day.</span>
+        </div>
+        <div class="cs-item">
+          <span class="cs-key">Guardrails</span>
+          <span class="cs-val" style="color:#8A8278;">Max 2 messages/week &nbsp;·&nbsp; No discounts above 10% outside active sales &nbsp;·&nbsp; No messages 9pm–9am UK &nbsp;·&nbsp; Suppression rules above apply everywhere</span>
+        </div>
+        <div class="cs-item">
+          <span class="cs-key">Control</span>
+          <span class="cs-val">Outdoor Toys sets the guardrails and confirms the priority. The agent decides who, what, and when, per shopper — and every decision is visible in the log below.</span>
+        </div>
       </div>
     </div>
   </section>
@@ -554,6 +549,7 @@ h2 { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; }
           <div class="cr">Campaign blasts everyone in the segment at the scheduled send time — with no awareness of what flows are already running for that shopper.</div>
           <div class="cr">Flows and campaigns run independently — a shopper can get a cart recovery and a campaign blast in the same day for different products.</div>
           <div class="cr">Marketer configures a trigger and sequence for each flow type.</div>
+          <div class="cr">Lifecycle programs ship as separate flows you set up and switch on — a stage without a flow gets nothing.</div>
         </div>
         <div class="compare-col">
           <div class="ch">Agent</div>
@@ -561,6 +557,7 @@ h2 { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; }
           <div class="cr">Campaign always reaches the full eligible segment. Agent personalizes each message and suppresses conflicting flows during the campaign window.</div>
           <div class="cr">Campaign always wins during its window. Flows hold and re-evaluate after. No shopper gets a flow message while a campaign is active.</div>
           <div class="cr">Marketer states a goal once. AI handles execution per shopper, per signal.</div>
+          <div class="cr">Every shopper is always in exactly one lifecycle state, and every state is covered. The merchant confirms the priority; the agent never misses a window.</div>
         </div>
       </div>
     </div>
@@ -596,7 +593,7 @@ h2 { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; }
             <!-- Insight -->
             <div class="col-insight">
               <div class="insight-hl">"The questions that stall a £700 first purchase are already sitting in the support inbox — answer them before they're asked."</div>
-              <div class="insight-body">Sophie viewed the Wildwood Hideaway three times in two days without buying. For frames this size, the most common pre-sales question in Outdoor Toys' inbox is whether it fits the garden. So instead of a discount nudge, AI Journey led with the answer to the question she most likely left with — the footprint and the clearance it needs. One exchange resolved the blocker and she placed her first order.</div>
+              <div class="insight-body">Sophie viewed the Wildwood Hideaway three times in two days without buying. For frames this size, the most common pre-sales question in Outdoor Toys' inbox is whether it fits the garden. So instead of a discount nudge, AI Journey led with the answer to the question she most likely left with — the footprint and the clearance it needs. One exchange resolved the blocker and she placed her first order. And the moment that order landed, the same agent moved her into the 30-day add-on window — no separate program to switch on.</div>
               <div class="dp-grid">
                 <div>
                   <div class="dp-k">Status</div>
@@ -1189,7 +1186,7 @@ What would you like to do?</div>
       <div class="eyebrow">Portfolio View</div>
       <h2>Agent performance</h2>
       <div class="portfolio-card">
-        <div class="p-label">Agent: Cold Browser Conversion &nbsp;·&nbsp; May 2026</div>
+        <div class="p-label">Agent · Outdoor Toys · all lifecycle states &nbsp;·&nbsp; May 2026</div>
         <div class="metrics-grid">
           <div>
             <div class="m-val">4</div>
