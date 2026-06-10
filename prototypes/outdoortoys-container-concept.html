@@ -314,6 +314,19 @@ h2 { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; }
 .ls-badge.orange { color: #E06870; background: var(--orange-dim); }
 .ls-badge.green { color: var(--green); background: var(--green-dim); }
 
+/* ── Per-state targets ── */
+.ls-target { margin-top: 12px; padding: 9px 11px; background: var(--card2); border: 1px solid var(--border); border-radius: 7px; }
+.lt-label { font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+.lt-line { font-size: 12px; color: #4A4640; }
+.lt-base { color: var(--muted); }
+.lt-goal { font-weight: 700; color: var(--text); }
+.lt-status { display: inline-block; margin-top: 6px; font-size: 9px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 2px 7px; border-radius: 3px; }
+.lt-status.confirmed { color: var(--green); background: var(--green-dim); }
+.lt-status.proposed { color: #9A7838; background: var(--accent-dim); }
+.lt-actions { display: flex; gap: 4px; margin-top: 7px; }
+.lt-btn { font-size: 10px; font-weight: 500; padding: 3px 10px; border-radius: 11px; border: 1px solid var(--border2); color: #6A6258; background: var(--card); cursor: default; }
+.lt-btn.primary { border-color: rgba(201,169,110,0.45); color: #9A7838; background: var(--accent-dim); }
+
 /* ── Signal intelligence grid ── */
 .si-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 10px; }
 .si-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 18px 20px; }
@@ -449,21 +462,25 @@ h2 { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; }
     <div class="narrow">
       <div class="eyebrow">The Shopper Lifecycle Map</div>
       <h2>One journey. Always covered.</h2>
-      <p style="font-size:12px;color:var(--muted);margin-top:6px;">Every shopper sits in one of four states. The windows and plays below come from Outdoor Toys' own Shopify and support data — nothing is switched on or off. The agent covers every state, all the time, and never misses a window.</p>
+      <p style="font-size:12px;color:var(--muted);margin-top:6px;">Every shopper sits in one of four states. The windows and plays below come from Outdoor Toys' own Shopify and support data — nothing is switched on or off. The agent covers every state, all the time; for each one it proposes a target from the data, and the marketer confirms or adjusts it.</p>
     </div>
 
     <div class="lifecycle-card">
       <div class="lc-eyebrow">Outdoor Toys · every shopper, one of four states</div>
       <div class="lc-sub">A shopper moves through these states over months or years. The same agent follows them the whole way.</div>
-      <div class="lifecycle-stages" style="grid-template-columns:1.5fr 18px 1.2fr 18px 1fr 18px 1fr;">
+      <div class="lifecycle-stages" style="grid-template-columns:1fr 18px 1fr 18px 1fr 18px 1fr;">
 
-        <div class="ls focal">
+        <div class="ls">
           <div class="ls-bar accent"></div>
           <div class="ls-name">Browsing</div>
           <div class="ls-range">Window: ~7 days while the signal is hot</div>
           <div class="ls-action">0.8% of browsers buy — 63% the same day. For the rest, the agent answers the question they left with (garden fit · what's included · anchoring · assembly · delivery), then nurtures until a new browse reopens the window.</div>
           <div class="ls-signals-row">Signals: browse depth · repeat views · cart · Shopping Assistant session</div>
-          <div class="ls-badge accent">Goal emphasis · lift first-purchase conversion</div>
+          <div class="ls-target">
+            <div class="lt-label">Target · proposed by agent</div>
+            <div class="lt-line"><span class="lt-base">0.8% browse → first today</span> → <span class="lt-goal">1.0%</span></div>
+            <div class="lt-status confirmed">Confirmed by Outdoor Toys</div>
+          </div>
         </div>
 
         <div class="ls-connector">→</div>
@@ -474,7 +491,11 @@ h2 { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; }
           <div class="ls-range">Window: 30 days from delivery · median repeat day 15</div>
           <div class="ls-action">4.7% ever order again, and 70% of those second orders land inside 30 days — almost always an add-on to the big item just bought. The agent works this window automatically: anchor kit, swing seat, trapeze bar, matched to the frame and the kids' ages.</div>
           <div class="ls-signals-row">2,395 shoppers in this window today</div>
-          <div class="ls-badge green">Acted on, not just observed</div>
+          <div class="ls-target">
+            <div class="lt-label">Target · proposed by agent</div>
+            <div class="lt-line"><span class="lt-base">4.7% add-on within 30d today</span> → <span class="lt-goal">15%</span></div>
+            <div class="lt-status confirmed">Confirmed by Outdoor Toys</div>
+          </div>
         </div>
 
         <div class="ls-connector">→</div>
@@ -485,6 +506,12 @@ h2 { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; }
           <div class="ls-range">Ongoing · 9% go on to a third order</div>
           <div class="ls-action">The agent keeps the relationship warm with age-appropriate picks and occasion windows — birthdays, spring, Christmas. No pestering between moments.</div>
           <div class="ls-signals-row">757 shoppers · £455 avg LTV</div>
+          <div class="ls-target">
+            <div class="lt-label">Target · proposed by agent</div>
+            <div class="lt-line"><span class="lt-base">9% second → third today</span> → <span class="lt-goal">20%</span></div>
+            <div class="lt-status proposed">Awaiting confirmation</div>
+            <div class="lt-actions"><span class="lt-btn primary">Confirm</span><span class="lt-btn">Adjust</span></div>
+          </div>
         </div>
 
         <div class="ls-connector">→</div>
@@ -495,7 +522,12 @@ h2 { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; }
           <div class="ls-range">Quiet for 180+ days</div>
           <div class="ls-action">The agent waits for convergence — a promo window, a re-browse, a new season — and re-engages with the kids' ages as the frame. A re-browse moves them straight back to the top of the map.</div>
           <div class="ls-signals-row">11,771 shoppers · £2.8M lifetime spend</div>
-          <div class="ls-badge orange">Re-entry, not exit</div>
+          <div class="ls-target">
+            <div class="lt-label">Target · proposed by agent</div>
+            <div class="lt-line"><span class="lt-base">Baseline near zero today</span> → <span class="lt-goal">2% won back per quarter</span></div>
+            <div class="lt-status proposed">Awaiting confirmation</div>
+            <div class="lt-actions"><span class="lt-btn primary">Confirm</span><span class="lt-btn">Adjust</span></div>
+          </div>
         </div>
 
       </div>
@@ -522,8 +554,8 @@ h2 { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; }
     <div class="narrow">
       <div class="config-strip">
         <div class="cs-item">
-          <span class="cs-key">Priority</span>
-          <span class="cs-val">Confirmed by Outdoor Toys: browse → first purchase. The agent covers the whole map, but concentrates effort and reporting on the deliberators — the 37% of conversions that don't happen same-day.</span>
+          <span class="cs-key">Targets</span>
+          <span class="cs-val">The agent proposes a target for each lifecycle state from the data; Outdoor Toys confirms or adjusts it. Confirmed targets steer where the agent spends its message budget — and they're what the agent reports against.</span>
         </div>
         <div class="cs-item">
           <span class="cs-key">Guardrails</span>
@@ -531,7 +563,7 @@ h2 { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; }
         </div>
         <div class="cs-item">
           <span class="cs-key">Control</span>
-          <span class="cs-val">Outdoor Toys sets the guardrails and confirms the priority. The agent decides who, what, and when, per shopper — and every decision is visible in the log below.</span>
+          <span class="cs-val">Outdoor Toys sets the guardrails and confirms the targets. The agent decides who, what, and when, per shopper — and every decision is visible in the log below.</span>
         </div>
       </div>
     </div>
@@ -557,7 +589,7 @@ h2 { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; }
           <div class="cr">Campaign always reaches the full eligible segment. Agent personalizes each message and suppresses conflicting flows during the campaign window.</div>
           <div class="cr">Campaign always wins during its window. Flows hold and re-evaluate after. No shopper gets a flow message while a campaign is active.</div>
           <div class="cr">Marketer states a goal once. AI handles execution per shopper, per signal.</div>
-          <div class="cr">Every shopper is always in exactly one lifecycle state, and every state is covered. The merchant confirms the priority; the agent never misses a window.</div>
+          <div class="cr">Every shopper is always in exactly one lifecycle state, and every state is covered. The merchant confirms a target per state; the agent never misses a window.</div>
         </div>
       </div>
     </div>
