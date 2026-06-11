@@ -1,0 +1,1453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AI Journey · Agent Concept · CAITLYN MINIMALIST</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #EDEBE5;
+  --card: #F5F2EA;
+  --card2: #FAF7F0;
+  --border: #DDD8CF;
+  --border2: #D0CCC2;
+  --text: #1C1A17;
+  --muted: #8A8278;
+  --subtle: #E8E4DC;
+  --accent: #C9A96E;
+  --accent-dim: rgba(201,169,110,0.18);
+  --green: #2E8850;
+  --green-dim: rgba(46,136,80,0.12);
+  --orange: #D94858;
+  --orange-dim: rgba(217,72,88,0.12);
+  --blue: #4858A8;
+  --blue-dim: rgba(72,88,168,0.12);
+  --purple: #6848A0;
+  --purple-dim: rgba(104,72,160,0.12);
+  --teal: #287878;
+  --teal-dim: rgba(40,120,120,0.12);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Nav ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0;
+  height: 48px;
+  background: rgba(237,235,229,0.96);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center;
+  padding: 0 36px; gap: 16px;
+  z-index: 100;
+}
+.nav-brand { font-size: 11px; font-weight: 700; letter-spacing: 0.16em; color: var(--accent); text-transform: uppercase; text-decoration: none; }
+.nav-pipe { color: var(--border2); }
+.nav-sub { font-size: 12px; color: var(--muted); }
+.nav-links { display: flex; gap: 20px; margin-left: auto; }
+.nav-links a { font-size: 12px; color: var(--muted); text-decoration: none; transition: color 0.15s; }
+.nav-links a:hover { color: #4A4640; }
+
+/* ── Page ── */
+.page { max-width: 1100px; margin: 0 auto; padding: 0 36px; }
+.narrow { max-width: 720px; }
+section { padding: 80px 0 0; }
+section:last-of-type { padding-bottom: 120px; }
+
+/* ── Type ── */
+.eyebrow { font-size: 11px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); margin-bottom: 14px; }
+h1 { font-size: 40px; font-weight: 300; line-height: 1.18; letter-spacing: -0.025em; }
+h2 { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; }
+.lead { font-size: 16px; line-height: 1.75; color: #706A62; margin-top: 20px; }
+.lead + .lead { margin-top: 12px; }
+
+/* ── Hero ── */
+.hero { padding-top: 110px; }
+
+/* ── Shape of demand ── */
+.demand-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 30px; }
+.dm-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 22px 24px; display: flex; flex-direction: column; }
+.dm-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); margin-bottom: 6px; }
+.dm-title { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 14px; line-height: 1.35; }
+.dm-body { font-size: 12px; color: #6A6258; line-height: 1.55; margin-top: 14px; }
+.dm-chips { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 12px; }
+.dm-chip { font-size: 10px; font-weight: 500; color: #6A6258; background: var(--subtle); border-radius: 3px; padding: 2px 8px; }
+.fn-row { display: grid; grid-template-columns: 106px 1fr 40px; gap: 10px; align-items: center; padding: 5px 0; }
+.fn-k { font-size: 11px; color: var(--muted); }
+.fn-bar { height: 10px; border-radius: 2px; background: var(--subtle); position: relative; overflow: hidden; }
+.fn-fill { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 2px; }
+.fn-v { font-size: 12px; font-weight: 600; color: var(--text); text-align: right; }
+.fn-note { font-size: 10px; color: var(--muted); margin-top: 8px; padding-top: 10px; border-top: 1px solid var(--border); }
+.at-scale { position: relative; height: 56px; margin: 8px 0 2px; }
+.at-track { position: absolute; left: 0; right: 0; top: 26px; height: 10px; background: var(--subtle); border-radius: 2px; }
+.at-window { position: absolute; left: 0; width: 33%; top: 26px; height: 10px; background: var(--accent-dim); border: 1px solid rgba(201,169,110,0.35); border-radius: 2px; }
+.at-median { position: absolute; left: 20%; top: 18px; width: 2px; height: 26px; background: var(--accent); }
+.at-median-lbl { position: absolute; left: 20%; top: 0; transform: translateX(-50%); font-size: 9px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); white-space: nowrap; }
+.at-tick { position: absolute; top: 42px; font-size: 9px; color: var(--muted); transform: translateX(-50%); }
+.arc-steps { display: flex; align-items: flex-end; gap: 6px; margin-top: 4px; }
+.arc-step { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.arc-bar { width: 100%; border-radius: 3px 3px 0 0; background: var(--accent-dim); border: 1px solid rgba(201,169,110,0.30); display: flex; align-items: flex-start; justify-content: center; font-size: 10px; font-weight: 600; color: #9A7838; padding-top: 3px; }
+.arc-lbl { font-size: 9.5px; color: #6A6258; text-align: center; line-height: 1.3; }
+@media (max-width: 900px) { .demand-grid { grid-template-columns: 1fr; } }
+
+/* ── Agent card ── */
+.container-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 12px; padding: 26px 30px; margin-top: 22px;
+}
+.c-label {
+  font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--accent); margin-bottom: 20px; padding-bottom: 14px; border-bottom: 1px solid var(--border);
+}
+.field-grid { display: flex; flex-direction: column; gap: 13px; }
+.field { display: grid; grid-template-columns: 108px 1fr; gap: 18px; align-items: start; }
+.fk { font-size: 12px; font-weight: 500; color: var(--muted); padding-top: 1px; }
+.fv { font-size: 14px; color: #4A4640; line-height: 1.5; }
+.tag { display: inline-flex; padding: 2px 9px; border-radius: 3px; font-size: 12px; font-weight: 500; background: var(--subtle); color: #6A6258; margin: 2px 3px 2px 0; }
+
+/* ── Compare ── */
+.compare-grid { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; margin-top: 22px; }
+.compare-col { background: var(--card); padding: 22px 24px; }
+.compare-col + .compare-col { border-left: 1px solid var(--border); }
+.ch { font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 16px; padding-bottom: 13px; border-bottom: 1px solid var(--border); }
+.compare-col:first-child .ch { color: var(--muted); }
+.compare-col:last-child .ch { color: var(--accent); }
+.cr { padding: 9px 0; border-bottom: 1px solid var(--border); font-size: 13px; line-height: 1.5; }
+.compare-col:first-child .cr { color: #6A6258; }
+.compare-col:last-child .cr { color: #3A3630; }
+.cr:last-child { border-bottom: none; }
+
+/* ── Scenario cards ── */
+.scenario-list { display: flex; flex-direction: column; gap: 10px; margin-top: 24px; }
+.sc { background: var(--card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; cursor: pointer; transition: border-color 0.15s; }
+.sc:hover { border-color: #C4BFBA; }
+.sc.open { border-color: #C4BFBA; cursor: default; }
+
+.sc-header { display: flex; align-items: center; gap: 14px; padding: 17px 22px; user-select: none; cursor: pointer; }
+.sc.open .sc-header { cursor: pointer; }
+.sc-num { width: 25px; height: 25px; border-radius: 50%; background: var(--subtle); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; color: var(--muted); flex-shrink: 0; }
+.sc-meta { flex: 1; min-width: 0; }
+.sc-name { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 2px; }
+.sc-sigs { font-size: 12px; color: var(--muted); }
+.badge { flex-shrink: 0; padding: 3px 11px; border-radius: 20px; font-size: 11px; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; }
+.b-engage { background: var(--green-dim); color: #1E7848; }
+.b-merge  { background: var(--accent-dim); color: #9A7838; }
+.b-hold   { background: var(--orange-dim); color: #C03040; }
+.b-re     { background: var(--blue-dim); color: #3848A0; }
+.b-cross  { background: var(--purple-dim); color: #5838A0; }
+.b-camp   { background: var(--teal-dim); color: #1E6868; }
+.sc-chevron { color: var(--muted); font-size: 13px; transition: transform 0.2s; flex-shrink: 0; }
+.sc.open .sc-chevron { transform: rotate(180deg); }
+
+/* ── 3-column body ── */
+.sc-body { display: none; border-top: 1px solid var(--border); }
+.sc.open .sc-body { display: block; }
+
+.col-headers {
+  display: grid; grid-template-columns: 300px 240px 1fr;
+  border-bottom: 1px solid var(--border);
+}
+.col-head {
+  font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--muted); padding: 11px 22px;
+}
+.col-head + .col-head { border-left: 1px solid var(--border); }
+
+.sc-cols { display: grid; grid-template-columns: 300px 240px 1fr; }
+
+/* Column: Insight */
+.col-insight { padding: 22px; border-right: 1px solid var(--border); }
+.insight-hl { font-size: 14px; font-weight: 500; font-style: italic; color: var(--text); line-height: 1.45; margin-bottom: 12px; }
+.insight-body { font-size: 13px; color: #6A6258; line-height: 1.65; margin-bottom: 18px; }
+.dp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; border-top: 1px solid var(--border); padding-top: 16px; }
+.dp-k { font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 3px; }
+.dp-v { font-size: 15px; font-weight: 500; color: var(--text); }
+.dp-sub { font-size: 11px; color: var(--muted); margin-top: 1px; }
+
+/* Column: Journey */
+.col-journey { padding: 22px; border-right: 1px solid var(--border); }
+.timeline { display: flex; flex-direction: column; position: relative; padding-left: 20px; }
+.timeline::before { content: ''; position: absolute; left: 5px; top: 6px; bottom: 6px; width: 1px; background: var(--border2); }
+.t-evt { display: flex; flex-direction: column; gap: 2px; padding-bottom: 16px; position: relative; }
+.t-evt:last-child { padding-bottom: 0; }
+.t-dot { position: absolute; left: -17px; top: 4px; width: 11px; height: 11px; border-radius: 50%; background: var(--subtle); border: 1px solid var(--border2); z-index: 1; }
+.t-dot.decision { background: var(--accent-dim); border-color: var(--accent); }
+.t-dot.converted { background: var(--green-dim); border-color: var(--green); }
+.t-dot.held { background: var(--orange-dim); border-color: var(--orange); }
+.t-dot.re { background: var(--blue-dim); border-color: var(--blue); }
+.t-time { font-size: 10px; color: var(--muted); letter-spacing: 0.02em; }
+.t-lbl { font-size: 12px; font-weight: 600; color: var(--text); }
+.t-desc { font-size: 12px; color: #6A6258; line-height: 1.4; }
+.t-decision-box {
+  margin: 2px 0 2px -2px;
+  background: var(--accent-dim); border: 1px solid rgba(201,169,110,0.30);
+  border-radius: 6px; padding: 7px 10px; font-size: 12px; color: #8A7038; line-height: 1.4;
+}
+.t-decision-box.held { background: var(--orange-dim); border-color: rgba(217,72,88,0.25); color: #B03040; }
+.t-decision-box.re { background: var(--blue-dim); border-color: rgba(72,88,168,0.25); color: #3848A0; }
+.t-gap { border-top: 1px dashed var(--border2); margin: 8px 0; }
+
+/* Column: RCS */
+.col-rcs { padding: 22px; background: var(--card); }
+.rcs-window { background: var(--bg); border-radius: 10px; border: 1px solid var(--border); overflow: hidden; }
+.rcs-bar {
+  background: var(--card); padding: 10px 13px;
+  display: flex; align-items: center; gap: 9px;
+  border-bottom: 1px solid var(--border);
+}
+.rcs-avatar {
+  width: 30px; height: 30px; border-radius: 50%; background: var(--accent);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 9px; font-weight: 800; letter-spacing: 0.05em; color: #FAF4EC; flex-shrink: 0;
+}
+.rcs-bname { font-size: 12px; font-weight: 600; color: var(--text); flex: 1; }
+.rcs-verified { font-size: 9px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #2A7848; background: rgba(42,120,72,0.10); padding: 2px 7px; border-radius: 3px; }
+.rcs-msgs { padding: 12px; display: flex; flex-direction: column; gap: 8px; }
+
+/* Rich card */
+.rcs-card { background: var(--card2); border-radius: 8px; overflow: hidden; border: 1px solid var(--border); max-width: 280px; }
+.rcs-card-img {
+  height: 130px;
+  background: linear-gradient(140deg, #E0D8CC 0%, #D4CBC0 40%, #DDD5C8 70%, #E8E0D4 100%);
+  display: flex; align-items: center; justify-content: center;
+  position: relative; overflow: hidden;
+}
+.rcs-card-img::before {
+  content: ''; position: absolute; inset: 0;
+  background: repeating-linear-gradient(45deg, transparent, transparent 3px, rgba(0,0,0,0.018) 3px, rgba(0,0,0,0.018) 6px);
+}
+.rcs-card-img-label { font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #8A7860; z-index: 1; }
+.rcs-card-body { padding: 11px 12px 8px; }
+.rcs-card-prod { font-size: 13px; font-weight: 600; color: var(--text); }
+.rcs-card-price { font-size: 12px; color: var(--muted); margin-top: 1px; }
+.rcs-card-msg { font-size: 12px; color: var(--muted); line-height: 1.45; margin-top: 7px; }
+.rcs-card-actions { display: flex; gap: 5px; padding: 8px 12px 10px; flex-wrap: wrap; border-top: 1px solid var(--border); }
+.rcs-btn { padding: 5px 11px; border-radius: 14px; font-size: 11px; font-weight: 500; color: var(--accent); background: var(--accent-dim); border: 1px solid rgba(201,169,110,0.30); cursor: default; white-space: nowrap; }
+
+/* Text bubble */
+.rcs-row { display: flex; align-items: flex-end; gap: 6px; }
+.rcs-row.ob { flex-direction: row; }
+.rcs-row.sh { flex-direction: row-reverse; }
+.rcs-bub { padding: 7px 11px; border-radius: 12px; font-size: 12px; line-height: 1.5; max-width: 82%; white-space: pre-wrap; }
+.rcs-bub.ob { background: #EAE6DE; color: #3A3630; border-radius: 3px 12px 12px 12px; }
+.rcs-bub.sh { background: var(--accent); color: #3A2810; border-radius: 12px 3px 12px 12px; }
+.rcs-ts { font-size: 10px; color: var(--muted); text-align: center; padding: 2px 0; }
+.rcs-held { background: rgba(217,72,88,0.08); border: 1px solid rgba(217,72,88,0.20); border-radius: 7px; padding: 8px 11px; font-size: 12px; color: #E06070; }
+
+/* ── Decision log ── */
+.log-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 22px; }
+.log-table th { text-align: left; font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); padding: 0 14px 11px; border-bottom: 1px solid var(--border); }
+.log-table th:first-child { padding-left: 0; }
+.log-table td { padding: 12px 14px; border-bottom: 1px solid var(--border); vertical-align: top; color: #6A6258; line-height: 1.5; }
+.log-table td:first-child { padding-left: 0; color: var(--text); font-weight: 500; }
+.log-table tr:last-child td { border-bottom: none; }
+
+/* ── Portfolio ── */
+.portfolio-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 26px 30px; margin-top: 22px; }
+.p-label { font-size: 11px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 22px; padding-bottom: 14px; border-bottom: 1px solid var(--border); }
+.metrics-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; }
+.m-val { font-size: 30px; font-weight: 300; letter-spacing: -0.03em; color: var(--text); line-height: 1; margin-bottom: 5px; }
+.m-key { font-size: 12px; color: var(--muted); }
+.m-sub { font-size: 12px; color: var(--accent); margin-top: 2px; }
+
+/* ── Agent library ── */
+.container-library { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-top: 20px; }
+.cl-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 16px 18px; opacity: 0.70; transition: opacity 0.15s; }
+.cl-card:hover { opacity: 0.88; }
+.cl-card.active { border-color: var(--accent); opacity: 1; }
+.cl-stage { font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+.cl-card.active .cl-stage { color: var(--accent); }
+.cl-name { font-size: 13px; font-weight: 600; color: var(--text); line-height: 1.3; margin-bottom: 5px; }
+.cl-audience { font-size: 11px; color: var(--muted); line-height: 1.4; margin-bottom: 7px; }
+.cl-goal { font-size: 11px; color: #7A7268; line-height: 1.45; margin-bottom: 12px; }
+.cl-status { font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
+.cl-status.on { color: var(--green); }
+.cl-status.off { color: var(--muted); }
+
+.zoom-sep { display: flex; align-items: center; gap: 12px; margin: 20px 0 0; font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); }
+.zoom-sep::before, .zoom-sep::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+/* ── Config strip ── */
+.config-strip { display: flex; flex-direction: column; gap: 9px; margin-top: 20px; padding: 18px 22px; background: var(--card); border: 1px solid var(--border); border-radius: 10px; }
+.cs-item { display: grid; grid-template-columns: 88px 1fr; gap: 14px; align-items: start; font-size: 13px; }
+.cs-key { font-weight: 500; color: var(--muted); padding-top: 1px; letter-spacing: 0.01em; }
+.cs-val { color: #5A5248; line-height: 1.5; }
+
+/* ── Lifecycle card ── */
+.lifecycle-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 24px 28px; margin-top: 12px; }
+.lc-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); margin-bottom: 4px; }
+.lc-sub { font-size: 12px; color: #7A7268; margin-bottom: 22px; }
+.lifecycle-stages { display: grid; grid-template-columns: 1fr 18px 1.5fr 18px 1fr 18px 1fr; align-items: start; }
+.ls-connector { display: flex; align-items: flex-start; justify-content: center; padding-top: 8px; color: var(--border2); font-size: 16px; font-weight: 300; }
+.ls { padding-right: 16px; }
+.ls.focal { border-left: 2px solid var(--accent); padding-left: 12px; padding-right: 12px; margin-left: -2px; }
+.ls-bar { height: 2px; border-radius: 2px; width: 32px; margin-bottom: 10px; }
+.ls-bar.default { background: #C0B8B0; }
+.ls-bar.accent { background: var(--accent); }
+.ls-bar.orange { background: var(--orange); }
+.ls-bar.green { background: var(--green); }
+.ls-name { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 2px; }
+.ls-range { font-size: 11px; color: var(--muted); margin-bottom: 8px; }
+.ls-action { font-size: 12px; color: #6A6258; line-height: 1.5; margin-bottom: 8px; }
+.ls-signals-row { font-size: 11px; color: #9A9290; }
+.ls-badge { display: inline-block; font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; padding: 2px 7px; border-radius: 3px; margin-top: 8px; }
+.ls-badge.accent { color: var(--accent); background: var(--accent-dim); }
+.ls-badge.orange { color: #E06870; background: var(--orange-dim); }
+.ls-badge.green { color: var(--green); background: var(--green-dim); }
+
+/* ── Per-state targets ── */
+.ls-target { margin-top: 12px; padding: 9px 11px; background: var(--card2); border: 1px solid var(--border); border-radius: 7px; }
+.lt-label { font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+.lt-line { font-size: 12px; color: #4A4640; }
+.lt-base { color: var(--muted); }
+.lt-goal { font-weight: 700; color: var(--text); }
+.lt-status { display: inline-block; margin-top: 6px; font-size: 9px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 2px 7px; border-radius: 3px; }
+.lt-status.confirmed { color: var(--green); background: var(--green-dim); }
+.lt-status.proposed { color: #9A7838; background: var(--accent-dim); }
+.lt-actions { display: flex; gap: 4px; margin-top: 7px; }
+.lt-btn { font-size: 10px; font-weight: 500; padding: 3px 10px; border-radius: 11px; border: 1px solid var(--border2); color: #6A6258; background: var(--card); cursor: default; }
+.lt-btn.primary { border-color: rgba(201,169,110,0.45); color: #9A7838; background: var(--accent-dim); }
+
+/* ── Playbook panel ── */
+.pb-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 24px 28px; margin-top: 10px; }
+.pb-head { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; margin-bottom: 4px; }
+.pb-title { font-size: 14px; font-weight: 600; color: var(--text); }
+.pb-sub { font-size: 12px; color: #7A7268; margin-bottom: 18px; }
+.pb-entry { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); text-align: center; padding: 8px 0 14px; }
+.pb-branches { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.pb-branch { background: var(--card2); border: 1px solid var(--border); border-radius: 10px; padding: 16px 18px; }
+.pb-tag { display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 3px 9px; border-radius: 3px; margin-bottom: 10px; }
+.pb-tag.hot { color: var(--green); background: var(--green-dim); }
+.pb-tag.slow { color: #9A7838; background: var(--accent-dim); }
+.pb-crit { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 12px; }
+.pb-step { display: grid; grid-template-columns: 16px 1fr; gap: 8px; font-size: 12px; color: #5A5248; line-height: 1.5; padding: 4px 0; }
+.pb-step-n { width: 16px; height: 16px; border-radius: 50%; background: var(--subtle); font-size: 9px; font-weight: 700; color: var(--muted); display: flex; align-items: center; justify-content: center; margin-top: 2px; }
+.pb-rule { margin-top: 12px; padding: 10px 14px; background: var(--bg); border: 1px dashed var(--border2); border-radius: 7px; font-size: 11px; color: #6A6258; line-height: 1.5; }
+.pb-rule strong { color: #4A4640; }
+.pb-foot { display: flex; align-items: center; gap: 8px; margin-top: 14px; }
+@media (max-width: 800px) { .pb-branches { grid-template-columns: 1fr; } }
+
+/* ── Clickable states ── */
+.ls.clickable { cursor: pointer; border-radius: 8px; transition: background 0.15s; padding: 8px 10px; margin: -8px -10px; }
+.ls.clickable:hover { background: var(--card2); }
+.ls.sel { background: var(--card2); box-shadow: inset 3px 0 0 var(--accent); }
+.pb-panel { display: none; }
+.pb-panel.open { display: block; }
+
+/* ── Signal intelligence grid ── */
+.si-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 10px; }
+.si-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 18px 20px; }
+.si-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #706860; margin-bottom: 10px; }
+.si-stat { font-size: 26px; font-weight: 300; letter-spacing: -0.02em; color: var(--text); line-height: 1; margin-bottom: 3px; }
+.si-label { font-size: 12px; font-weight: 500; color: #6A6258; margin-bottom: 8px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+.si-desc { font-size: 12px; color: var(--muted); line-height: 1.55; }
+
+/* ── Footer ── */
+.footer { padding: 36px 0 80px; font-size: 12px; color: var(--muted); text-align: center; letter-spacing: 0.04em; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#hero" class="nav-brand">AI Journey</a>
+  <span class="nav-pipe">·</span>
+  <span class="nav-sub">Agent Concept</span>
+  <div class="nav-links">
+    <a href="#setup">Setup</a>
+    <a href="#scenarios">Scenarios</a>
+    <a href="#log">Decision Log</a>
+    <a href="#portfolio">Portfolio</a>
+  </div>
+</nav>
+
+<div class="page">
+
+  <!-- The Shift (opener) -->
+  <section class="hero" id="hero">
+    <div class="narrow">
+      <div class="eyebrow">Agent Concept</div>
+      <h1>From trigger logic<br>to goal-driven engagement</h1>
+      <p class="lead">Today, AI Journey runs flows and campaigns as separate pre-configured sequences. A marketer sets a trigger. A sequence fires. A message goes out.</p>
+      <p class="lead">The agent model inverts this. A marketer confirms targets and guardrails. The agent evaluates every shopper, every incoming signal, and decides in real time — who to engage, when, and with what message.</p>
+      <div class="compare-grid">
+        <div class="compare-col">
+          <div class="ch">Today</div>
+          <div class="cr">Cart abandon flow fires when a cart is abandoned — regardless of what else is happening with the shopper.</div>
+          <div class="cr">Campaign blasts everyone in the segment at the scheduled send time — with no awareness of what flows are already running for that shopper.</div>
+          <div class="cr">Flows and campaigns run independently — a shopper can get a cart recovery and a campaign blast in the same day for different products.</div>
+          <div class="cr">Marketer configures a trigger and sequence for each flow type.</div>
+          <div class="cr">Lifecycle programs ship as separate flows you set up and switch on — a stage without a flow gets nothing.</div>
+        </div>
+        <div class="compare-col">
+          <div class="ch">Agent</div>
+          <div class="cr">Agent evaluates all active signals for each shopper and decides which to pursue — or whether to wait.</div>
+          <div class="cr">Campaign always reaches the full eligible segment. Agent personalizes each message and suppresses conflicting flows during the campaign window.</div>
+          <div class="cr">When a sale window and a live signal converge, one message carries both — merged, not competing.</div>
+          <div class="cr">Marketer states a goal once. AI handles execution per shopper, per signal.</div>
+          <div class="cr">Every shopper is always in exactly one lifecycle state, and every state is covered. The merchant confirms a target per state; the agent never misses a window.</div>
+        </div>
+      </div>
+      <p class="lead">Here's what that looks like in practice — Caitlyn Minimalist as the worked example.</p>
+    </div>
+  </section>
+
+  <!-- The example: Caitlyn Minimalist -->
+  <section id="example">
+    <div class="narrow">
+      <div class="eyebrow">The Example · Caitlyn Minimalist</div>
+      <h1 style="font-size:32px;">The second purchase<br>decides everything.</h1>
+      <p class="lead">Caitlyn Minimalist sells dainty personalized jewelry — name necklaces, birthstone pieces, everyday gold and silver staples — at a $52 average order. A record Christmas 2025 brought the biggest new-buyer wave in the brand's history, and the buying behaviour now has a clear shape:</p>
+    </div>
+
+    <div class="demand-grid">
+
+      <div class="dm-card">
+        <div class="dm-eyebrow">1 · The shape of the base</div>
+        <div class="dm-title">Acquisition is solved — repeat is not</div>
+        <div class="fn-row">
+          <div class="fn-k">Bought exactly once</div>
+          <div class="fn-bar"><div class="fn-fill" style="width:82.6%;background:#B8B0A4;"></div></div>
+          <div class="fn-v">82.6%</div>
+        </div>
+        <div class="fn-row">
+          <div class="fn-k" style="padding-left:10px;">↳ ever came back</div>
+          <div class="fn-bar"><div class="fn-fill" style="width:17.4%;background:var(--accent);"></div></div>
+          <div class="fn-v">17.4%</div>
+        </div>
+        <div class="fn-row">
+          <div class="fn-k" style="padding-left:10px;">↳ within 90 days</div>
+          <div class="fn-bar"><div class="fn-fill" style="width:11.3%;background:rgba(201,169,110,0.45);"></div></div>
+          <div class="fn-v">11.3%</div>
+        </div>
+        <div class="fn-note">374,115 identified shoppers since 2021. The team named it at kickoff: "the biggest gap is between the first and the second."</div>
+        <div class="dm-body">Holiday acquisition keeps working — the marketing question is what happens to the wave after the first box arrives.</div>
+      </div>
+
+      <div class="dm-card" style="border-color:var(--accent);">
+        <div class="dm-eyebrow">2 · The second-purchase gate</div>
+        <div class="dm-title">11.3% return within 90 days — and the window is fast</div>
+        <div class="at-scale">
+          <div class="at-median-lbl">Median · day 18</div>
+          <div class="at-track"></div>
+          <div class="at-window"></div>
+          <div class="at-median"></div>
+          <div class="at-tick" style="left:0%;">Day 0</div>
+          <div class="at-tick" style="left:33%;">Day 30</div>
+          <div class="at-tick" style="left:94%;">Day 90</div>
+        </div>
+        <div class="dm-body">Of first-time buyers who do come back within 90 days, 67% reorder in the first 30 days and 87% by day 60 — a far faster cycle than apparel. The most common second order is more of what worked: earrings buyers buy earrings again 47.5% of the time, with necklaces the next step at 20%.</div>
+        <div class="dm-chips">
+          <span class="dm-chip">Earrings → Earrings · 47.5%</span>
+          <span class="dm-chip">Necklaces → Necklaces · 39.7%</span>
+          <span class="dm-chip">67% of repeats by day 30</span>
+        </div>
+      </div>
+
+      <div class="dm-card">
+        <div class="dm-eyebrow">3 · What crossing the gate is worth</div>
+        <div class="dm-title">Repeat buyers carry 3× the lifetime value</div>
+        <div class="arc-steps">
+          <div class="arc-step"><div class="arc-bar" style="height:30px;">$52</div><div class="arc-lbl">One order<br>avg LTV</div></div>
+          <div class="arc-step"><div class="arc-bar" style="height:52px;">$161</div><div class="arc-lbl">Active repeat<br>avg LTV</div></div>
+          <div class="arc-step"><div class="arc-bar" style="height:64px;">$227</div><div class="arc-lbl">VIP · top 10%<br>avg LTV</div></div>
+        </div>
+        <div class="dm-body">"Once they've bought a second time, they'll usually continue purchasing" — the team's words at kickoff, and the data agrees: active repeats average 2.8 orders. The cost of the gap: 68.6% of the base is dormant today, 86% of them on exactly one order.</div>
+        <div class="dm-chips">
+          <span class="dm-chip">256,786 dormant shoppers</span>
+          <span class="dm-chip">$14.9M lifetime spend</span>
+          <span class="dm-chip">VIP = 34% of revenue</span>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="narrow">
+      <p class="lead">The business hinges on the second-purchase gate — and at a median of 18 days, the window closes fast. Getting the right next piece in front of a first-time buyer inside their first month is what the agent is built for. Here is what that looks like for Caitlyn Minimalist.</p>
+    </div>
+  </section>
+
+  <!-- Shopper Lifecycle Map -->
+  <section id="setup">
+    <div class="narrow">
+      <div class="eyebrow">The Shopper Lifecycle Map</div>
+      <h2>One journey. Always covered.</h2>
+      <p style="font-size:12px;color:var(--muted);margin-top:6px;">Windows, plays and targets from Caitlyn Minimalist's Shopify order history (374,115 identified shoppers, 2021 to June 2026) and the June 5 marketing kickoff.</p>
+    </div>
+
+    <div class="lifecycle-card">
+      <div class="lc-eyebrow">Caitlyn Minimalist · every shopper, one of four states</div>
+      <div class="lc-sub">A shopper moves through these states over months or years. The same agent follows them the whole way. Click a state to see the playbook the agent proposes for it.</div>
+      <div class="lifecycle-stages" style="grid-template-columns:1fr 18px 1.5fr 18px 1fr 18px 1fr;">
+
+        <div class="ls clickable" id="state-0" onclick="selectState(0)">
+          <div class="ls-bar accent"></div>
+          <div class="ls-name">Browsing</div>
+          <div class="ls-range">$52 pieces decide fast — free US shipping cuts the friction</div>
+          <div class="ls-action">The agent answers the question the shopper left with — size, metal, engraving, ships-by date — and uses the near-weekly promo calendar as the hook. It never invents a discount: the next sale window is always days away.</div>
+          <div class="ls-signals-row">Signals: browse depth · repeat views · cart · custom engraving started</div>
+          <div class="ls-target">
+            <div class="lt-label">Target · proposed by agent</div>
+            <div class="lt-line"><span class="lt-base">Browse → first baseline</span> → <span class="lt-goal">set after 30 days of signal data</span></div>
+            <div class="lt-status proposed">Instrumenting</div>
+            <div class="lt-actions"><span class="lt-btn primary">Confirm</span><span class="lt-btn">Adjust</span></div>
+          </div>
+        </div>
+
+        <div class="ls-connector">→</div>
+
+        <div class="ls clickable sel" id="state-1" onclick="selectState(1)">
+          <div class="ls-bar green"></div>
+          <div class="ls-name">First purchase</div>
+          <div class="ls-range">Window: 90 days · 67% of repeats land by day 30 · median day 18</div>
+          <div class="ls-action">11.3% come back for a second order. The agent leads with the proven next step — more of what worked (earrings → earrings, 47.5%), the adjacent category as the cross-sell (necklaces, 20%) — framed as completing the set, in their metal, with the live sale window merged in when one is open.</div>
+          <div class="ls-signals-row">21,324 shoppers inside their first 60 days today</div>
+          <div class="ls-target">
+            <div class="lt-label">Target · proposed by agent</div>
+            <div class="lt-line"><span class="lt-base">11.3% second purchase in 90d today</span> → <span class="lt-goal">15%</span></div>
+            <div class="lt-status proposed">Awaiting confirmation</div>
+            <div class="lt-actions"><span class="lt-btn primary">Confirm</span><span class="lt-btn">Adjust</span></div>
+          </div>
+        </div>
+
+        <div class="ls-connector">→</div>
+
+        <div class="ls clickable" id="state-2" onclick="selectState(2)">
+          <div class="ls-bar default"></div>
+          <div class="ls-name">Active repeat</div>
+          <div class="ls-range">Ongoing · the jewelry box builds out, piece by piece</div>
+          <div class="ls-action">The agent keeps momentum with same-metal drops and set-completion picks. Top-LTV shoppers (37,371 at $227 avg — 34% of all revenue) get first pick of heirloom and vintage launches — protected, never discounted into.</div>
+          <div class="ls-signals-row">29,997 active repeat shoppers · $161 avg LTV · 2.8 avg orders</div>
+          <div class="ls-target">
+            <div class="lt-label">Target · proposed by agent</div>
+            <div class="lt-line"><span class="lt-base">2.8 avg orders today</span> → <span class="lt-goal">3.2</span></div>
+            <div class="lt-status proposed">Awaiting confirmation</div>
+            <div class="lt-actions"><span class="lt-btn primary">Confirm</span><span class="lt-btn">Adjust</span></div>
+          </div>
+        </div>
+
+        <div class="ls-connector">→</div>
+
+        <div class="ls clickable" id="state-3" onclick="selectState(3)">
+          <div class="ls-bar orange"></div>
+          <div class="ls-name">Lapsed</div>
+          <div class="ls-range">Quiet for 180+ days</div>
+          <div class="ls-action">The agent re-engages on convergence only — a seasonal peak, a special launch, a birthstone moment. An ordinary sitewide sale alone isn't a reason to wake a dormant shopper, and in post-holiday health periods the state goes fully quiet to protect deliverability.</div>
+          <div class="ls-signals-row">256,786 shoppers — 68.6% of the base · $14.9M lifetime spend</div>
+          <div class="ls-target">
+            <div class="lt-label">Target · proposed by agent</div>
+            <div class="lt-line"><span class="lt-base">Baseline near zero today</span> → <span class="lt-goal">2% won back per quarter</span></div>
+            <div class="lt-status proposed">Awaiting confirmation</div>
+            <div class="lt-actions"><span class="lt-btn primary">Confirm</span><span class="lt-btn">Adjust</span></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Playbooks (one per state, toggled by the map) -->
+    <div class="pb-panel" id="pb-0">
+    <div class="pb-card">
+      <div class="pb-head">
+        <span class="lt-label" style="margin-bottom:0;">Playbook · proposed by agent</span>
+        <span class="pb-title">Browsing → first purchase</span>
+        <span style="font-size:12px;color:var(--muted);">target: set after 30 days of signal data</span>
+      </div>
+      <div class="pb-sub">Not every browser is the same shopper. The agent reads the signal heat and splits the state in two.</div>
+
+      <div class="pb-entry">New browse signal → the agent classifies ↓</div>
+
+      <div class="pb-branches">
+        <div class="pb-branch">
+          <div class="pb-tag hot">In-market · deciding now</div>
+          <div class="pb-crit">
+            <span class="dm-chip">Added to cart</span>
+            <span class="dm-chip">Started custom engraving</span>
+            <span class="dm-chip">Repeat views of one piece in hours</span>
+          </div>
+          <div class="pb-step"><div class="pb-step-n">1</div><div>Act the same evening — at $52 with free US shipping, the decision is live now.</div></div>
+          <div class="pb-step"><div class="pb-step-n">2</div><div>Lead with the piece and the direct path: size, metal, the link. If a sale window is live, merge it into the same message.</div></div>
+          <div class="pb-step"><div class="pb-step-n">3</div><div>A started engraving is the highest heat — the name they typed is the message. Answer the question, re-offer the link, nothing else.</div></div>
+        </div>
+
+        <div class="pb-branch">
+          <div class="pb-tag slow">Deliberating · browsing the case</div>
+          <div class="pb-crit">
+            <span class="dm-chip">Several pieces, no cart</span>
+            <span class="dm-chip">Visits spread over days</span>
+            <span class="dm-chip">Gift-occasion proximity</span>
+          </div>
+          <div class="pb-step"><div class="pb-step-n">1</div><div>Open with the answer they left with — ring size, gold vs. silver, the ships-by date if a gift occasion is near. Never an invented discount.</div></div>
+          <div class="pb-step"><div class="pb-step-n">2</div><div>Follow up only with a reason — the next calendar window opening, a restock, a fresh signal. The promo cadence is near-weekly; the agent waits for it rather than discounting ahead of it.</div></div>
+          <div class="pb-step"><div class="pb-step-n">3</div><div>No conversion by week 3 → drop to nurture. No pestering between moments.</div></div>
+        </div>
+      </div>
+
+      <div class="pb-rule"><strong>Movement between branches:</strong> a deliberator who re-views the same piece twice in a day — or starts an engraving — is promoted to in-market. A re-browse after nurture reopens the window. An open support ticket pauses everything.</div>
+
+      <div class="pb-foot">
+        <span class="lt-status proposed" style="margin-top:0;">Awaiting confirmation</span>
+        <span class="lt-btn primary">Confirm</span>
+        <span class="lt-btn">Adjust</span>
+      </div>
+    </div>
+    </div>
+
+    <div class="pb-panel open" id="pb-1">
+    <div class="pb-card">
+      <div class="pb-head">
+        <span class="lt-label" style="margin-bottom:0;">Playbook · proposed by agent</span>
+        <span class="pb-title">First purchase → second purchase</span>
+        <span style="font-size:12px;color:var(--muted);">target: 11.3% → 15% within 90 days</span>
+      </div>
+      <div class="pb-sub">The window is front-loaded — median day 18, 67% of repeats by day 30. The agent reads what the shopper does after the first box arrives, and it moves early.</div>
+
+      <div class="pb-entry">First order placed → the agent classifies ↓</div>
+
+      <div class="pb-branches">
+        <div class="pb-branch">
+          <div class="pb-tag hot">Showing a signal in the window</div>
+          <div class="pb-crit">
+            <span class="dm-chip">Browsing again</span>
+            <span class="dm-chip">New cart</span>
+            <span class="dm-chip">Replied to a campaign</span>
+          </div>
+          <div class="pb-step"><div class="pb-step-n">1</div><div>Act on the signal the same day — what they own is the context; their metal, stone and sizes are already on file.</div></div>
+          <div class="pb-step"><div class="pb-step-n">2</div><div>Lead with the proven path: more of what worked first (earrings → earrings, 47.5%), the adjacent category as the cross-sell (necklaces, 20%).</div></div>
+          <div class="pb-step"><div class="pb-step-n">3</div><div>If a sale window is live, merge it in — one message carries the cart and the sale. Carts and questions get the direct treatment: answer, link, done.</div></div>
+        </div>
+
+        <div class="pb-branch">
+          <div class="pb-tag slow">Quiet in the window</div>
+          <div class="pb-crit">
+            <span class="dm-chip">No signal since first order</span>
+            <span class="dm-chip">Day 10–25 of the window</span>
+            <span class="dm-chip">Metal and category on file</span>
+          </div>
+          <div class="pb-step"><div class="pb-step-n">1</div><div>First unprompted touch at day 10–25 — the median second order lands at day 18 and 67% land by day 30. Waiting for day 30 misses most of the window.</div></div>
+          <div class="pb-step"><div class="pb-step-n">2</div><div>Frame as completion: the matching piece in the same metal, free US shipping as the friction-cut. A live promo window is the preferred hook — never an invented discount.</div></div>
+          <div class="pb-step"><div class="pb-step-n">3</div><div>Day 90 with no second order → drop to nurture. Seasonal windows and special launches become the only touches.</div></div>
+        </div>
+      </div>
+
+      <div class="pb-rule"><strong>Movement between branches:</strong> any browse, cart, or reply promotes to the signal branch immediately. A second purchase moves the shopper to Active repeat. An open support ticket pauses everything.</div>
+
+      <div class="pb-foot">
+        <span class="lt-status proposed" style="margin-top:0;">Awaiting confirmation</span>
+        <span class="lt-btn primary">Confirm</span>
+        <span class="lt-btn">Adjust</span>
+      </div>
+    </div>
+    </div>
+
+    <div class="pb-panel" id="pb-2">
+    <div class="pb-card">
+      <div class="pb-head">
+        <span class="lt-label" style="margin-bottom:0;">Playbook · proposed by agent</span>
+        <span class="pb-title">Active repeat → loyalty</span>
+        <span style="font-size:12px;color:var(--muted);">target: 2.8 → 3.2 avg orders</span>
+      </div>
+      <div class="pb-sub">The team said it at kickoff: once they've bought a second time, they usually keep buying. The agent's job is momentum — the jewelry box builds out, piece by piece.</div>
+
+      <div class="pb-entry">Repeat buyer → the agent classifies ↓</div>
+
+      <div class="pb-branches">
+        <div class="pb-branch">
+          <div class="pb-tag hot">Showing a signal</div>
+          <div class="pb-crit">
+            <span class="dm-chip">Re-browsing</span>
+            <span class="dm-chip">New cart</span>
+            <span class="dm-chip">Asked a question</span>
+          </div>
+          <div class="pb-step"><div class="pb-step-n">1</div><div>Act same day, with their full jewelry-box history as context — every piece they own, every metal they wear.</div></div>
+          <div class="pb-step"><div class="pb-step-n">2</div><div>Recommend in their metal — gold buyers stay gold, silver stays silver — and complete the set before crossing categories.</div></div>
+        </div>
+
+        <div class="pb-branch">
+          <div class="pb-tag slow">Quiet between purchases</div>
+          <div class="pb-crit">
+            <span class="dm-chip">No signal since last order</span>
+            <span class="dm-chip">New drop in their metal</span>
+            <span class="dm-chip">Top-LTV tier</span>
+          </div>
+          <div class="pb-step"><div class="pb-step-n">1</div><div>Reach out on genuine moments only: a new drop in their metal and category, a restock of something they bought, their birthstone month.</div></div>
+          <div class="pb-step"><div class="pb-step-n">2</div><div>Top-LTV shoppers ($227 avg, 34% of all revenue) get early access and first pick of heirloom and vintage launches — never discounted into.</div></div>
+          <div class="pb-step"><div class="pb-step-n">3</div><div>Each touch needs a fresh reason — never the same hook twice into silence.</div></div>
+        </div>
+      </div>
+
+      <div class="pb-rule"><strong>Movement between branches:</strong> any signal promotes to the active branch. 180 days without a purchase or signal moves the shopper to Lapsed.</div>
+
+      <div class="pb-foot">
+        <span class="lt-status proposed" style="margin-top:0;">Awaiting confirmation</span>
+        <span class="lt-btn primary">Confirm</span>
+        <span class="lt-btn">Adjust</span>
+      </div>
+    </div>
+    </div>
+
+    <div class="pb-panel" id="pb-3">
+    <div class="pb-card">
+      <div class="pb-head">
+        <span class="lt-label" style="margin-bottom:0;">Playbook · proposed by agent</span>
+        <span class="pb-title">Lapsed → win-back</span>
+        <span style="font-size:12px;color:var(--muted);">target: 2% won back per quarter</span>
+      </div>
+      <div class="pb-sub">256,786 shoppers sit here — 86% of them bought exactly once. With a sale running near-weekly, the discipline isn't finding a hook; it's refusing the ordinary ones.</div>
+
+      <div class="pb-entry">Lapsed shopper → the agent classifies ↓</div>
+
+      <div class="pb-branches">
+        <div class="pb-branch">
+          <div class="pb-tag hot">Re-browse detected</div>
+          <div class="pb-crit">
+            <span class="dm-chip">Back on site</span>
+            <span class="dm-chip">Viewing a category</span>
+          </div>
+          <div class="pb-step"><div class="pb-step-n">1</div><div>The window reopens — treat like a browser again, with history: their metal, their sizes, what they own, what's launched in that category since.</div></div>
+          <div class="pb-step"><div class="pb-step-n">2</div><div>Answer the likely question for what they're viewing, same as any deliberator.</div></div>
+        </div>
+
+        <div class="pb-branch">
+          <div class="pb-tag slow">Still silent</div>
+          <div class="pb-crit">
+            <span class="dm-chip">No signal 180d+</span>
+            <span class="dm-chip">Seasonal peak or special launch</span>
+            <span class="dm-chip">Birthstone anniversary</span>
+          </div>
+          <div class="pb-step"><div class="pb-step-n">1</div><div>Re-engage only on real convergence: a seasonal peak (Mother's Day, the Halloween-to-Christmas run), a special collection launch, or a birthstone moment — a February amethyst gift makes next February a genuine reason.</div></div>
+          <div class="pb-step"><div class="pb-step-n">2</div><div>The hook is the moment, the context is what they own — never "we miss you." An ordinary sitewide window alone doesn't qualify.</div></div>
+          <div class="pb-step"><div class="pb-step-n">3</div><div>In post-holiday health periods (Jan–Feb) this state goes fully quiet — deliverability is the asset being protected. No response → wait for the next genuine moment, never the same hook twice.</div></div>
+        </div>
+      </div>
+
+      <div class="pb-rule"><strong>Movement between branches:</strong> a re-browse promotes immediately. A purchase moves the shopper back to Active repeat — they cleared the second-purchase gate once and the data says they'll keep buying.</div>
+
+      <div class="pb-foot">
+        <span class="lt-status proposed" style="margin-top:0;">Awaiting confirmation</span>
+        <span class="lt-btn primary">Confirm</span>
+        <span class="lt-btn">Adjust</span>
+      </div>
+    </div>
+    </div>
+
+    <!-- Cross-state rules -->
+    <div class="si-grid" style="grid-template-columns:repeat(3,1fr);margin-top:10px;">
+      <div class="si-card">
+        <div class="si-eyebrow">Campaign Intent</div>
+        <div class="si-stat">Worth sending?</div>
+        <div class="si-label">Per-shopper send check — every campaign</div>
+        <div class="si-desc">The promo calendar runs near-weekly, so almost every shopper is always inside or near a window — fatigue is the real risk. Before a campaign reaches a shopper, the agent checks its intent against the person: relevant to what they own and their metal · right lifecycle moment · no open CX issue. When the answer is no, that shopper is skipped.</div>
+      </div>
+      <div class="si-card">
+        <div class="si-eyebrow">Merge Logic</div>
+        <div class="si-stat">One message</div>
+        <div class="si-label">When signals converge — the kickoff decision</div>
+        <div class="si-desc">When a sale window and a live signal converge, one message carries both — the cart and the sale, merged. One exception: special launches. Vintage and heirloom drops lead alone — one-of-a-kind is its own hook. Regular drops yield to the cart context; there's a drop every week.</div>
+      </div>
+      <div class="si-card">
+        <div class="si-eyebrow">Deliverability</div>
+        <div class="si-stat">5 conditions</div>
+        <div class="si-label">When the agent holds — in any state</div>
+        <div class="si-desc">Active campaign window for a different message · Active conversation open · Support ticket unresolved · Message sent within 7 days · Shopper replied "not now" within 48h. Plus a seasonal mode: in post-holiday health periods, dormant outreach goes fully quiet. Opt-out guardrail: ≤2%.</div>
+      </div>
+    </div>
+
+    <!-- Guardrails -->
+    <div class="zoom-sep">Guardrails · set by Caitlyn Minimalist</div>
+    <div class="narrow">
+      <div class="config-strip">
+        <div class="cs-item">
+          <span class="cs-key">Frequency</span>
+          <span class="cs-val">Max 2 messages per shopper per week</span>
+        </div>
+        <div class="cs-item">
+          <span class="cs-key">Discounts</span>
+          <span class="cs-val">Calendar offers only — the promo team owns codes; the agent never invents a discount</span>
+        </div>
+        <div class="cs-item">
+          <span class="cs-key">Quiet hours</span>
+          <span class="cs-val">No messages 8pm–9am shopper-local · held, not dropped</span>
+        </div>
+        <div class="cs-item">
+          <span class="cs-key">Brand voice</span>
+          <span class="cs-val">Warm, first-person · gifting frame where natural · links inline, never on their own line</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Scenarios -->
+  <section id="scenarios">
+    <div class="eyebrow">Scenario Showcase</div>
+    <h2>Four shoppers. Four decisions. One playbook.</h2>
+    <p style="font-size:13px;color:var(--muted);margin-top:8px;">Ava and Mia run the First-purchase playbook; Sofia shows campaign personalization; Elena the Lapsed win-back. All four ride Caitlyn Minimalist's real June calendar — End of Spring (Jun 5), Birthstones + GEMEDIT (Jun 12), Father's Day (Jun 19), The Modern Heirloom Edit (Jun 25).</p>
+    <p style="font-size:13px;color:var(--muted);margin-top:8px;">Click any scenario to expand.</p>
+
+    <div class="scenario-list">
+
+      <!-- ─── Scenario 1: Ava ─── -->
+      <div class="sc open" id="s1">
+        <div class="sc-header" onclick="toggleCard(this.parentElement)">
+          <div class="sc-num">1</div>
+          <div class="sc-meta">
+            <div class="sc-name">Ava &mdash; Cart abandon during the End of Spring window</div>
+            <div class="sc-sigs">Tigers Eye Signet in cart 2.5 hrs, day 19 of her 90-day window + 25% sitewide live &nbsp;·&nbsp; classified: <strong>Showing a signal</strong></div>
+          </div>
+          <div class="badge b-merge">Merge</div>
+          <div class="sc-chevron">↓</div>
+        </div>
+        <div class="sc-body">
+          <div class="col-headers">
+            <div class="col-head">Insight</div>
+            <div class="col-head">Shopper Journey</div>
+            <div class="col-head">AI Journey · RCS</div>
+          </div>
+          <div class="sc-cols">
+
+            <!-- Insight -->
+            <div class="col-insight">
+              <div class="insight-hl">"When a sale window and a cart converge, one message carries both."</div>
+              <div class="insight-body">This is the exact case the team chose at kickoff: merge, don't arbitrate. Ava left the Tigers Eye Signet in her cart while the End of Spring sale (25% sitewide) was live. The agent led with the piece — retention orders here run 1–2 items, so single-piece focus converts — and let the sale handle the incentive. No invented discount, no competing messages, and the cart signal cleared on purchase.</div>
+              <div class="dp-grid">
+                <div>
+                  <div class="dp-k">First order</div>
+                  <div class="dp-v">$58</div>
+                  <div class="dp-sub">Emery Birthstone Necklace</div>
+                </div>
+                <div>
+                  <div class="dp-k">Active signals</div>
+                  <div class="dp-v">2</div>
+                  <div class="dp-sub">Cart + sale window</div>
+                </div>
+                <div>
+                  <div class="dp-k">Messages sent</div>
+                  <div class="dp-v">1</div>
+                  <div class="dp-sub">Merged</div>
+                </div>
+                <div>
+                  <div class="dp-k">Exchanges</div>
+                  <div class="dp-v">2</div>
+                  <div class="dp-sub">To purchase</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Journey -->
+            <div class="col-journey">
+              <div class="timeline">
+                <div class="t-evt">
+                  <div class="t-dot"></div>
+                  <div class="t-time">May 18 · Day 1</div>
+                  <div class="t-lbl">First purchase</div>
+                  <div class="t-desc">Emery Birthstone Necklace (Sterling Silver) · $58</div>
+                </div>
+                <div class="t-evt">
+                  <div class="t-dot"></div>
+                  <div class="t-time">Jun 6 · Day 19</div>
+                  <div class="t-lbl">Browsed Tigers Eye Signet</div>
+                  <div class="t-desc">Product page view · 4 min</div>
+                </div>
+                <div class="t-evt">
+                  <div class="t-dot"></div>
+                  <div class="t-time">Day 19 · +2h</div>
+                  <div class="t-lbl">Added to cart</div>
+                  <div class="t-desc">Tigers Eye Signet Ring (18K Gold) · $62</div>
+                </div>
+                <div class="t-evt">
+                  <div class="t-dot decision"></div>
+                  <div class="t-time">Day 19 · +2.5h</div>
+                  <div class="t-lbl">Agent evaluates</div>
+                  <div class="t-decision-box">Signal branch — cart inside the 90-day window, End of Spring window live (25% sitewide, ends Sunday). Merge: one message carries the cart and the sale.</div>
+                </div>
+                <div class="t-evt">
+                  <div class="t-dot"></div>
+                  <div class="t-time">Day 19 · +2.5h</div>
+                  <div class="t-lbl">RCS delivered</div>
+                  <div class="t-desc">Rich card · Tigers Eye Signet + sale note · 3 reply options</div>
+                </div>
+                <div class="t-evt">
+                  <div class="t-dot"></div>
+                  <div class="t-time">Day 19 · +3h</div>
+                  <div class="t-lbl">Sizing question</div>
+                  <div class="t-desc">"does it run true to size? I wear a 7"</div>
+                </div>
+                <div class="t-evt">
+                  <div class="t-dot converted"></div>
+                  <div class="t-time">Day 19 · +3h</div>
+                  <div class="t-lbl">Converted</div>
+                  <div class="t-desc">Tigers Eye Signet Ring purchased at 25% off · cart cleared</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- RCS -->
+            <div class="col-rcs">
+              <div class="rcs-window">
+                <div class="rcs-bar">
+                  <div class="rcs-avatar">CM</div>
+                  <div class="rcs-bname">Caitlyn Minimalist</div>
+                  <div class="rcs-verified">Verified Business</div>
+                </div>
+                <div class="rcs-msgs">
+                  <div class="rcs-card">
+                    <div class="rcs-card-img"><span class="rcs-card-img-label">Tigers Eye Signet Ring</span></div>
+                    <div class="rcs-card-body">
+                      <div class="rcs-card-prod">Tigers Eye Signet Ring</div>
+                      <div class="rcs-card-price">$62 &nbsp;·&nbsp; 18K Gold</div>
+                      <div class="rcs-card-msg">Ava — that Tigers Eye Signet is still in your cart, and through Sunday our End of Spring sale takes 25% off everything. Want to grab it before the window closes?</div>
+                    </div>
+                    <div class="rcs-card-actions">
+                      <div class="rcs-btn">1 · Grab it</div>
+                      <div class="rcs-btn">2 · Questions</div>
+                      <div class="rcs-btn">3 · Not now</div>
+                    </div>
+                  </div>
+                  <div class="rcs-row sh">
+                    <div class="rcs-bub sh">does it run true to size? I wear a 7</div>
+                  </div>
+                  <div class="rcs-row ob">
+                    <div class="rcs-bub ob">True to size — go with the US 7. It's a slim signet that sits flat against the finger, so no need to size up. The 25% comes off automatically at checkout through Sunday.</div>
+                  </div>
+                  <div class="rcs-row sh">
+                    <div class="rcs-bub sh">perfect, grabbing it</div>
+                  </div>
+                  <div class="rcs-row ob">
+                    <div class="rcs-bub ob">Here you go: caitlynminimalist.com/products/tigers-eye-signet-ring — size 7, discount applies at checkout.</div>
+                  </div>
+                  <div class="rcs-ts">Delivered · Read</div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── Scenario 2: Mia ─── -->
+      <div class="sc" id="s2">
+        <div class="sc-header" onclick="toggleCard(this.parentElement)">
+          <div class="sc-num">2</div>
+          <div class="sc-meta">
+            <div class="sc-name">Mia &mdash; Quiet first-timer, day 16 of the window</div>
+            <div class="sc-sigs">No signal since first order · median repeat lands day 18 &nbsp;·&nbsp; classified: <strong>Quiet in the window</strong></div>
+          </div>
+          <div class="badge b-engage">Engage</div>
+          <div class="sc-chevron">↓</div>
+        </div>
+        <div class="sc-body">
+          <div class="col-headers">
+            <div class="col-head">Insight</div>
+            <div class="col-head">Shopper Journey</div>
+            <div class="col-head">AI Journey · RCS</div>
+          </div>
+          <div class="sc-cols">
+
+            <div class="col-insight">
+              <div class="insight-hl">"With a median second order at day 18, silence on day 16 isn't early — it's the middle of the window."</div>
+              <div class="insight-body">67% of repeat purchases land by day 30 — a day-30 nudge would arrive after most of the window has already closed. The agent front-loads the first unprompted touch to day 10–25 and leads with the strongest pattern in the data: same-category completion. Earring buyers buy earrings again 47.5% of the time, so Mia's Pearl Bow Earrings point straight at the matching huggies — same metal, free shipping, no discount needed.</div>
+              <div class="dp-grid">
+                <div>
+                  <div class="dp-k">First order</div>
+                  <div class="dp-v">$48</div>
+                  <div class="dp-sub">Pearl Bow Earrings (18K Gold)</div>
+                </div>
+                <div>
+                  <div class="dp-k">Day of window</div>
+                  <div class="dp-v">16 / 90</div>
+                  <div class="dp-sub">Median repeat = day 18</div>
+                </div>
+                <div>
+                  <div class="dp-k">Messages sent</div>
+                  <div class="dp-v">1</div>
+                  <div class="dp-sub">AI-initiated</div>
+                </div>
+                <div>
+                  <div class="dp-k">Exchanges</div>
+                  <div class="dp-v">2</div>
+                  <div class="dp-sub">To purchase</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-journey">
+              <div class="timeline">
+                <div class="t-evt">
+                  <div class="t-dot"></div>
+                  <div class="t-time">May 31 · Day 1</div>
+                  <div class="t-lbl">First purchase</div>
+                  <div class="t-desc">Pearl Bow Earrings (18K Gold) · $48</div>
+                </div>
+                <div class="t-evt">
+                  <div class="t-dot" style="background:#E0D8D0;border-color:#C8C0B8;"></div>
+                  <div class="t-time">Days 2–15</div>
+                  <div class="t-lbl">Quiet</div>
+                  <div class="t-desc">No browsing · No clicks · No replies</div>
+                </div>
+                <div class="t-evt">
+                  <div class="t-dot decision"></div>
+                  <div class="t-time">Jun 15 · Day 16</div>
+                  <div class="t-lbl">Agent evaluates</div>
+                  <div class="t-decision-box">Quiet branch — day 16 of 90, inside the day 10–25 touch window. Same-category completion in her metal (18K gold), free shipping as the close. No sale window live for her segment — the piece is the hook.</div>
+                </div>
+                <div class="t-evt">
+                  <div class="t-dot"></div>
+                  <div class="t-time">Day 16</div>
+                  <div class="t-lbl">RCS delivered</div>
+                  <div class="t-desc">Rich card · Pearl Diamond Huggies · 3 reply options</div>
+                </div>
+                <div class="t-evt">
+                  <div class="t-dot"></div>
+                  <div class="t-time">Day 16 · +40m</div>
+                  <div class="t-lbl">Match question</div>
+                  <div class="t-desc">"do they match the bow earrings I got?"</div>
+                </div>
+                <div class="t-evt">
+                  <div class="t-dot converted"></div>
+                  <div class="t-time">Day 16 · +1h</div>
+                  <div class="t-lbl">Converted</div>
+                  <div class="t-desc">Pearl Diamond Huggies purchased · $55 · second order inside the hot window</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-rcs">
+              <div class="rcs-window">
+                <div class="rcs-bar">
+                  <div class="rcs-avatar">CM</div>
+                  <div class="rcs-bname">Caitlyn Minimalist</div>
+                  <div class="rcs-verified">Verified Business</div>
+                </div>
+                <div class="rcs-msgs">
+                  <div class="rcs-card">
+                    <div class="rcs-card-img"><span class="rcs-card-img-label">Pearl Diamond Huggies</span></div>
+                    <div class="rcs-card-body">
+                      <div class="rcs-card-prod">Pearl Diamond Huggies</div>
+                      <div class="rcs-card-price">$55 &nbsp;·&nbsp; 18K Gold</div>
+                      <div class="rcs-card-msg">Mia — your Pearl Bow earrings have a matching act. The Pearl Diamond Huggies are from the same pearl family, in the same warm gold, and most who own both wear them stacked. Free US shipping, as always.</div>
+                    </div>
+                    <div class="rcs-card-actions">
+                      <div class="rcs-btn">1 · Add them</div>
+                      <div class="rcs-btn">2 · See more pearls</div>
+                      <div class="rcs-btn">3 · Not now</div>
+                    </div>
+                  </div>
+                  <div class="rcs-row sh">
+                    <div class="rcs-bub sh">omg do they match the bow earrings I got?</div>
+                  </div>
+                  <div class="rcs-row ob">
+                    <div class="rcs-bub ob">Exactly the same 18K gold as your Bow earrings — the pearl tones sit together, so the stack reads as a set. If you want them in the rotation: caitlynminimalist.com/products/pearl-diamond-huggies — free shipping applies.</div>
+                  </div>
+                  <div class="rcs-row sh">
+                    <div class="rcs-bub sh">ordered 🥹</div>
+                  </div>
+                  <div class="rcs-ts">Delivered · Read</div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── Scenario 3: Sofia ─── -->
+      <div class="sc" id="s3">
+        <div class="sc-header" onclick="toggleCard(this.parentElement)">
+          <div class="sc-num">3</div>
+          <div class="sc-meta">
+            <div class="sc-name">Sofia &mdash; Browse history meets the birthstone campaign</div>
+            <div class="sc-sigs">2 views of the June alexandrite in May + GEMEDIT window opens Jun 12 &nbsp;·&nbsp; classified: <strong>Campaign · personalized</strong></div>
+          </div>
+          <div class="badge b-camp">Campaign first</div>
+          <div class="sc-chevron">↓</div>
+        </div>
+        <div class="sc-body">
+          <div class="col-headers">
+            <div class="col-head">Insight</div>
+            <div class="col-head">Shopper Journey</div>
+            <div class="col-head">AI Journey · RCS</div>
+          </div>
+          <div class="sc-cols">
+
+            <div class="col-insight">
+              <div class="insight-hl">"The campaign reaches everyone in the segment — the browse history is what makes it land."</div>
+              <div class="insight-body">The Back in Stock Birthstones campaign (25% off, code GEMEDIT) went to the full eligible segment. For Sofia, the agent had more to work with: she viewed the North Star in June alexandrite twice in May and never carted. The campaign message opened with the exact piece she'd been eyeing — back in stock, in its own birthday month — with the gifting frame kept on. When she pivoted to a February gift, the agent followed the thread instead of restarting.</div>
+              <div class="dp-grid">
+                <div>
+                  <div class="dp-k">Browse views</div>
+                  <div class="dp-v">2</div>
+                  <div class="dp-sub">North Star · June Alexandrite</div>
+                </div>
+                <div>
+                  <div class="dp-k">Campaign</div>
+                  <div class="dp-v">GEMEDIT</div>
+                  <div class="dp-sub">25% off birthstones · Jun 9–12</div>
+                </div>
+                <div>
+                  <div class="dp-k">Messages sent</div>
+                  <div class="dp-v">1</div>
+                  <div class="dp-sub">Campaign (personalized)</div>
+                </div>
+                <div>
+                  <div class="dp-k">Outcome</div>
+                  <div class="dp-v">Gift</div>
+                  <div class="dp-sub">Cross-stone purchase</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-journey">
+              <div class="timeline">
+                <div class="t-evt">
+                  <div class="t-dot"></div>
+                  <div class="t-time">May 24</div>
+                  <div class="t-lbl">Browsed North Star Necklace</div>
+                  <div class="t-desc">June Alexandrite · 18K Gold · no cart</div>
+                </div>
+                <div class="t-evt">
+                  <div class="t-dot"></div>
+                  <div class="t-time">May 27</div>
+                  <div class="t-lbl">Second view</div>
+                  <div class="t-desc">Same piece · sold out shortly after</div>
+                </div>
+                <div class="t-evt">
+                  <div class="t-dot"></div>
+                  <div class="t-time">Jun 12</div>
+                  <div class="t-lbl">Campaign window opens</div>
+                  <div class="t-desc">Back in Stock Birthstones + 25% off · code GEMEDIT · Sofia in segment</div>
+                </div>
+                <div class="t-evt">
+                  <div class="t-dot decision"></div>
+                  <div class="t-time">Jun 12</div>
+                  <div class="t-lbl">Agent evaluates</div>
+                  <div class="t-decision-box">Campaign wins its window — personalize with the browse: the exact piece she viewed twice is back in stock, and June is alexandrite's month. Gifting frame on.</div>
+                </div>
+                <div class="t-evt">
+                  <div class="t-dot"></div>
+                  <div class="t-time">Jun 12</div>
+                  <div class="t-lbl">Campaign RCS delivered</div>
+                  <div class="t-desc">Leads with her piece, carries the campaign offer</div>
+                </div>
+                <div class="t-evt">
+                  <div class="t-dot"></div>
+                  <div class="t-time">Jun 12 · +20m</div>
+                  <div class="t-lbl">Replied "2"</div>
+                  <div class="t-desc">Pivots to a February gift for her sister</div>
+                </div>
+                <div class="t-evt">
+                  <div class="t-dot converted"></div>
+                  <div class="t-time">Jun 12 · +30m</div>
+                  <div class="t-lbl">Converted</div>
+                  <div class="t-desc">Emery Birthstone Necklace · February Amethyst · GEMEDIT applied</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-rcs">
+              <div class="rcs-window">
+                <div class="rcs-bar">
+                  <div class="rcs-avatar">CM</div>
+                  <div class="rcs-bname">Caitlyn Minimalist</div>
+                  <div class="rcs-verified">Verified Business</div>
+                </div>
+                <div class="rcs-msgs">
+                  <div class="rcs-card">
+                    <div class="rcs-card-img"><span class="rcs-card-img-label">North Star Necklace</span></div>
+                    <div class="rcs-card-body">
+                      <div class="rcs-card-prod">North Star Birthstone Necklace</div>
+                      <div class="rcs-card-price">$58 &nbsp;·&nbsp; June Alexandrite · 18K Gold</div>
+                      <div class="rcs-card-msg">Sofia — the North Star in June alexandrite you were looking at is back in stock, and birthstones are 25% off with GEMEDIT through tonight. Perfect if there's a June birthday on your list — or if the June birthday is you.</div>
+                    </div>
+                    <div class="rcs-card-actions">
+                      <div class="rcs-btn">1 · Grab it</div>
+                      <div class="rcs-btn">2 · Other birthstones</div>
+                      <div class="rcs-btn">3 · Not now</div>
+                    </div>
+                  </div>
+                  <div class="rcs-row sh">
+                    <div class="rcs-bub sh">2 — my sister's birthday is february</div>
+                  </div>
+                  <div class="rcs-row ob">
+                    <div class="rcs-bub ob">February is amethyst. The Emery Birthstone Necklace carries it beautifully — sterling silver or 18K gold, and GEMEDIT works on it too: caitlynminimalist.com/collections/birthstones — filter to February.</div>
+                  </div>
+                  <div class="rcs-row sh">
+                    <div class="rcs-bub sh">the gold one, thank you!!</div>
+                  </div>
+                  <div class="rcs-ts">Delivered · Read</div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── Scenario 4: Elena ─── -->
+      <div class="sc" id="s4">
+        <div class="sc-header" onclick="toggleCard(this.parentElement)">
+          <div class="sc-num">4</div>
+          <div class="sc-meta">
+            <div class="sc-name">Elena &mdash; Dormant 13 months, special-collection launch</div>
+            <div class="sc-sigs">396 days quiet + The Modern Heirloom Edit launches Jun 25 &nbsp;·&nbsp; <strong>Lapsed</strong> — convergence reopens the window</div>
+          </div>
+          <div class="badge b-re">Re-engage</div>
+          <div class="sc-chevron">↓</div>
+        </div>
+        <div class="sc-body">
+          <div class="col-headers">
+            <div class="col-head">Insight</div>
+            <div class="col-head">Shopper Journey</div>
+            <div class="col-head">AI Journey · RCS</div>
+          </div>
+          <div class="sc-cols">
+
+            <div class="col-insight">
+              <div class="insight-hl">"Special launches are the one moment that leads alone — and the only kind worth waking a dormant shopper for."</div>
+              <div class="insight-body">Elena bought the Mothers Duo Birthstone Ring for Mother's Day 2025 and went silent. With a sale running near-weekly, the agent had eleven sitewide windows it could have used — and held through all of them: an ordinary discount isn't a reason at 13 months quiet. The Modern Heirloom Edit launch was different — a special collection that matched her sentimental purchase history. The launch is the moment, the ring she gave is the context. Never "we miss you."</div>
+              <div class="dp-grid">
+                <div>
+                  <div class="dp-k">First order</div>
+                  <div class="dp-v">$62</div>
+                  <div class="dp-sub">Mothers Duo Birthstone Ring</div>
+                </div>
+                <div>
+                  <div class="dp-k">Days dormant</div>
+                  <div class="dp-v">396</div>
+                  <div class="dp-sub">No organic activity</div>
+                </div>
+                <div>
+                  <div class="dp-k">Windows held</div>
+                  <div class="dp-v">11</div>
+                  <div class="dp-sub">Ordinary promos skipped</div>
+                </div>
+                <div>
+                  <div class="dp-k">Outreach type</div>
+                  <div class="dp-v">Proactive</div>
+                  <div class="dp-sub">Agent initiated</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-journey">
+              <div class="timeline">
+                <div class="t-evt">
+                  <div class="t-dot"></div>
+                  <div class="t-time">May 2025</div>
+                  <div class="t-lbl">First purchase</div>
+                  <div class="t-desc">Mothers Duo Birthstone Ring (18K Gold) · $62 · Mother's Day gift</div>
+                </div>
+                <div class="t-evt">
+                  <div class="t-dot" style="background:#E0D8D0;border-color:#C8C0B8;"></div>
+                  <div class="t-time">Jun 2025 – Jun 2026</div>
+                  <div class="t-lbl">Dormant</div>
+                  <div class="t-desc">No browsing · No clicks · No replies</div>
+                </div>
+                <div class="t-evt">
+                  <div class="t-dot held"></div>
+                  <div class="t-time">Nov 2025 → May 2026</div>
+                  <div class="t-lbl">Eleven sale windows — held</div>
+                  <div class="t-decision-box held">Still-silent branch, no convergence — an ordinary sitewide window alone isn't a reason to wake a dormant shopper. Deliverability protected.</div>
+                </div>
+                <div class="t-evt">
+                  <div class="t-dot"></div>
+                  <div class="t-time">Jun 25</div>
+                  <div class="t-lbl">The Modern Heirloom Edit launches</div>
+                  <div class="t-desc">Special collection · 25% off launch week · Elena's history matches</div>
+                </div>
+                <div class="t-evt">
+                  <div class="t-dot re"></div>
+                  <div class="t-time">Jun 25</div>
+                  <div class="t-lbl">Agent evaluates</div>
+                  <div class="t-decision-box re">Lapsed, still-silent branch — convergence: a special launch that matches her sentimental history. The launch is the moment, the ring she gave is the context — never "we miss you."</div>
+                </div>
+                <div class="t-evt">
+                  <div class="t-dot"></div>
+                  <div class="t-time">Jun 25</div>
+                  <div class="t-lbl">RCS delivered</div>
+                  <div class="t-desc">Heirloom frame · her Mother's Day gift as the bridge</div>
+                </div>
+                <div class="t-evt">
+                  <div class="t-dot converted"></div>
+                  <div class="t-time">Jun 25</div>
+                  <div class="t-lbl">Converted</div>
+                  <div class="t-desc">Engraved heirloom locket purchased · LTV extended after 13 months</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-rcs">
+              <div class="rcs-window">
+                <div class="rcs-bar">
+                  <div class="rcs-avatar">CM</div>
+                  <div class="rcs-bname">Caitlyn Minimalist</div>
+                  <div class="rcs-verified">Verified Business</div>
+                </div>
+                <div class="rcs-msgs">
+                  <div class="rcs-card">
+                    <div class="rcs-card-img"><span class="rcs-card-img-label">The Modern Heirloom Edit</span></div>
+                    <div class="rcs-card-body">
+                      <div class="rcs-card-prod">The Modern Heirloom Edit</div>
+                      <div class="rcs-card-price">New collection &nbsp;·&nbsp; 25% off launch week</div>
+                      <div class="rcs-card-msg">Elena — last spring you gave the Mothers Duo Birthstone Ring. We just launched The Modern Heirloom Edit: pieces made to be kept and passed down, 25% off through launch week. It felt like your kind of collection.</div>
+                    </div>
+                    <div class="rcs-card-actions">
+                      <div class="rcs-btn">1 · See the Edit</div>
+                      <div class="rcs-btn">2 · Engravable pieces</div>
+                      <div class="rcs-btn">3 · Not now</div>
+                    </div>
+                  </div>
+                  <div class="rcs-row sh">
+                    <div class="rcs-bub sh">these are gorgeous. do any of them take engraving?</div>
+                  </div>
+                  <div class="rcs-row ob">
+                    <div class="rcs-bub ob">Three of them do — the locket, the signet, and the horizontal bar. The locket holds two photos and engraves on the back, which makes it the most-gifted of the three. They're all here: caitlynminimalist.com/collections/modern-heirloom-edit — engravable pieces are marked.</div>
+                  </div>
+                  <div class="rcs-row sh">
+                    <div class="rcs-bub sh">the locket. my mom is going to cry</div>
+                  </div>
+                  <div class="rcs-ts">Delivered · Read</div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Decision Log -->
+  <section id="log">
+    <div class="narrow">
+      <div class="eyebrow">Decision Log</div>
+      <h2>Every decision, legible</h2>
+      <p style="font-size:13px;color:var(--muted);margin-top:8px;">The agent's reasoning is visible and auditable — not a black box. Including the sends it didn't make.</p>
+      <table class="log-table">
+        <thead>
+          <tr>
+            <th>Shopper</th>
+            <th>Signals</th>
+            <th>Decision</th>
+            <th>Rationale</th>
+            <th>Sent?</th>
+            <th>Outcome</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Ava</td>
+            <td>Cart abandon + End of Spring window</td>
+            <td><span class="badge b-merge">Merge</span></td>
+            <td>Signal branch with a live sale window — one message carried the cart and the sale; no invented discount</td>
+            <td>Yes (merged)</td>
+            <td>Converted</td>
+          </tr>
+          <tr>
+            <td>Mia</td>
+            <td>Day-16 silence in the 90-day window</td>
+            <td><span class="badge b-engage">Engage</span></td>
+            <td>Quiet branch — median repeat lands day 18, 67% by day 30; same-category completion in her metal</td>
+            <td>Yes</td>
+            <td>Converted</td>
+          </tr>
+          <tr>
+            <td>Sofia</td>
+            <td>Birthstone campaign window + 2 browse views</td>
+            <td><span class="badge b-camp">Campaign first</span></td>
+            <td>Campaign wins its window — personalized with the restocked piece she viewed twice; gifting frame kept</td>
+            <td>Yes (campaign)</td>
+            <td>Converted — cross-stone gift</td>
+          </tr>
+          <tr>
+            <td>Elena</td>
+            <td>396d dormant + Heirloom Edit launch</td>
+            <td><span class="badge b-re">Re-engage</span></td>
+            <td>Still-silent branch — a special launch matched her sentimental history; 11 ordinary windows held before it</td>
+            <td>Yes</td>
+            <td>Converted</td>
+          </tr>
+          <tr>
+            <td>Nora</td>
+            <td>7 months dormant · End of Spring window (Jun 5)</td>
+            <td><span class="badge b-hold">Hold</span></td>
+            <td>Still-silent branch, no convergence — an ordinary sitewide discount isn't a reason; deliverability protected</td>
+            <td>No</td>
+            <td>Re-queued — next genuine moment</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Portfolio -->
+  <section id="portfolio">
+    <div class="narrow">
+      <div class="eyebrow">Portfolio View</div>
+      <h2>Agent performance</h2>
+      <div class="portfolio-card">
+        <div class="p-label">Agent · Caitlyn Minimalist · all lifecycle states &nbsp;·&nbsp; June 5–30, 2026</div>
+        <div class="metrics-grid">
+          <div>
+            <div class="m-val">5</div>
+            <div class="m-key">Shoppers evaluated</div>
+          </div>
+          <div>
+            <div class="m-val">4</div>
+            <div class="m-key">Messages sent</div>
+            <div class="m-sub">1 held — no convergence</div>
+          </div>
+          <div>
+            <div class="m-val">4 / 4</div>
+            <div class="m-key">Conversions</div>
+            <div class="m-sub">100% of messaged shoppers</div>
+          </div>
+          <div>
+            <div class="m-val">1.0×</div>
+            <div class="m-key">Avg messages to conversion</div>
+          </div>
+          <div>
+            <div class="m-val">1</div>
+            <div class="m-key">Signals merged</div>
+            <div class="m-sub">Cart + sale → 1 message</div>
+          </div>
+          <div>
+            <div class="m-val">0</div>
+            <div class="m-key">Opt-outs</div>
+            <div class="m-sub">0.0% · guardrail ≤2%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="footer">AI Journey &nbsp;·&nbsp; Agent Concept &nbsp;·&nbsp; Caitlyn Minimalist &nbsp;·&nbsp; June 2026</div>
+
+</div>
+
+<script>
+  function toggleCard(el) {
+    el.classList.toggle('open');
+  }
+  function selectState(i) {
+    for (var n = 0; n < 4; n++) {
+      var s = document.getElementById('state-' + n);
+      var p = document.getElementById('pb-' + n);
+      if (s) s.classList.toggle('sel', n === i);
+      if (p) p.classList.toggle('open', n === i);
+    }
+  }
+</script>
+</body>
+</html>
