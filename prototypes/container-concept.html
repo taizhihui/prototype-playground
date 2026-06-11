@@ -320,6 +320,32 @@ h2 { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; }
 .lt-btn { font-size: 10px; font-weight: 500; padding: 3px 10px; border-radius: 11px; border: 1px solid var(--border2); color: #6A6258; background: var(--card); cursor: default; }
 .lt-btn.primary { border-color: rgba(201,169,110,0.45); color: #9A7838; background: var(--accent-dim); }
 
+/* ── Playbook panel ── */
+.pb-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 24px 28px; margin-top: 10px; }
+.pb-head { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; margin-bottom: 4px; }
+.pb-title { font-size: 14px; font-weight: 600; color: var(--text); }
+.pb-sub { font-size: 12px; color: #7A7268; margin-bottom: 18px; }
+.pb-entry { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); text-align: center; padding: 8px 0 14px; }
+.pb-branches { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.pb-branch { background: var(--card2); border: 1px solid var(--border); border-radius: 10px; padding: 16px 18px; }
+.pb-tag { display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 3px 9px; border-radius: 3px; margin-bottom: 10px; }
+.pb-tag.hot { color: var(--green); background: var(--green-dim); }
+.pb-tag.slow { color: #9A7838; background: var(--accent-dim); }
+.pb-crit { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 12px; }
+.pb-step { display: grid; grid-template-columns: 16px 1fr; gap: 8px; font-size: 12px; color: #5A5248; line-height: 1.5; padding: 4px 0; }
+.pb-step-n { width: 16px; height: 16px; border-radius: 50%; background: var(--subtle); font-size: 9px; font-weight: 700; color: var(--muted); display: flex; align-items: center; justify-content: center; margin-top: 2px; }
+.pb-rule { margin-top: 12px; padding: 10px 14px; background: var(--bg); border: 1px dashed var(--border2); border-radius: 7px; font-size: 11px; color: #6A6258; line-height: 1.5; }
+.pb-rule strong { color: #4A4640; }
+.pb-foot { display: flex; align-items: center; gap: 8px; margin-top: 14px; }
+@media (max-width: 800px) { .pb-branches { grid-template-columns: 1fr; } }
+
+/* ── Clickable states ── */
+.ls.clickable { cursor: pointer; border-radius: 8px; transition: background 0.15s; padding: 8px 10px; margin: -8px -10px; }
+.ls.clickable:hover { background: var(--card2); }
+.ls.sel { background: var(--card2); box-shadow: inset 3px 0 0 var(--accent); }
+.pb-panel { display: none; }
+.pb-panel.open { display: block; }
+
 /* ── Signal intelligence grid ── */
 .si-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 10px; }
 .si-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 18px 20px; }
@@ -478,10 +504,10 @@ h2 { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; }
 
     <div class="lifecycle-card">
       <div class="lc-eyebrow">ONE BONE · every shopper, one of four states</div>
-      <div class="lc-sub">A shopper moves through these states over months or years. The same agent follows them the whole way.</div>
+      <div class="lc-sub">A shopper moves through these states over months or years. The same agent follows them the whole way. Click a state to see the playbook the agent proposes for it.</div>
       <div class="lifecycle-stages" style="grid-template-columns:1fr 18px 1fr 18px 1fr 18px 1fr;">
 
-        <div class="ls">
+        <div class="ls clickable" id="state-0" onclick="selectState(0)">
           <div class="ls-bar accent"></div>
           <div class="ls-name">Browsing</div>
           <div class="ls-range">Deliberation runs up to ~3 weeks</div>
@@ -497,7 +523,7 @@ h2 { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; }
 
         <div class="ls-connector">→</div>
 
-        <div class="ls">
+        <div class="ls clickable sel" id="state-1" onclick="selectState(1)">
           <div class="ls-bar green"></div>
           <div class="ls-name">First purchase</div>
           <div class="ls-range">Window: 90 days · 81% of repeats land by day 60 · median day 57</div>
@@ -512,7 +538,7 @@ h2 { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; }
 
         <div class="ls-connector">→</div>
 
-        <div class="ls">
+        <div class="ls clickable" id="state-2" onclick="selectState(2)">
           <div class="ls-bar default"></div>
           <div class="ls-name">Active repeat</div>
           <div class="ls-range">Ongoing · loyalty compounds: 48% make a third order, 53% a fourth</div>
@@ -528,7 +554,7 @@ h2 { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; }
 
         <div class="ls-connector">→</div>
 
-        <div class="ls">
+        <div class="ls clickable" id="state-3" onclick="selectState(3)">
           <div class="ls-bar orange"></div>
           <div class="ls-name">Lapsed</div>
           <div class="ls-range">Quiet for 180+ days</div>
@@ -543,6 +569,189 @@ h2 { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; }
         </div>
 
       </div>
+    </div>
+
+    <!-- Playbooks (one per state, toggled by the map) -->
+    <div class="pb-panel" id="pb-0">
+    <div class="pb-card">
+      <div class="pb-head">
+        <span class="lt-label" style="margin-bottom:0;">Playbook · proposed by agent</span>
+        <span class="pb-title">Browsing → first purchase</span>
+        <span style="font-size:12px;color:var(--muted);">target: 2.8% → 3.5%</span>
+      </div>
+      <div class="pb-sub">Not every browser is the same shopper. The agent reads the signal heat and splits the state in two.</div>
+
+      <div class="pb-entry">New browse signal → the agent classifies ↓</div>
+
+      <div class="pb-branches">
+        <div class="pb-branch">
+          <div class="pb-tag hot">In-market · deciding now</div>
+          <div class="pb-crit">
+            <span class="dm-chip">Added to cart</span>
+            <span class="dm-chip">Shopping Assistant session</span>
+            <span class="dm-chip">Repeat views of one product in hours</span>
+          </div>
+          <div class="pb-step"><div class="pb-step-n">1</div><div>Act the same evening — the decision is live now.</div></div>
+          <div class="pb-step"><div class="pb-step-n">2</div><div>Lead with the product and the direct path: the link, the size answer, the sale price if one is running.</div></div>
+          <div class="pb-step"><div class="pb-step-n">3</div><div>If they reply with a fit question, answer it and re-offer the link — nothing else.</div></div>
+        </div>
+
+        <div class="pb-branch">
+          <div class="pb-tag slow">Deliberating · weighing the fit</div>
+          <div class="pb-crit">
+            <span class="dm-chip">Browsed and left, no cart</span>
+            <span class="dm-chip">Visits spread over days</span>
+            <span class="dm-chip">Same category, several products</span>
+          </div>
+          <div class="pb-step"><div class="pb-step-n">1</div><div>Open with the fit answer — sizing for their build is the question they left with. Never a discount.</div></div>
+          <div class="pb-step"><div class="pb-step-n">2</div><div>One paced follow-up inside the three-week deliberation window, on the next signal or a live promo.</div></div>
+          <div class="pb-step"><div class="pb-step-n">3</div><div>No conversion by week 3 → drop to nurture. No pestering between moments.</div></div>
+        </div>
+      </div>
+
+      <div class="pb-rule"><strong>Movement between branches:</strong> a deliberator who re-views the same product twice in a day is promoted to in-market. A re-browse after nurture reopens the window. An open support ticket pauses everything.</div>
+
+      <div class="pb-foot">
+        <span class="lt-status proposed" style="margin-top:0;">Awaiting confirmation</span>
+        <span class="lt-btn primary">Confirm</span>
+        <span class="lt-btn">Adjust</span>
+      </div>
+    </div>
+    </div>
+
+    <div class="pb-panel open" id="pb-1">
+    <div class="pb-card">
+      <div class="pb-head">
+        <span class="lt-label" style="margin-bottom:0;">Playbook · proposed by agent</span>
+        <span class="pb-title">First purchase → second purchase</span>
+        <span style="font-size:12px;color:var(--muted);">target: 22.7% → 35% within 90 days</span>
+      </div>
+      <div class="pb-sub">The 90-day window decides everything. The agent reads what the shopper does after the first order arrives.</div>
+
+      <div class="pb-entry">First order placed → the agent classifies ↓</div>
+
+      <div class="pb-branches">
+        <div class="pb-branch">
+          <div class="pb-tag hot">Showing a signal in the window</div>
+          <div class="pb-crit">
+            <span class="dm-chip">Browsing again</span>
+            <span class="dm-chip">New cart</span>
+            <span class="dm-chip">Shopping Assistant session</span>
+          </div>
+          <div class="pb-step"><div class="pb-step-n">1</div><div>Act on the signal the same day — what they own is the context, their size is already known.</div></div>
+          <div class="pb-step"><div class="pb-step-n">2</div><div>Lead with the proven path: more of what worked first (tees → tees, 49%), the complementary category as the cross-sell (bottoms, 15%).</div></div>
+          <div class="pb-step"><div class="pb-step-n">3</div><div>Carts and questions get the direct treatment: answer, link, done.</div></div>
+        </div>
+
+        <div class="pb-branch">
+          <div class="pb-tag slow">Quiet in the window</div>
+          <div class="pb-crit">
+            <span class="dm-chip">No signal since first order</span>
+            <span class="dm-chip">Day 30–60 of the window</span>
+            <span class="dm-chip">Size and category on file</span>
+          </div>
+          <div class="pb-step"><div class="pb-step-n">1</div><div>One outreach in the day 30–60 stretch — 81% of second orders land by day 60, median day 57.</div></div>
+          <div class="pb-step"><div class="pb-step-n">2</div><div>Recommend the most common next purchase for what they bought, in their size. A live promo window is the preferred hook.</div></div>
+          <div class="pb-step"><div class="pb-step-n">3</div><div>Day 90 with no second order → drop to nurture. New drops and promos become the only touches.</div></div>
+        </div>
+      </div>
+
+      <div class="pb-rule"><strong>Movement between branches:</strong> any browse, cart, or reply promotes to the signal branch immediately. A second purchase moves the shopper to Active repeat. An open support ticket pauses everything.</div>
+
+      <div class="pb-foot">
+        <span class="lt-status confirmed" style="margin-top:0;">Confirmed</span>
+      </div>
+    </div>
+    </div>
+
+    <div class="pb-panel" id="pb-2">
+    <div class="pb-card">
+      <div class="pb-head">
+        <span class="lt-label" style="margin-bottom:0;">Playbook · proposed by agent</span>
+        <span class="pb-title">Active repeat → loyalty</span>
+        <span style="font-size:12px;color:var(--muted);">target: 48% → 55%</span>
+      </div>
+      <div class="pb-sub">Loyalty compounds — 48% of second-time buyers order a third time, 53% a fourth. The agent's job is momentum, not volume.</div>
+
+      <div class="pb-entry">Repeat buyer → the agent classifies ↓</div>
+
+      <div class="pb-branches">
+        <div class="pb-branch">
+          <div class="pb-tag hot">Showing a signal</div>
+          <div class="pb-crit">
+            <span class="dm-chip">Re-browsing</span>
+            <span class="dm-chip">New cart</span>
+            <span class="dm-chip">Asked a question</span>
+          </div>
+          <div class="pb-step"><div class="pb-step-n">1</div><div>Act same day, with their full wardrobe history as context.</div></div>
+          <div class="pb-step"><div class="pb-step-n">2</div><div>Recommend the category they haven't tried yet, in their size — the wardrobe builds out, not up.</div></div>
+        </div>
+
+        <div class="pb-branch">
+          <div class="pb-tag slow">Quiet between purchases</div>
+          <div class="pb-crit">
+            <span class="dm-chip">No signal since last order</span>
+            <span class="dm-chip">New drop in their size</span>
+            <span class="dm-chip">Top-LTV tier</span>
+          </div>
+          <div class="pb-step"><div class="pb-step-n">1</div><div>Reach out on genuine moments only: a new drop in their size and category, a restock of something they bought.</div></div>
+          <div class="pb-step"><div class="pb-step-n">2</div><div>Top-LTV shoppers ($1,323 avg) get early access and first pick — never discounted into.</div></div>
+          <div class="pb-step"><div class="pb-step-n">3</div><div>Maximum one drop touch per month outside campaigns.</div></div>
+        </div>
+      </div>
+
+      <div class="pb-rule"><strong>Movement between branches:</strong> any signal promotes to the active branch. 180 days without a purchase or signal moves the shopper to Lapsed.</div>
+
+      <div class="pb-foot">
+        <span class="lt-status proposed" style="margin-top:0;">Awaiting confirmation</span>
+        <span class="lt-btn primary">Confirm</span>
+        <span class="lt-btn">Adjust</span>
+      </div>
+    </div>
+    </div>
+
+    <div class="pb-panel" id="pb-3">
+    <div class="pb-card">
+      <div class="pb-head">
+        <span class="lt-label" style="margin-bottom:0;">Playbook · proposed by agent</span>
+        <span class="pb-title">Lapsed → win-back</span>
+        <span style="font-size:12px;color:var(--muted);">target: 2% won back per quarter</span>
+      </div>
+      <div class="pb-sub">8,421 shoppers sit here — 39% of past repeat buyers among them. They found a fit that worked once; the agent waits for the reason to remind them.</div>
+
+      <div class="pb-entry">Lapsed shopper → the agent classifies ↓</div>
+
+      <div class="pb-branches">
+        <div class="pb-branch">
+          <div class="pb-tag hot">Re-browse detected</div>
+          <div class="pb-crit">
+            <span class="dm-chip">Back on site</span>
+            <span class="dm-chip">Viewing a category</span>
+          </div>
+          <div class="pb-step"><div class="pb-step-n">1</div><div>The window reopens — treat like a browser again, with history: their size, what they bought, what's new in that category since.</div></div>
+          <div class="pb-step"><div class="pb-step-n">2</div><div>Answer the likely fit question for what they're viewing, same as any deliberator.</div></div>
+        </div>
+
+        <div class="pb-branch">
+          <div class="pb-tag slow">Still silent</div>
+          <div class="pb-crit">
+            <span class="dm-chip">No signal 180d+</span>
+            <span class="dm-chip">Campaign or new-drop window</span>
+          </div>
+          <div class="pb-step"><div class="pb-step-n">1</div><div>Re-engage only on convergence: a live sale or a new drop in their size and category.</div></div>
+          <div class="pb-step"><div class="pb-step-n">2</div><div>The hook is the moment, the context is what they own — never "we miss you."</div></div>
+          <div class="pb-step"><div class="pb-step-n">3</div><div>Maximum one win-back attempt per quarter. No response → wait for the next genuine moment.</div></div>
+        </div>
+      </div>
+
+      <div class="pb-rule"><strong>Movement between branches:</strong> a re-browse promotes immediately. A purchase moves the shopper back to Active repeat — they cleared the second-purchase gate once and the odds compound from there.</div>
+
+      <div class="pb-foot">
+        <span class="lt-status proposed" style="margin-top:0;">Awaiting confirmation</span>
+        <span class="lt-btn primary">Confirm</span>
+        <span class="lt-btn">Adjust</span>
+      </div>
+    </div>
     </div>
 
     <!-- Cross-state rules -->
@@ -588,7 +797,8 @@ h2 { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; }
   <!-- Scenarios -->
   <section id="scenarios">
     <div class="eyebrow">Scenario Showcase</div>
-    <h2>Four shoppers. Four decisions.</h2>
+    <h2>Four shoppers. Four decisions. One playbook.</h2>
+    <p style="font-size:13px;color:var(--muted);margin-top:8px;">Blake, Marcus and Tyler run the First-purchase playbook; Jordan shows the Lapsed win-back.</p>
     <p style="font-size:13px;color:var(--muted);margin-top:8px;">Click any scenario to expand.</p>
 
     <div class="scenario-list">
@@ -599,7 +809,7 @@ h2 { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; }
           <div class="sc-num">1</div>
           <div class="sc-meta">
             <div class="sc-name">Blake &mdash; Cart abandon</div>
-            <div class="sc-sigs">1 signal &nbsp;·&nbsp; Yacht Shirt added to cart 2.5 hours ago</div>
+            <div class="sc-sigs">Yacht Shirt in cart 2.5 hrs, day 5 of his 90-day window &nbsp;·&nbsp; classified: <strong>Showing a signal</strong></div>
           </div>
           <div class="badge b-engage">Engage</div>
           <div class="sc-chevron">↓</div>
@@ -665,7 +875,7 @@ h2 { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; }
                   <div class="t-dot decision"></div>
                   <div class="t-time">Day 5 · +2.5h</div>
                   <div class="t-lbl">Agent evaluates</div>
-                  <div class="t-decision-box">Engage — high intent, complementary product, no suppression flags</div>
+                  <div class="t-decision-box">Signal branch — cart inside the 90-day window. Playbook: act same day, what he owns as context, answer the question, re-offer the link.</div>
                 </div>
                 <div class="t-evt">
                   <div class="t-dot"></div>
@@ -737,7 +947,7 @@ h2 { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; }
           <div class="sc-num">2</div>
           <div class="sc-meta">
             <div class="sc-name">Marcus &mdash; Cart abandon during active campaign window</div>
-            <div class="sc-sigs">2 signals &nbsp;·&nbsp; AirKnit Tee cart (18 hrs) + Memorial Day campaign window open</div>
+            <div class="sc-sigs">AirKnit Tee cart (18 hrs) + Memorial Day window open &nbsp;·&nbsp; classified: <strong>Showing a signal</strong></div>
           </div>
           <div class="badge b-camp">Campaign first</div>
           <div class="sc-chevron">↓</div>
@@ -801,7 +1011,7 @@ h2 { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; }
                   <div class="t-dot decision"></div>
                   <div class="t-time">Day 45 · +18h</div>
                   <div class="t-lbl">Agent evaluates</div>
-                  <div class="t-decision-box">Campaign priority — Memorial Day window active; campaign sent to full segment. Cart acknowledged in message context. Cart flow held through Monday.</div>
+                  <div class="t-decision-box">Signal branch via cart — but the Memorial Day window is active, and campaign wins during its window. Message personalized with the cart; cart flow held through Monday.</div>
                 </div>
                 <div class="t-evt">
                   <div class="t-dot"></div>
@@ -877,7 +1087,7 @@ What are you after?</div>
           <div class="sc-num">3</div>
           <div class="sc-meta">
             <div class="sc-name">Tyler &mdash; Shopping Assistant &rarr; RCS continuity</div>
-            <div class="sc-sigs">2 signals &nbsp;·&nbsp; Shopping Assistant sizing session + Memorial Day campaign match</div>
+            <div class="sc-sigs">Shopping Assistant sizing session + Memorial Day match &nbsp;·&nbsp; classified: <strong>Showing a signal</strong></div>
           </div>
           <div class="badge b-cross">Cross-channel</div>
           <div class="sc-chevron">↓</div>
@@ -947,7 +1157,7 @@ What are you after?</div>
                   <div class="t-dot cross"></div>
                   <div class="t-time">Day 28</div>
                   <div class="t-lbl">Agent evaluates</div>
-                  <div class="t-decision-box" style="background:var(--purple-dim);border-color:rgba(104,72,160,0.25);color:#5838A0;">Cross-channel engage — SA context carries intent signal; sizing already resolved; Memorial Day adds urgency. Reach out via RCS.</div>
+                  <div class="t-decision-box" style="background:var(--purple-dim);border-color:rgba(104,72,160,0.25);color:#5838A0;">Signal branch — the SA session is the highest-heat signal and the sizing blocker is already resolved. Same-day outreach, direct path: size, price, link.</div>
                 </div>
                 <div class="t-evt">
                   <div class="t-dot"></div>
@@ -1025,7 +1235,7 @@ What are you after?</div>
           <div class="sc-num">4</div>
           <div class="sc-meta">
             <div class="sc-name">Jordan &mdash; Lapsed shopper, win-back + promotional window</div>
-            <div class="sc-sigs">2 signals &nbsp;·&nbsp; 180d dormancy threshold crossed + Memorial Day campaign match</div>
+            <div class="sc-sigs">180 days quiet + Memorial Day campaign match &nbsp;·&nbsp; <strong>Lapsed</strong> — convergence reopens the window</div>
           </div>
           <div class="badge b-re">Re-engage</div>
           <div class="sc-chevron">↓</div>
@@ -1095,7 +1305,7 @@ What are you after?</div>
                   <div class="t-dot re"></div>
                   <div class="t-time">Day 180</div>
                   <div class="t-lbl">Agent evaluates</div>
-                  <div class="t-decision-box re">Re-engage — dormancy threshold + active campaign = right moment; use campaign as win-back hook; reach out proactively</div>
+                  <div class="t-decision-box re">Lapsed playbook, still-silent branch — re-engage on convergence only. The campaign is the moment; the hoodie he owns is the context, not "we miss you."</div>
                 </div>
                 <div class="t-evt">
                   <div class="t-dot"></div>
@@ -1184,7 +1394,7 @@ What are you after?</div>
             <td>Blake</td>
             <td>Cart abandon</td>
             <td><span class="badge b-engage">Engage</span></td>
-            <td>High intent, complementary product, no conflicts</td>
+            <td>Signal branch — cart inside the 90-day window; acted same day with the first order as context</td>
             <td>Yes</td>
             <td>Converted</td>
           </tr>
@@ -1192,7 +1402,7 @@ What are you after?</div>
             <td>Marcus</td>
             <td>Cart abandon + Memorial Day campaign window</td>
             <td><span class="badge b-camp">Campaign first</span></td>
-            <td>Campaign window active — campaign sent to full segment; cart held and acknowledged in message context</td>
+            <td>Signal branch via cart; campaign wins during its window — message personalized with the cart, flow held</td>
             <td>Yes (campaign)</td>
             <td>Converted via sale</td>
           </tr>
@@ -1200,7 +1410,7 @@ What are you after?</div>
             <td>Tyler</td>
             <td>Shopping Assistant session + Memorial Day promo</td>
             <td><span class="badge b-cross">Cross-channel</span></td>
-            <td>SA context carries intent; sizing blocker already resolved via webstore chat</td>
+            <td>Signal branch via SA session — sizing blocker already resolved; same-day direct path</td>
             <td>Yes</td>
             <td>Converted</td>
           </tr>
@@ -1208,7 +1418,7 @@ What are you after?</div>
             <td>Jordan</td>
             <td>180d dormancy threshold + Memorial Day campaign match</td>
             <td><span class="badge b-re">Re-engage</span></td>
-            <td>Dormancy threshold + active promo = optimal win-back window; agent reaches out proactively</td>
+            <td>Lapsed, still-silent branch — campaign convergence reopened the window; what he owns as context</td>
             <td>Yes (campaign)</td>
             <td>Converted</td>
           </tr>
@@ -1265,6 +1475,14 @@ What are you after?</div>
 <script>
   function toggleCard(el) {
     el.classList.toggle('open');
+  }
+  function selectState(i) {
+    for (var n = 0; n < 4; n++) {
+      var s = document.getElementById('state-' + n);
+      var p = document.getElementById('pb-' + n);
+      if (s) s.classList.toggle('sel', n === i);
+      if (p) p.classList.toggle('open', n === i);
+    }
   }
 </script>
 </body>
